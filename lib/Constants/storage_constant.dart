@@ -1,0 +1,9 @@
+// const userData = 'userData';
+const accessToken = 'accessToken';
+const userId = 'userId';
+const userType = 'userType';
+const userName = 'userName';
+const userPhone = 'userPhone';
+const userProfileImage = 'userProfileImage';
+const userAddress = 'userAddress';
+const userPincode = 'userPincode';

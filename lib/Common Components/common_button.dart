@@ -37,3 +37,48 @@ class CommonButton extends StatelessWidget {
     );
   }
 }
+
+class CommonButtonRounded extends StatelessWidget {
+  final String btnText;
+  final void Function()? onPressed;
+  final Color? color;
+  const CommonButtonRounded({
+    super.key,
+    required this.btnText,
+    required this.onPressed,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50.h,
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(
+            color ?? ColorConstant.clrPrimary,
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.sp)),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(btnText, style: TextStyleConstant().subTitleTextStyle18w500),
+            SizedBox(width: 10.w),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white,
+              size: 18.sp,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

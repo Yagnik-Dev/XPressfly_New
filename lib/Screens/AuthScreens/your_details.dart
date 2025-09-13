@@ -5,6 +5,7 @@ import 'package:xpressfly_git/Common%20Components/common_button.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class YourDetailsScreen extends StatelessWidget {
   const YourDetailsScreen({super.key});
@@ -100,7 +101,9 @@ class YourDetailsScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 20.h),
             child: CommonButton(
               btnText: 'DONE',
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppRoutes.driverBottomBarScreen);
+              },
               color: ColorConstant.clrSecondary,
             ),
           ),

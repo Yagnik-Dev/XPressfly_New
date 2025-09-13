@@ -78,88 +78,71 @@ class CommonTextFormField extends StatelessWidget {
   }
 }
 
-// class CommonTextFormFieldWithoutBorder extends StatelessWidget {
-//   final TextInputType? keyboardType;
-//   final int? maxLength;
-//   final String? hintText;
-//   final TextEditingController? controller;
-//   final String? Function(String?)? validator;
-//   final Widget? Function(
-//     BuildContext, {
-//     int? currentLength,
-//     bool? isFocused,
-//     int? maxLength,
-//   })?
-//   buildCounter;
-//   final int? maxLines;
-//   final bool? readOnly;
-//   final void Function()? onTap;
+class CommonTextFormFieldWithoutBorder extends StatelessWidget {
+  final TextInputType? keyboardType;
+  final int? maxLength;
+  final int? maxLines;
+  final String? hintText;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final Widget? prefixIcon;
 
-//   const CommonTextFormFieldWithoutBorder({
-//     super.key,
-//     this.keyboardType,
-//     this.controller,
-//     this.hintText,
-//     this.maxLength,
-//     this.validator,
-//     this.buildCounter,
-//     this.maxLines,
-//     this.readOnly,
-//     this.onTap,
-//   });
+  const CommonTextFormFieldWithoutBorder({
+    super.key,
+    this.keyboardType,
+    this.controller,
+    this.hintText,
+    this.maxLength,
+    this.maxLines,
+    this.validator,
+    this.prefixIcon,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       controller: controller,
-//       keyboardType: keyboardType,
-//       cursorColor: ColorConstant.clrPrimary,
-//       style: TextStyle(color: ColorConstant.clrPrimary),
-//       maxLength: maxLength,
-//       validator: validator,
-//       buildCounter: buildCounter,
-//       maxLines: maxLines,
-//       readOnly: readOnly ?? false,
-//       onTap: onTap,
-//       decoration: InputDecoration(
-//         counterText: '',
-//         fillColor: ColorConstant.clrPrimary,
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      cursorColor: ColorConstant.clrPrimary,
+      style: TextStyle(color: ColorConstant.clrPrimary),
+      maxLength: maxLength,
+      validator: validator,
+      maxLines: maxLines,
 
-//         filled: true,
-//         contentPadding: EdgeInsetsDirectional.symmetric(
-//           vertical: 14.h,
-//           horizontal: 17.w,
-//         ),
-//         hintStyle: TextStyle(
-//           fontFamily: FontConstant.fontFamilyRegular,
-//           color: ColorConstant.clrSubText,
-//         ),
-//         hintText: hintText,
-//         focusedBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(15)),
-//           borderSide: BorderSide(width: 1, color: Colors.transparent),
-//         ),
-//         disabledBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(15)),
-//           borderSide: BorderSide(width: 1, color: Colors.transparent),
-//         ),
-//         enabledBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(15)),
-//           borderSide: BorderSide(width: 1, color: Colors.transparent),
-//         ),
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(15)),
-//           borderSide: BorderSide(width: 1, color: Colors.transparent),
-//         ),
-//         errorBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(15)),
-//           borderSide: BorderSide(width: 1, color: Colors.transparent),
-//         ),
-//         focusedErrorBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(15)),
-//           borderSide: BorderSide(width: 1, color: Colors.transparent),
-//         ),
-//       ),
-//     );
-//   }
-// }
+      decoration: InputDecoration(
+        prefixIcon: prefixIcon,
+        counterText: '',
+        fillColor: ColorConstant.clrBackGround,
+        filled: true,
+        contentPadding: EdgeInsetsDirectional.symmetric(
+          vertical: 14.h,
+          horizontal: 17.w,
+        ),
+        isDense: true,
+        isCollapsed: true,
+        hintStyle: TextStyleConstant().subTitleTextStyle16w500,
+        hintText: hintText,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          borderSide: BorderSide(width: 1, color: ColorConstant.clrEEEEEE),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          borderSide: BorderSide(width: 1, color: ColorConstant.clrEEEEEE),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          borderSide: BorderSide(width: 1, color: ColorConstant.clrEEEEEE),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          borderSide: BorderSide(width: 1.1, color: ColorConstant.clrError),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          borderSide: BorderSide(width: 1, color: ColorConstant.clrEEEEEE),
+        ),
+      ),
+    );
+  }
+}

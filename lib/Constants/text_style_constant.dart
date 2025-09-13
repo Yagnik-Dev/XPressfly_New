@@ -34,10 +34,20 @@ class TextStyleConstant {
     fontWeight: FontWeight.w600,
     fontSize: 18.sp,
   );
+  TextStyle subTitleTextStyle14w600clr242424 = GoogleFonts.lato(
+    color: ColorConstant.clr242424,
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+  );
   TextStyle subTitleTextStyle18w500 = GoogleFonts.lato(
     color: ColorConstant.clrBackGround,
     fontWeight: FontWeight.w500,
     fontSize: 18.sp,
+  );
+  TextStyle subTitleTextStyle40w600clrSecondary = GoogleFonts.lato(
+    color: ColorConstant.clrSecondary,
+    fontWeight: FontWeight.w600,
+    fontSize: 40.sp,
   );
   TextStyle subTitleTextStyle16w500 = GoogleFonts.lato(
     color: ColorConstant.clrA2A2A2,
@@ -49,10 +59,35 @@ class TextStyleConstant {
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
   );
+  TextStyle subTitleTextStyle14w500ClrSubText = GoogleFonts.lato(
+    color: ColorConstant.clrSubText,
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+  );
+  TextStyle subTitleTextStyle14w500ClrCCCCCC = GoogleFonts.lato(
+    color: ColorConstant.clrCCCCCC,
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+  );
   TextStyle subTitleTextStyle16w500Clr242424 = GoogleFonts.lato(
     color: ColorConstant.clr242424,
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
+  );
+  TextStyle subTitleTextStyle20w500Clr242424 = GoogleFonts.lato(
+    color: ColorConstant.clr242424,
+    fontWeight: FontWeight.w500,
+    fontSize: 20.sp,
+  );
+  TextStyle subTitleTextStyle18w600Clr242424 = GoogleFonts.lato(
+    color: ColorConstant.clr242424,
+    fontWeight: FontWeight.w600,
+    fontSize: 18.sp,
+  );
+  TextStyle subTitleTextStyle26w600Clr242424 = GoogleFonts.lato(
+    color: ColorConstant.clr242424,
+    fontWeight: FontWeight.w600,
+    fontSize: 26.sp,
   );
   TextStyle subTitleTextStyle16w500ClrD9C0C0 = GoogleFonts.lato(
     color: ColorConstant.clrD9C0C0,

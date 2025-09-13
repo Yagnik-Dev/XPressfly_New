@@ -12,4 +12,16 @@ class ImageConstant {
   static String imgOnBoarding = '${imageBasePath}img_onboarding.png';
   static String imgAsDriver = '${imageBasePath}img_as_driver.png';
   static String imgAsCustomer = '${imageBasePath}img_as_customer.png';
+  static String imgInformation = '${imageBasePath}img_information.png';
+  static String imgUser = '${imageBasePath}img_user.png';
+  static String imgMotorCar = '${imageBasePath}motor_car.png';
+  static String imgSmallTruck = '${imageBasePath}small_truck.png';
+
+  static String imgHistoryBottom = '${imageSvgBasePath}history_bottom.svg';
+  static String imgHomeBottom = '${imageSvgBasePath}home_bottom.svg';
+  static String imgParcelBottom = '${imageSvgBasePath}parcel_bottom.svg';
+  static String imgProfileBottom = '${imageSvgBasePath}profile_bottom.svg';
+  static String imgAddVehicleOne = '${imageBasePath}add_vehicle_one.png';
+  static String imgAddVehicleTwo = '${imageBasePath}add_vehicle_two.png';
+  static String imgAddVehicleThree = '${imageBasePath}add_vehicle_three.png';
 }

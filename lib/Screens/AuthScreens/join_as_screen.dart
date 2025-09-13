@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
-
 import '../../Routes/app_routes.dart';
 
 class JoinAsScreen extends StatelessWidget {

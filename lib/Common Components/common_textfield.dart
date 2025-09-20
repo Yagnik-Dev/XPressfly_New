@@ -86,6 +86,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
+  final void Function()? onTap;
 
   const CommonTextFormFieldWithoutBorder({
     super.key,
@@ -96,6 +97,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
     this.maxLines,
     this.validator,
     this.prefixIcon,
+    this.onTap,
   });
 
   @override
@@ -108,7 +110,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
       maxLength: maxLength,
       validator: validator,
       maxLines: maxLines,
-
+      onTap: onTap,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         counterText: '',

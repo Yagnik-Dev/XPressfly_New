@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Screens/Driver/add_vehicle_one.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_three.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_two.dart';
 
+// ignore: must_be_immutable
 class AddVehicleMainScreen extends StatelessWidget {
   AddVehicleMainScreen({super.key});
 
@@ -29,24 +30,28 @@ class AddVehicleMainScreen extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10.0, left: 22, right: 22),
             child: Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    if (addvehicleController.intCurrentStep.value == 0) {
-                      Get.back();
-                    } else {
-                      addvehicleController.pageviewController.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  child: Container(
-                    width: 100.w,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Back",
-                      style:
-                          TextStyleConstant().subTitleTextStyle18w600Clr242424,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30.r),
+                  child: InkWell(
+                    onTap: () {
+                      if (addvehicleController.intCurrentStep.value == 0) {
+                        Get.back();
+                      } else {
+                        addvehicleController.pageviewController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    child: Container(
+                      width: 100.w,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Back",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle18w600Clr242424,
+                      ),
                     ),
                   ),
                 ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Routes/app_routes.dart';
+import 'package:xpressfly_git/Screens/Driver/vehicle_type_dialog.dart';
 
 class AddVehicleTwo extends StatelessWidget {
   const AddVehicleTwo({super.key});
@@ -91,7 +94,16 @@ class AddVehicleTwo extends StatelessWidget {
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),
                     SizedBox(height: 6.h),
-                    CommonTextFormFieldWithoutBorder(),
+                    CommonTextFormFieldWithoutBorder(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return VehicleTypeScreen();
+                          },
+                        );
+                      },
+                    ),
                     SizedBox(height: 10.h),
                     Text(
                       "Where You Can Deliver",

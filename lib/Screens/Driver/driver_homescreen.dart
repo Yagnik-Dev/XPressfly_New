@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:xpressfly_git/Common%20Components/common_bottombar.dart';
+import 'package:xpressfly_git/Common%20Components/common_drawer.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
@@ -14,6 +14,7 @@ class DriverHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      endDrawer: const CommonDrawer(),
       backgroundColor: ColorConstant.clrBackGroundLight,
       body: Column(
         children: [
@@ -47,16 +48,26 @@ class DriverHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                height: 46.h,
-                width: 46.w,
-                margin: EdgeInsets.only(right: 16.w),
-                padding: EdgeInsets.all(10.sp),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Image.asset(ImageConstant.imgInformation),
+              Builder(
+                builder:
+                    (context) => InkWell(
+                      onTap: () {
+                        Scaffold.of(
+                          context,
+                        ).openEndDrawer(); // ✅ open CommonDrawer
+                      },
+                      child: Container(
+                        height: 46.h,
+                        width: 46.w,
+                        margin: EdgeInsets.only(right: 16.w),
+                        padding: EdgeInsets.all(10.sp),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.asset(ImageConstant.imgInformation),
+                      ),
+                    ),
               ),
               SizedBox(height: 4.w),
             ],
@@ -269,15 +280,22 @@ class DriverHomeScreen extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(height: 45.h),
-                                        Container(
-                                          padding: EdgeInsets.all(14.sp),
-                                          decoration: BoxDecoration(
-                                            color: ColorConstant.clrFFFAFA,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_forward,
-                                            color: ColorConstant.clrSecondary,
+                                        InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              AppRoutes.vehicleDetailsScreen,
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(14.sp),
+                                            decoration: BoxDecoration(
+                                              color: ColorConstant.clrFFFAFA,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Icon(
+                                              Icons.arrow_forward,
+                                              color: ColorConstant.clrSecondary,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -301,13 +319,6 @@ class DriverHomeScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: CustomBottomBar(
-        selectedIndex: 0,
-        onTap: (index) {
-          print("Tapped: $index");
-        },
       ),
     );
   }

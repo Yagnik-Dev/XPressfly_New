@@ -24,4 +24,18 @@ class ImageConstant {
   static String imgAddVehicleOne = '${imageBasePath}add_vehicle_one.png';
   static String imgAddVehicleTwo = '${imageBasePath}add_vehicle_two.png';
   static String imgAddVehicleThree = '${imageBasePath}add_vehicle_three.png';
+  static String imgSmallTruckFull = '${imageBasePath}img_smalltruck_full.png';
+
+  static String imgCapacity = '${imageBasePath}img_capacity.png';
+  static String imgDeleteBtn = '${imageBasePath}img_delete_btn.png';
+  static String imgDistance = '${imageBasePath}img_distance.png';
+  static String imgEditBtn = '${imageBasePath}img_edit_btn.png';
+  static String imgTrips = '${imageBasePath}img_trips.png';
+  static String imgSwipeToAccept = '${imageBasePath}img_swipetoaccept.png';
+
+  static String imgHelpAndSupport = '${imageSvgBasePath}img_helpandsupport.svg';
+  static String imgLogout = '${imageSvgBasePath}img_logout.svg';
+  static String imgPrivacyPolicy = '${imageSvgBasePath}img_privacy_policy.svg';
+  static String imgTermsAndCondition =
+      '${imageSvgBasePath}img_termsandcondition.svg';
 }

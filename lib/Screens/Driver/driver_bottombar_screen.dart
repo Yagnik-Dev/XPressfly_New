@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:xpressfly_git/Common%20Components/common_bottombar.dart';
-import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Screens/Driver/driver_homescreen.dart';
+import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
+import 'package:xpressfly_git/Screens/Driver/order_request_screen.dart';
+import 'package:xpressfly_git/Screens/Driver/profile_screen.dart';
+
+import '../../Common Components/common_drawer.dart';
 
 class DriverBottomBarScreen extends StatefulWidget {
   const DriverBottomBarScreen({super.key});
@@ -15,9 +19,9 @@ class _DriverBottomBarScreenState extends State<DriverBottomBarScreen> {
 
   final List<Widget> _screens = [
     const DriverHomeScreen(),
-    const Screen2(),
-    const Screen3(),
-    const Screen4(),
+    const OrderRequestScreen(),
+    const OrderHistoryScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -29,47 +33,14 @@ class _DriverBottomBarScreenState extends State<DriverBottomBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: const CommonDrawer(),
       resizeToAvoidBottomInset: false,
       body: IndexedStack(index: _selectedIndex, children: _screens),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: CustomBottomBar(
         selectedIndex: _selectedIndex,
-        onTap: (index) {
-          _onItemTapped(index);
-        },
+        onTap: _onItemTapped,
       ),
-      // bottomNavigationBar: CustomBottomBar(
-      //   selectedIndex: _selectedIndex,
-      //   onTap: _onItemTapped,
-      // ),
     );
-  }
-}
-
-/// Example other screens
-class Screen2 extends StatelessWidget {
-  const Screen2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Screen 2"));
-  }
-}
-
-class Screen3 extends StatelessWidget {
-  const Screen3({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Screen 3"));
-  }
-}
-
-class Screen4 extends StatelessWidget {
-  const Screen4({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Screen 4"));
   }
 }

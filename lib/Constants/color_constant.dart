@@ -17,9 +17,16 @@ class ColorConstant {
   static Color clrBorder = Color(0xffE0E0E0);
   static Color clrEEEEEE = Color(0xffEEEEEE);
   static Color clrF2FAFF = Color(0xffF2FAFF);
+  static Color clrFAFBFF = Color(0xffFAFBFF);
+  static Color clr666666 = Color(0xff666666);
   static Color clrCCCCCC = Color(0xffCCCCCC);
   static Color clrC8C8C8 = Color(0xffC8C8C8);
   static Color clrWhite = Color(0xffFFFFFF);
   static Color clrD9C0C0 = Color(0xffD9C0C0);
+  static Color clr9D9D9D = Color(0xff9D9D9D);
+  static Color clrF7FCFF = Color(0xffF7FCFF);
+  static Color clr008000 = Color(0xff008000);
+  static Color clr292929 = Color(0xff292929);
+  static Color clr444444 = Color(0xff444444);
   static Color clrError = const Color.fromRGBO(255, 0, 0, 1.0);
 }

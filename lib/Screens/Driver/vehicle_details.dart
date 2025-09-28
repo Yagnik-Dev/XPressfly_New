@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:xpressfly_git/Common%20Components/delete_dialog.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class VehicleDetailsScreen extends StatelessWidget {
   const VehicleDetailsScreen({super.key});
@@ -123,7 +125,17 @@ class VehicleDetailsScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder:
+                                    (context) => const DeleteVehicleDialog(),
+                              ).then((confirmed) {
+                                if (confirmed == true) {
+                                  // Perform delete action
+                                }
+                              });
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: ColorConstant.clrF2FAFF,
                               side: const BorderSide(color: Colors.transparent),
@@ -131,7 +143,7 @@ class VehicleDetailsScreen extends StatelessWidget {
                             ),
                             icon: Image.asset(
                               ImageConstant.imgDeleteBtn,
-                              color: Colors.redAccent,
+                              color: ColorConstant.clrSecondary,
                               width: 24.w,
                               height: 24.h,
                             ),
@@ -146,7 +158,9 @@ class VehicleDetailsScreen extends StatelessWidget {
                         const SizedBox(width: 16),
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.editVehicleDetailsScreen);
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: ColorConstant.clrSecondary,
                               side: const BorderSide(color: Colors.transparent),

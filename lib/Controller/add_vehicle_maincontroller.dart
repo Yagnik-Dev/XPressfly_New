@@ -14,4 +14,16 @@ class AddVehicleMainController extends GetxController {
   var intCurrentStep = 0.obs;
   final pageviewController = PageController(initialPage: 0);
   RxInt selectedIndex = 0.obs;
+
+  RxString selectedVehicleTitle = "".obs;
+  RxString selectedVehicleIcon = "".obs;
+  Rx<Color> selectedVehicleColor = Color(0xffffffff).obs;
+
+  void pickVehicleType(String title, String icon, Color color) {
+    selectedVehicleTitle.value = title;
+    selectedVehicleIcon.value = icon;
+    selectedVehicleColor.value = color;
+    update();
+    Get.back();
+  }
 }

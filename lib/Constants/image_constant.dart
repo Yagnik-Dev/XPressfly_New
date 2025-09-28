@@ -33,6 +33,14 @@ class ImageConstant {
   static String imgTrips = '${imageBasePath}img_trips.png';
   static String imgSwipeToAccept = '${imageBasePath}img_swipetoaccept.png';
 
+  static String imgAuto = '${imageBasePath}img_auto.png';
+  static String imgBigTruck = '${imageBasePath}img_bigtruck.png';
+  static String imgMotorbike = '${imageBasePath}img_motorbike.png';
+  static String imgScooter = '${imageBasePath}img_scooter.png';
+  static String imgVan = '${imageBasePath}img_van.png';
+  static String imgDeleteVehicle = '${imageBasePath}img_delete_vehicle.png';
+  static String imgNoOrder = '${imageBasePath}img_no_order.png';
+
   static String imgHelpAndSupport = '${imageSvgBasePath}img_helpandsupport.svg';
   static String imgLogout = '${imageSvgBasePath}img_logout.svg';
   static String imgPrivacyPolicy = '${imageSvgBasePath}img_privacy_policy.svg';

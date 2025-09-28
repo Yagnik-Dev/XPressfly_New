@@ -67,7 +67,7 @@ class CommonTextFormField extends StatelessWidget {
         // ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(18.r)),
-          borderSide: BorderSide(width: 1.1, color: ColorConstant.clrError),
+          borderSide: BorderSide(width: 1, color: ColorConstant.clrError),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(18.r)),
@@ -87,6 +87,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
   final void Function()? onTap;
+  final bool? readOnly;
 
   const CommonTextFormFieldWithoutBorder({
     super.key,
@@ -98,6 +99,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
     this.validator,
     this.prefixIcon,
     this.onTap,
+    this.readOnly,
   });
 
   @override
@@ -110,11 +112,12 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
       maxLength: maxLength,
       validator: validator,
       maxLines: maxLines,
+      readOnly: readOnly ?? false,
       onTap: onTap,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         counterText: '',
-        fillColor: ColorConstant.clrBackGround,
+        fillColor: ColorConstant.clrWhite,
         filled: true,
         contentPadding: EdgeInsetsDirectional.symmetric(
           vertical: 14.h,
@@ -138,7 +141,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.r)),
-          borderSide: BorderSide(width: 1.1, color: ColorConstant.clrError),
+          borderSide: BorderSide(width: 1, color: ColorConstant.clrError),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.r)),

@@ -1,40 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
+import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 
 class VehicleTypeScreen extends StatelessWidget {
+  final Function(String title, String icon, Color color)? onSelected;
   final List<Map<String, dynamic>> vehicleTypes = [
     {
       "title": "Mini Truck",
-      "icon": "assets/mini_truck.png",
-      "color": Colors.orange.shade100,
+      "icon": ImageConstant.imgSmallTruck,
+      "color": Color(0xfffee2ba),
     },
     {
       "title": "Car/Taxi",
-      "icon": "assets/car.png",
-      "color": Colors.blue.shade100,
+      "icon": ImageConstant.imgMotorCar,
+      "color": Color(0xffc1eafe),
     },
     {
       "title": "Big Truck",
-      "icon": "assets/big_truck.png",
-      "color": Colors.cyan.shade100,
+      "icon": ImageConstant.imgBigTruck,
+      "color": Color(0xffe1fffd),
     },
-    {"title": "Van", "icon": "assets/van.png", "color": Colors.yellow.shade100},
-    {"title": "Auto", "icon": "assets/auto.png", "color": Colors.red.shade100},
+    {"title": "Van", "icon": ImageConstant.imgVan, "color": Color(0xfff5ffc8)},
+    {
+      "title": "Auto",
+      "icon": ImageConstant.imgAuto,
+      "color": Color(0xffffe3e5),
+    },
     {
       "title": "Bike",
-      "icon": "assets/bike.png",
-      "color": Colors.green.shade100,
+      "icon": ImageConstant.imgMotorbike,
+      "color": Color(0xffcffdd6),
     },
     {
       "title": "Scooter",
-      "icon": "assets/scooter.png",
-      "color": Colors.purple.shade100,
+      "icon": ImageConstant.imgScooter,
+      "color": Color(0xfff6e8ff),
     },
   ];
 
-  VehicleTypeScreen({super.key});
+  VehicleTypeScreen({super.key, this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -84,33 +90,60 @@ class VehicleTypeScreen extends StatelessWidget {
                         final item = vehicleTypes[index];
                         return GestureDetector(
                           onTap: () {
-                            // Handle selection
-                            print("Selected: ${item['title']}");
+                            if (onSelected != null) {
+                              onSelected!(
+                                item['title'],
+                                item['icon'],
+                                item['color'],
+                              );
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: item["color"],
                               borderRadius: BorderRadius.circular(12.r),
                             ),
-                            padding: EdgeInsets.all(12.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            padding: EdgeInsets.fromLTRB(11.w, 12.h, 0.w, 0.h),
+                            child: Stack(
                               children: [
-                                Expanded(
+                                Align(
+                                  alignment: Alignment.centerRight,
                                   child: Image.asset(
                                     item["icon"],
                                     fit: BoxFit.contain,
+                                    height:
+                                        80.h, // <-- give fixed size instead of Expanded
+                                    width: 80.w,
                                   ),
                                 ),
-                                SizedBox(height: 8.h),
+
                                 Text(
                                   item["title"],
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle16w500Clr242424,
                                   textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 8.h),
+                                InkWell(
+                                  onTap: () {
+                                    // Get.toNamed(AppRoutes.vehicleDetailsScreen);
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Container(
+                                      padding: EdgeInsets.all(8.sp),
+                                      margin: EdgeInsets.only(bottom: 8.h),
+                                      decoration: BoxDecoration(
+                                        color: ColorConstant.clrFFFAFA,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.arrow_outward_rounded,
+                                        color: ColorConstant.clrSecondary,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

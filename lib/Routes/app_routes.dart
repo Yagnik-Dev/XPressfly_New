@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Screens/AuthScreens/your_details.dart';
 import 'package:xpressfly_git/Screens/Driver/addvehicle_mainscreen.dart';
 import 'package:xpressfly_git/Screens/Driver/driver_homescreen.dart';
 import 'package:xpressfly_git/Screens/Driver/driver_bottombar_screen.dart';
+import 'package:xpressfly_git/Screens/Driver/edit_vehicle.dart';
 import 'package:xpressfly_git/Screens/Driver/vehicle_details.dart';
 import 'package:xpressfly_git/Screens/Driver/vehicle_type_dialog.dart';
 
@@ -26,6 +27,7 @@ class AppRoutes {
   static const String addVehicleMainScreen = '/add_vehicle_main_screen';
   static const String vehicleDetailsScreen = '/vehicle_details_screen';
   static const String vehicleTypeScreen = '/vehicle_type_screen';
+  static const String editVehicleDetailsScreen = '/edit_vehicle_details_screen';
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -40,5 +42,9 @@ class AppRoutes {
     GetPage(name: addVehicleMainScreen, page: () => AddVehicleMainScreen()),
     GetPage(name: vehicleDetailsScreen, page: () => VehicleDetailsScreen()),
     GetPage(name: vehicleTypeScreen, page: () => VehicleTypeScreen()),
+    GetPage(
+      name: editVehicleDetailsScreen,
+      page: () => EditVehicleDetailsScreen(),
+    ),
   ];
 }

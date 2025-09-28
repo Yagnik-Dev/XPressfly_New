@@ -40,6 +40,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white,
       width: MediaQuery.of(context).size.width * 0.82,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

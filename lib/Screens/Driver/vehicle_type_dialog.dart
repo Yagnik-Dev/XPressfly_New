@@ -6,41 +6,7 @@ import 'package:xpressfly_git/Constants/text_style_constant.dart';
 
 class VehicleTypeScreen extends StatelessWidget {
   final Function(String title, String icon, Color color)? onSelected;
-  final List<Map<String, dynamic>> vehicleTypes = [
-    {
-      "title": "Mini Truck",
-      "icon": ImageConstant.imgSmallTruck,
-      "color": Color(0xfffee2ba),
-    },
-    {
-      "title": "Car/Taxi",
-      "icon": ImageConstant.imgMotorCar,
-      "color": Color(0xffc1eafe),
-    },
-    {
-      "title": "Big Truck",
-      "icon": ImageConstant.imgBigTruck,
-      "color": Color(0xffe1fffd),
-    },
-    {"title": "Van", "icon": ImageConstant.imgVan, "color": Color(0xfff5ffc8)},
-    {
-      "title": "Auto",
-      "icon": ImageConstant.imgAuto,
-      "color": Color(0xffffe3e5),
-    },
-    {
-      "title": "Bike",
-      "icon": ImageConstant.imgMotorbike,
-      "color": Color(0xffcffdd6),
-    },
-    {
-      "title": "Scooter",
-      "icon": ImageConstant.imgScooter,
-      "color": Color(0xfff6e8ff),
-    },
-  ];
-
-  VehicleTypeScreen({super.key, this.onSelected});
+  const VehicleTypeScreen({super.key, this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -161,3 +127,48 @@ class VehicleTypeScreen extends StatelessWidget {
     );
   }
 }
+
+final List<Map<String, dynamic>> vehicleTypes = [
+  {
+    "title": "Mini Truck",
+    "icon": ImageConstant.imgSmallTruck,
+    "color": Color(0xfffee2ba),
+    "description": "TV, Table, Sofa,\nBad, Bicycle...",
+  },
+  {
+    "title": "Car/Taxi",
+    "icon": ImageConstant.imgMotorCar,
+    "color": Color(0xffc1eafe),
+    "description": "Files, Small Electronics\nSmall Boxes...",
+  },
+  {
+    "title": "Big Truck",
+    "icon": ImageConstant.imgBigTruck,
+    "color": Color(0xffe1fffd),
+    "description": "Whole apartments\nfurniture",
+  },
+  {
+    "title": "Van",
+    "icon": ImageConstant.imgVan,
+    "color": Color(0xfff5ffc8),
+    "description": "Small Furniture, Large\nbox, Groceries...",
+  },
+  {
+    "title": "Auto",
+    "icon": ImageConstant.imgAuto,
+    "color": Color(0xffffe3e5),
+    "description": "Shop Stock, Event\nMaterials...",
+  },
+  {
+    "title": "Bike",
+    "icon": ImageConstant.imgMotorbike,
+    "color": Color(0xffcffdd6),
+    "description": "Documents, Health\nSupplies...",
+  },
+  {
+    "title": "Scooter",
+    "icon": ImageConstant.imgScooter,
+    "color": Color(0xfff6e8ff),
+    "description": "Shop Stock, Event\nMaterials...",
+  },
+];

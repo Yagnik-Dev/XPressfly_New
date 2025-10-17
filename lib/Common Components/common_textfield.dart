@@ -9,6 +9,8 @@ class CommonTextFormField extends StatelessWidget {
   final String? hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Color? fillColor;
+  final Widget? suffixIcon;
   // final Widget? Function(
   //   BuildContext, {
   //   int? currentLength,
@@ -20,10 +22,12 @@ class CommonTextFormField extends StatelessWidget {
   const CommonTextFormField({
     super.key,
     this.keyboardType,
+    this.suffixIcon,
     this.controller,
     this.hintText,
     this.maxLength,
     this.validator,
+    this.fillColor,
     // this.buildCounter,
   });
 
@@ -38,8 +42,9 @@ class CommonTextFormField extends StatelessWidget {
       validator: validator,
       // buildCounter: buildCounter,
       decoration: InputDecoration(
+        suffixIcon: suffixIcon,
         counterText: '',
-        fillColor: ColorConstant.clrBackGround,
+        fillColor: fillColor ?? ColorConstant.clrBackGround,
         filled: true,
         contentPadding: EdgeInsetsDirectional.symmetric(
           vertical: 16.h,
@@ -88,6 +93,8 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
   final Widget? prefixIcon;
   final void Function()? onTap;
   final bool? readOnly;
+  final Widget? suffixIcon;
+  final Color? fillColor;
 
   const CommonTextFormFieldWithoutBorder({
     super.key,
@@ -100,6 +107,8 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
     this.prefixIcon,
     this.onTap,
     this.readOnly,
+    this.suffixIcon,
+    this.fillColor,
   });
 
   @override
@@ -117,7 +126,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         counterText: '',
-        fillColor: ColorConstant.clrWhite,
+        fillColor: fillColor ?? ColorConstant.clrWhite,
         filled: true,
         contentPadding: EdgeInsetsDirectional.symmetric(
           vertical: 14.h,
@@ -125,6 +134,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
         ),
         isDense: true,
         isCollapsed: true,
+        suffixIcon: suffixIcon,
         hintStyle: TextStyleConstant().subTitleTextStyle16w500,
         hintText: hintText,
         focusedBorder: OutlineInputBorder(

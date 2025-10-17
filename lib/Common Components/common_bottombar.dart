@@ -30,7 +30,8 @@ class CustomBottomBar extends StatelessWidget {
           _buildNavItem(ImageConstant.imgHomeBottom, 0),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: _buildNavItem(ImageConstant.imgParcelBottom, 1),
+            // child: _buildNavItem(ImageConstant.imgParcelBottom, 1),
+            child: _buildNavItem(ImageConstant.imgTrackOrder, 1),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10.w),

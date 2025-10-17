@@ -8,7 +8,8 @@ import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class YourDetailsScreen extends StatelessWidget {
-  const YourDetailsScreen({super.key});
+  final int type;
+  const YourDetailsScreen({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,10 @@ class YourDetailsScreen extends StatelessWidget {
             child: CommonButton(
               btnText: 'DONE',
               onPressed: () {
-                Get.toNamed(AppRoutes.driverBottomBarScreen);
+                type == 1
+                    ? Get.toNamed(AppRoutes.driverBottomBarScreen)
+                    : Get.toNamed(AppRoutes.customerBottomBarScreen);
+                // Get.toNamed(AppRoutes.driverBottomBarScreen);
               },
               color: ColorConstant.clrSecondary,
             ),

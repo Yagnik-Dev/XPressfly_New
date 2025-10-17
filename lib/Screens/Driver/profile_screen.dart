@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+
+import '../../Routes/app_routes.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -73,11 +76,16 @@ class ProfileScreen extends StatelessWidget {
                               TextStyleConstant()
                                   .subTitleTextStyle20w500Clr242424,
                         ),
-                        Text(
-                          "Edit Profile",
-                          style:
-                              TextStyleConstant()
-                                  .subTitleTextStyle14w500ClrSubText,
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.editProfileScreen);
+                          },
+                          child: Text(
+                            "Edit Profile",
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle14w500ClrSubText,
+                          ),
                         ),
                       ],
                     ),

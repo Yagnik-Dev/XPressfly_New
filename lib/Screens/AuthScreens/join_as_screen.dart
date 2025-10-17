@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Screens/AuthScreens/your_details.dart';
 import '../../Routes/app_routes.dart';
 
 class JoinAsScreen extends StatelessWidget {
@@ -133,7 +134,7 @@ class JoinAsScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.yourDetailsScreen);
+                          Get.to(YourDetailsScreen(type: 1));
                         },
                         child: Container(
                           padding: EdgeInsets.all(14.sp),
@@ -223,7 +224,8 @@ class JoinAsScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.yourDetailsScreen);
+                          // Get.toNamed(AppRoutes.yourDetailsScreen);
+                          Get.to(YourDetailsScreen(type: 2));
                         },
                         child: Container(
                           padding: EdgeInsets.all(14.sp),

@@ -40,10 +40,27 @@ class ImageConstant {
   static String imgVan = '${imageBasePath}img_van.png';
   static String imgDeleteVehicle = '${imageBasePath}img_delete_vehicle.png';
   static String imgNoOrder = '${imageBasePath}img_no_order.png';
+  static String imgUploadAadhar = '${imageBasePath}img_upload_aadhar.png';
+  static String imgOtherCity = '${imageBasePath}img_othercity.png';
+  static String imgSameCity = '${imageBasePath}img_samecity.png';
+  static String imgBox = '${imageBasePath}img_box.png';
+  static String imgParcelOne = '${imageBasePath}img_parcel_one.png';
+  static String imgParcelTwo = '${imageBasePath}img_parcel_two.png';
+  static String imgParcelThree = '${imageBasePath}img_parcel_three.png';
+  static String imgParcelFour = '${imageBasePath}img_parcel_four.png';
+  static String imgParcelFive = '${imageBasePath}img_parcel_five.png';
+  static String imgTimer = '${imageBasePath}img_timer.png';
+  static String imgTrackOrder = '${imageSvgBasePath}track_order.svg';
 
   static String imgHelpAndSupport = '${imageSvgBasePath}img_helpandsupport.svg';
   static String imgLogout = '${imageSvgBasePath}img_logout.svg';
   static String imgPrivacyPolicy = '${imageSvgBasePath}img_privacy_policy.svg';
+  static String imgFastDelivery = '${imageBasePath}fast_delivery.png';
+  static String imgSafeDelivery = '${imageBasePath}safe_delivery.png';
+  static String imgVerificationComplete =
+      '${imageBasePath}verification_complete.png';
+  static String imgVerificationRequired =
+      '${imageBasePath}verification_required.png';
   static String imgTermsAndCondition =
       '${imageSvgBasePath}img_termsandcondition.svg';
 }

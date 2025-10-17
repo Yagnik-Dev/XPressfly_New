@@ -12,6 +12,7 @@ class EditVehicleDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstant.clrF2FAFF,
       appBar: AppBar(
         leadingWidth: 70.w,

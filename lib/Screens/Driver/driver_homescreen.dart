@@ -5,10 +5,15 @@ import 'package:xpressfly_git/Common%20Components/common_drawer.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class DriverHomeScreen extends StatelessWidget {
-  const DriverHomeScreen({super.key});
+  DriverHomeScreen({super.key});
+
+  final DriverHomeController driverHomeController = Get.put(
+    DriverHomeController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -144,16 +149,33 @@ class DriverHomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE74C3C),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 20,
+                    Obx(
+                      () => Switch(
+                        value: driverHomeController.isSwitched.value,
+                        activeColor: ColorConstant.clrSecondary,
+                        activeTrackColor: ColorConstant.clrSecondary
+                            .withOpacity(0.3),
+                        inactiveTrackColor: ColorConstant.clrWhite,
+                        inactiveThumbColor: ColorConstant.clrSecondary,
+                        trackOutlineColor: WidgetStatePropertyAll(
+                          ColorConstant.clrSecondary,
+                        ),
+                        onChanged: (value) {
+                          driverHomeController.isSwitched.value =
+                              !driverHomeController.isSwitched.value;
+                          driverHomeController.toggleDutyApiCall(
+                            (p0) {},
+                            details: {
+                              "user_id": "1",
+                              // "user_id": GetStorage().read(userId),
+                              "on_duty":
+                                  driverHomeController.isSwitched.value
+                                      ? "1"
+                                      : "0",
+                            },
+                          );
+                          driverHomeController.isSwitched.refresh();
+                        },
                       ),
                     ),
                   ],

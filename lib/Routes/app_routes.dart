@@ -5,7 +5,6 @@ import 'package:xpressfly_git/Screens/AuthScreens/onboarding_screen.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/otp_screen.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/select_auth_screen.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/splash_screen.dart';
-import 'package:xpressfly_git/Screens/AuthScreens/your_details.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_main.dart';
 import 'package:xpressfly_git/Screens/Customer/customer_bottombar_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/customer_homescreen.dart';

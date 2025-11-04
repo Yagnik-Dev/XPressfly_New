@@ -6,10 +6,14 @@ import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/login_controller.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
+import 'package:xpressfly_git/Screens/AuthScreens/otp_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -57,53 +61,96 @@ class LoginScreen extends StatelessWidget {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.sp),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(
-                    child: Text(
-                      "Welcome to\nXPRESSFLY",
-                      textAlign: TextAlign.center,
-                      style: TextStyleConstant().titleTextStyle34w600Clr242424,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    "Number",
-                    style: TextStyleConstant().subTitleTextStyle16w500,
-                  ),
-                  SizedBox(height: 8.h),
-                  CommonTextFormField(),
-                  SizedBox(height: 18.h),
-                  CommonButton(
-                    btnText: "GET OTP",
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.otpScreen);
-                    },
-                    color: ColorConstant.clrSecondary,
-                  ),
-                  SizedBox(height: 18.h),
-                  Center(
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "New to Xpressfly? ",
-                            style: TextStyleConstant().subTitleTextStyle16w500,
-                          ),
-                          TextSpan(
-                            text: "Signup",
-                            style:
-                                TextStyleConstant()
-                                    .subTitleTextStyle16w500Clr242424,
-                          ),
-                        ],
+              child: Form(
+                key: loginController.formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: Text(
+                        "Welcome to\nXPRESSFLY",
+                        textAlign: TextAlign.center,
+                        style:
+                            TextStyleConstant().titleTextStyle34w600Clr242424,
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 20.h),
+                    Text(
+                      "Number",
+                      style: TextStyleConstant().subTitleTextStyle16w500,
+                    ),
+                    SizedBox(height: 8.h),
+                    CommonTextFormField(
+                      controller: loginController.phoneTextEditingController,
+                      hintText: "Enter your number",
+                      keyboardType: TextInputType.phone,
+                      maxLength: 10,
+
+                      validator: (p0) {
+                        if (p0 == null || p0.isEmpty) {
+                          return 'Please enter your phone number';
+                        } else if (p0.length != 10) {
+                          return 'Phone number must be 10 digits';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 18.h),
+                    CommonButton(
+                      btnText: "GET OTP",
+                      onPressed: () {
+                        if (loginController.formKey.currentState!.validate()) {
+                          Get.to(
+                            () => OtpScreen(
+                              mobileNo:
+                                  loginController
+                                      .phoneTextEditingController
+                                      .text,
+                            ),
+                          );
+                        }
+                      },
+                      color: ColorConstant.clrSecondary,
+                    ),
+                    SizedBox(height: 18.h),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          print('Terms & Conditions tapped');
+                          // Add navigation logic here
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsScreen()));
+                        },
+                        child: Text(
+                          "Terms & Conditions",
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500clrSecondary,
+                        ),
+                      ),
+                    ),
+                    // Center(
+                    //   child: RichText(
+                    //     text: TextSpan(
+                    //       children: [
+                    //         TextSpan(
+                    //           text: "New to Xpressfly? ",
+                    //           style:
+                    //               TextStyleConstant().subTitleTextStyle16w500,
+                    //         ),
+                    //         TextSpan(
+                    //           text: "Signup",
+                    //           style:
+                    //               TextStyleConstant()
+                    //                   .subTitleTextStyle16w500Clr242424,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
           ),

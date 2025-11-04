@@ -99,10 +99,16 @@ class TextStyleConstant {
     fontWeight: FontWeight.w600,
     fontSize: 16.sp,
   );
+  TextStyle subTitleTextStyle16w500clrSecondary = GoogleFonts.lato(
+    color: ColorConstant.clrSecondary,
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
+  );
   TextStyle subTitleTextStyle16w500 = GoogleFonts.lato(
     color: ColorConstant.clrA2A2A2,
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
+    letterSpacing: 0,
   );
   TextStyle subTitleTextStyle16w500ClrSubText = GoogleFonts.lato(
     color: ColorConstant.clrSubText,

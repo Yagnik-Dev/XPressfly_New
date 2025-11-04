@@ -32,6 +32,7 @@ Future<void> showErrorDialog(String title, String content) async {
 Future<bool> isInternetConnectivityEnabled() async {
   var connectivityResult = await Connectivity().checkConnectivity();
 
+  // ignore: unrelated_type_equality_checks
   if (connectivityResult == ConnectivityResult.none) {
     return false;
   } else {

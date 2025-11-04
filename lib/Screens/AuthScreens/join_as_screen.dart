@@ -5,14 +5,15 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/your_details.dart';
-import '../../Routes/app_routes.dart';
 
 class JoinAsScreen extends StatelessWidget {
-  const JoinAsScreen({super.key});
+  String? mobileNo, otp;
+  JoinAsScreen({super.key, this.mobileNo, this.otp});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstant.clrBackGround,
       appBar: AppBar(
         leadingWidth: 70.w,
@@ -134,7 +135,13 @@ class JoinAsScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(YourDetailsScreen(type: 1));
+                          Get.to(
+                            YourDetailsScreen(
+                              mobileNo: mobileNo,
+                              otp: otp,
+                              type: 1,
+                            ),
+                          );
                         },
                         child: Container(
                           padding: EdgeInsets.all(14.sp),
@@ -224,8 +231,13 @@ class JoinAsScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          // Get.toNamed(AppRoutes.yourDetailsScreen);
-                          Get.to(YourDetailsScreen(type: 2));
+                          Get.to(
+                            YourDetailsScreen(
+                              mobileNo: mobileNo,
+                              otp: otp,
+                              type: 0,
+                            ),
+                          );
                         },
                         child: Container(
                           padding: EdgeInsets.all(14.sp),

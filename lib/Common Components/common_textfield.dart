@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
@@ -11,6 +13,8 @@ class CommonTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Color? fillColor;
   final Widget? suffixIcon;
+  final double? letterSpacing;
+  final TextAlign textAlign;
   // final Widget? Function(
   //   BuildContext, {
   //   int? currentLength,
@@ -23,6 +27,8 @@ class CommonTextFormField extends StatelessWidget {
     super.key,
     this.keyboardType,
     this.suffixIcon,
+    this.letterSpacing,
+    this.textAlign = TextAlign.start,
     this.controller,
     this.hintText,
     this.maxLength,
@@ -37,9 +43,13 @@ class CommonTextFormField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       cursorColor: ColorConstant.clrPrimary,
-      style: TextStyle(color: ColorConstant.clrPrimary),
+      style: TextStyle(
+        color: ColorConstant.clrPrimary,
+        letterSpacing: letterSpacing,
+      ),
       maxLength: maxLength,
       validator: validator,
+      textAlign: textAlign,
       // buildCounter: buildCounter,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,

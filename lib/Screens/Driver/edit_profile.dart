@@ -4,9 +4,12 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/profilel_controller.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key});
+  EditProfileScreen({super.key});
+
+  final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,12 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (profileController.formKeyProfile.currentState!
+                            .validate()) {
+                          // Save profile changes logic here
+                        }
+                      },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: ColorConstant.clrSecondary,
                         side: const BorderSide(color: Colors.transparent),
@@ -127,7 +135,7 @@ class EditProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Jagdish Sain",
+                      profileController.userDetails.value.data?.name ?? "-",
                       style:
                           TextStyleConstant().subTitleTextStyle22w600Clr242424,
                     ),
@@ -155,71 +163,114 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                 ),
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Your Details",
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle20w500Clr242424,
-                      ),
-                      SizedBox(height: 20.h),
-                      // Phone Field
-                      Text(
-                        "Number",
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
-                      ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        hintText: "+91 98765 43210",
-                        keyboardType: TextInputType.phone,
-                        suffixIcon: Icon(
-                          Icons.edit,
-                          color: ColorConstant.clrPrimary,
-                          size: 18.h,
+                  child: Form(
+                    key: profileController.formKeyProfile,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Your Details",
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle20w500Clr242424,
                         ),
-                      ),
-                      SizedBox(height: 16.h),
-                      // Email Field + Verify
-                      Text(
-                        "Email",
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500Clr242424,
-                      ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        hintText: "jagdishsain25@gmail.com",
-                        keyboardType: TextInputType.emailAddress,
-                        suffixIcon: Icon(
-                          Icons.edit,
-                          color: ColorConstant.clrPrimary,
-                          size: 18.h,
+                        SizedBox(height: 20.h),
+                        // Phone Field
+                        Text(
+                          "Number",
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500ClrSubText,
                         ),
-                      ),
-                      SizedBox(height: 16.h),
-                      // Address Field
-                      Text(
-                        "Address",
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
-                      ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        hintText: "90, Houses, Surat, Gujarat - 395010",
-                        maxLines: 2,
-                        suffixIcon: Icon(
-                          Icons.edit,
-                          color: ColorConstant.clrPrimary,
-                          size: 18.h,
+                        SizedBox(height: 6.h),
+                        CommonTextFormFieldWithoutBorder(
+                          hintText: "+91 98765 43210",
+                          keyboardType: TextInputType.phone,
+                          controller: TextEditingController(
+                            text:
+                                profileController
+                                    .mobileTextEditingController
+                                    .text,
+                          ),
+                          suffixIcon: Icon(
+                            Icons.edit,
+                            color: ColorConstant.clrPrimary,
+                            size: 18.h,
+                          ),
+                          validator: (p0) {
+                            if (p0 == null || p0.isEmpty) {
+                              return 'Please enter mobile number';
+                            } else if (p0.length < 10) {
+                              return 'Mobile number must be at least 10 digits';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 16.h),
+                        // Email Field + Verify
+                        Text(
+                          "Email",
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500Clr242424,
+                        ),
+                        SizedBox(height: 6.h),
+                        CommonTextFormFieldWithoutBorder(
+                          hintText: "jagdishsain25@gmail.com",
+                          controller: TextEditingController(
+                            text:
+                                profileController
+                                    .emailTextEditingController
+                                    .text,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          suffixIcon: Icon(
+                            Icons.edit,
+                            color: ColorConstant.clrPrimary,
+                            size: 18.h,
+                          ),
+                          validator: (p0) {
+                            if (p0 == null || p0.isEmpty) {
+                              return 'Please enter email';
+                            } else if (!GetUtils.isEmail(p0)) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 16.h),
+                        // Address Field
+                        Text(
+                          "Address",
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500ClrSubText,
+                        ),
+                        SizedBox(height: 6.h),
+                        CommonTextFormFieldWithoutBorder(
+                          hintText: "90, Houses, Surat, Gujarat - 395010",
+                          controller: TextEditingController(
+                            text:
+                                profileController
+                                    .addressTextEditingController
+                                    .text,
+                          ),
+                          maxLines: 2,
+                          suffixIcon: Icon(
+                            Icons.edit,
+                            color: ColorConstant.clrPrimary,
+                            size: 18.h,
+                          ),
+                          validator: (p0) {
+                            if (p0 == null || p0.isEmpty) {
+                              return 'Please enter address';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

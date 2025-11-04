@@ -1,7 +1,10 @@
 class ApiConstant {
-  static const String baseUrl = "http://192.168.1.16:8001/api/v1/";
-  static const String login = "login";
-  static const String register = "register";
+  static const String baseUrl = "https://www.xpressfly.in/portal/api/";
+  static const String login = "auth/login";
+  static const String register = "auth/register";
+  static const String profile = "users";
+  static const String toggleDuty = "duty/toggle";
+  static const String userWiseVehicle = "vehicles/user";
   static const String commonErrorMessage = "Something went wrong";
 
   // ================ Forgot Password ====================

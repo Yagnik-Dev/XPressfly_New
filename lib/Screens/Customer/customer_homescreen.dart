@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Common%20Components/common_drawer.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
+import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Screens/Customer/select_delivery_area_dialog.dart';
 import 'package:xpressfly_git/Screens/Driver/vehicle_type_dialog.dart';
@@ -19,7 +21,6 @@ class CustomerHomeScreen extends StatefulWidget {
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(Duration(seconds: 1), () {
       showDialog(
         context: context,
@@ -55,11 +56,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hello Jagnish",
+                "Hello ${GetStorage().read(userName) ?? ''}",
                 style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
               ),
               Text(
-                "Surat, GJ",
+                '${GetStorage().read(userAddress)} - ${GetStorage().read(userPincode) ?? '395010'}',
                 style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
               ),
             ],
@@ -165,23 +166,41 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           ],
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.verificationScreen);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFE74C3C),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 20,
-                          ),
+                      Switch(
+                        // value: driverHomeController.isSwitched.value,
+                        value: true,
+                        activeColor: ColorConstant.clrSecondary,
+                        activeTrackColor: ColorConstant.clrSecondary
+                            .withOpacity(0.3),
+                        inactiveTrackColor: ColorConstant.clrWhite,
+                        inactiveThumbColor: ColorConstant.clrSecondary,
+                        trackOutlineColor: WidgetStatePropertyAll(
+                          ColorConstant.clrSecondary,
                         ),
+                        onChanged: (value) {
+                          // driverHomeController.isSwitched.value =
+                          //     !driverHomeController.isSwitched.value;
+                          // driverHomeController.isSwitched.refresh();
+                        },
                       ),
+
+                      // InkWell(
+                      //   onTap: () {
+                      //     Get.toNamed(AppRoutes.verificationScreen);
+                      //   },
+                      //   child: Container(
+                      //     padding: EdgeInsets.all(12),
+                      //     decoration: BoxDecoration(
+                      //       color: Color(0xFFE74C3C),
+                      //       shape: BoxShape.circle,
+                      //     ),
+                      //     child: Icon(
+                      //       Icons.arrow_back,
+                      //       color: Colors.white,
+                      //       size: 20,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

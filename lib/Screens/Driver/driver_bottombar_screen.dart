@@ -18,10 +18,10 @@ class _DriverBottomBarScreenState extends State<DriverBottomBarScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const DriverHomeScreen(),
+    DriverHomeScreen(),
     OrderRequestScreen(),
     const OrderHistoryScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

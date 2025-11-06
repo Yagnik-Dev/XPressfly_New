@@ -11,7 +11,7 @@ import 'package:xpressfly_git/Screens/Driver/vehicle_type_dialog.dart';
 class AddVehicleTwo extends StatelessWidget {
   AddVehicleTwo({super.key});
 
-  AddVehicleMainController addvehicleController =
+  final AddVehicleMainController addvehicleController =
       Get.find<AddVehicleMainController>();
 
   @override
@@ -52,135 +52,226 @@ class AddVehicleTwo extends StatelessWidget {
               SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Vehicle Model",
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500Clr242424,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 7.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Vehicle Number",
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500Clr242424,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "Vehicle Type",
-                      style:
-                          TextStyleConstant().subTitleTextStyle16w500Clr242424,
-                    ),
-                    SizedBox(height: 6.h),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return VehicleTypeScreen(
-                              onSelected: addvehicleController.pickVehicleType,
-                            );
-                          },
-                        );
-                      },
-                      child: Obx(
-                        () => Container(
-                          // alignment: Alignment.topLeft,
-                          padding: EdgeInsets.fromLTRB(
-                            12.w,
-                            13.5.h,
-                            0.w,
-                            13.5.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color:
-                                addvehicleController
-                                            .selectedVehicleTitle
-                                            .value ==
-                                        ""
-                                    ? ColorConstant.clrWhite
-                                    : addvehicleController
-                                        .selectedVehicleColor
-                                        .value,
-                            borderRadius: BorderRadius.circular(8.5.r),
-                            border: Border.all(color: ColorConstant.clrEEEEEE),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (addvehicleController
-                                      .selectedVehicleTitle
-                                      .value !=
-                                  "")
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.w),
-                                  child: Text(
-                                    addvehicleController
-                                        .selectedVehicleTitle
-                                        .value,
-
-                                    style:
-                                        TextStyleConstant()
-                                            .subTitleTextStyle18w600Clr242424,
-                                  ),
+                child: Form(
+                  key: addvehicleController.addVehicleTwoFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Vehicle Model",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle16w500Clr242424,
                                 ),
-                              Spacer(),
-                              if (addvehicleController
-                                      .selectedVehicleIcon
-                                      .value !=
-                                  "")
-                                Image.asset(
+                                SizedBox(height: 6.h),
+                                CommonTextFormFieldWithoutBorder(
+                                  controller:
+                                      addvehicleController
+                                          .vehicleModelTextEditingController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter vehicle model';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 7.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Vehicle Number",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle16w500Clr242424,
+                                ),
+                                SizedBox(height: 6.h),
+                                CommonTextFormFieldWithoutBorder(
+                                  controller:
+                                      addvehicleController
+                                          .vehicleNoTextEditingController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter vehicle number';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Vehicle Type",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500Clr242424,
+                      ),
+                      SizedBox(height: 6.h),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return VehicleTypeScreen(
+                                onSelected:
+                                    addvehicleController.pickVehicleType,
+                              );
+                            },
+                          );
+                        },
+                        child: Obx(
+                          () => Container(
+                            // alignment: Alignment.topLeft,
+                            padding: EdgeInsets.fromLTRB(
+                              12.w,
+                              addvehicleController.selectedVehicleTitle.value ==
+                                      ""
+                                  ? 22.5.h
+                                  : 13.5.h,
+                              0.w,
+                              addvehicleController.selectedVehicleTitle.value ==
+                                      ""
+                                  ? 22.5.h
+                                  : 13.5.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
                                   addvehicleController
-                                      .selectedVehicleIcon
-                                      .value,
-                                  height: 70.h,
-                                  width: 100.w,
-                                  fit: BoxFit.contain,
-                                ),
-                              // Icon(
-                              //   Icons.arrow_drop_down,
-                              //   color: ColorConstant.clrSubText,
-                              // ),
-                            ],
+                                              .selectedVehicleTitle
+                                              .value ==
+                                          ""
+                                      ? ColorConstant.clrWhite
+                                      : addvehicleController
+                                          .selectedVehicleColor
+                                          .value,
+                              borderRadius: BorderRadius.circular(8.5.r),
+                              border: Border.all(
+                                color: ColorConstant.clrEEEEEE,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (addvehicleController
+                                        .selectedVehicleTitle
+                                        .value !=
+                                    "")
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 8.w),
+                                    child: Text(
+                                      addvehicleController
+                                          .selectedVehicleTitle
+                                          .value,
+
+                                      style:
+                                          TextStyleConstant()
+                                              .subTitleTextStyle18w600Clr242424,
+                                    ),
+                                  ),
+                                Spacer(),
+                                if (addvehicleController
+                                        .selectedVehicleIcon
+                                        .value !=
+                                    "")
+                                  Image.asset(
+                                    addvehicleController
+                                        .selectedVehicleIcon
+                                        .value,
+                                    height: 70.h,
+                                    width: 100.w,
+                                    fit: BoxFit.contain,
+                                  ),
+                                // Icon(
+                                //   Icons.arrow_drop_down,
+                                //   color: ColorConstant.clrSubText,
+                                // ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "Where You Can Deliver",
-                      style:
-                          TextStyleConstant().subTitleTextStyle16w500Clr242424,
-                    ),
-                    SizedBox(height: 6.h),
-                    CommonTextFormFieldWithoutBorder(),
-                  ],
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Where You Can Deliver",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500Clr242424,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller:
+                            addvehicleController.pinCodeTextEditingController,
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            // Remove any non-digit characters
+                            String digitsOnly = value.replaceAll(
+                              RegExp(r'[^0-9]'),
+                              '',
+                            );
+
+                            // Split into groups of 6 digits
+                            List<String> pincodes = [];
+                            for (int i = 0; i < digitsOnly.length; i += 6) {
+                              if (i + 6 <= digitsOnly.length) {
+                                pincodes.add(digitsOnly.substring(i, i + 6));
+                              }
+                            }
+
+                            // Join with commas and add remaining digits
+                            String formattedText = pincodes.join(', ');
+                            if (digitsOnly.length % 6 != 0) {
+                              if (pincodes.isNotEmpty) formattedText += ', ';
+                              formattedText += digitsOnly.substring(
+                                (digitsOnly.length ~/ 6) * 6,
+                              );
+                            }
+
+                            // Update text field value
+                            if (formattedText != value) {
+                              addvehicleController
+                                  .pinCodeTextEditingController
+                                  .value = TextEditingValue(
+                                text: formattedText,
+                                selection: TextSelection.collapsed(
+                                  offset: formattedText.length,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter delivery pincodes';
+                          }
+                          // Validate that all pincodes are 6 digits
+                          List<String> pincodes =
+                              value.split(',').map((e) => e.trim()).toList();
+                          for (String pincode in pincodes) {
+                            if (pincode.length != 6 ||
+                                !RegExp(r'^[0-9]+$').hasMatch(pincode)) {
+                              return 'All pincodes must be 6 digits';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

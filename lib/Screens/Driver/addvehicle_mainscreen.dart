@@ -62,28 +62,35 @@ class AddVehicleMainScreen extends StatelessWidget {
                             ? "Submit"
                             : "Next",
                     color: ColorConstant.clrSecondary,
-                    onPressed: () {
+                    onPressed: () async {
                       if (addvehicleController.intCurrentStep.value == 0) {
-                        // if (addvehicleController.addVehicleFormKey.currentState!
-                        //     .validate()) {
-                        addvehicleController.pageviewController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                        // }
+                        if (addvehicleController.addVehicleFormKey.currentState!
+                            .validate()) {
+                          addvehicleController.pageviewController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        }
                       } else if (addvehicleController.intCurrentStep.value ==
                           1) {
-                        // if (addvehicleController.addVehicleFormKey.currentState!
-                        //     .validate()) {
-                        addvehicleController.pageviewController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                        // }
+                        if (addvehicleController
+                            .addVehicleTwoFormKey
+                            .currentState!
+                            .validate()) {
+                          addvehicleController.pageviewController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        }
                       } else {
+                        // This is the submit step
                         // if (addvehicleController.addVehicleFormKey.currentState!
                         //     .validate()) {
-                        // addvehicleController.createVehicle((p0) {});
+                        await addvehicleController.createVehicle((success) {
+                          if (success) {
+                            Get.back();
+                          }
+                        });
                         // }
                       }
                     },

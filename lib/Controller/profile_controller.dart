@@ -46,7 +46,7 @@ class ProfileController extends GetxController {
 
     var headers = {
       'Content-Type': 'application/json',
-      // 'Authorization': GetStorage().read(accessToken),
+      'Authorization': GetStorage().read(accessToken),
     };
 
     try {

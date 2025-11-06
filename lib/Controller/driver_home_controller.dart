@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/dutystatus_model.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
+import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../Constants/api_constant.dart';
 import '../Services/rest_service.dart';
@@ -14,9 +14,6 @@ class DriverHomeController extends GetxController {
   var isSwitched = true.obs;
   var isLoading = false.obs;
   var isVehicleLoading = false.obs;
-  // var hasError = false.obs;
-  // var errorMessage = ''.obs;
-
   Rx<GetUserWiseVehicleResponseModel> userWiseVehicleList =
       GetUserWiseVehicleResponseModel().obs;
 
@@ -64,7 +61,7 @@ class DriverHomeController extends GetxController {
       }
     } catch (error) {
       hideLoading();
-      handleApiError(error);
+      handleError(error);
       return false;
     }
   }
@@ -75,7 +72,7 @@ class DriverHomeController extends GetxController {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        // 'Authorization': GetStorage().read(accessToken),
+        'Authorization': GetStorage().read(accessToken),
       };
 
       var response = await ServiceCall().get(
@@ -105,43 +102,6 @@ class DriverHomeController extends GetxController {
       debugPrint('Error loading vehicles: $error');
     } finally {
       isVehicleLoading.value = false;
-    }
-  }
-
-  void handleApiError(dynamic error) {
-    if (error is DioException) {
-      final responseData = error.response?.data;
-      Map<String, dynamic>? parsedData;
-
-      if (responseData is String) {
-        try {
-          parsedData = jsonDecode(responseData);
-        } catch (e) {
-          debugPrint('Failed to parse responseData: $e');
-        }
-      } else if (responseData is Map<String, dynamic>) {
-        parsedData = responseData;
-      }
-
-      if (parsedData != null && parsedData['errors'] != null) {
-        final errors = parsedData['errors'] as Map<String, dynamic>;
-        final errorMessages = errors.entries
-            .map((entry) {
-              final value = entry.value;
-              if (value is List) {
-                return value.join(', ');
-              } else {
-                return '$value';
-              }
-            })
-            .join('\n');
-        showError(errorMessages);
-      } else {
-        showError(parsedData?['message'] ?? 'An unknown error occurred');
-      }
-    } else {
-      debugPrint('Error is not a DioException: $error');
-      showError('An unexpected error occurred');
     }
   }
 

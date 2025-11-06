@@ -1,12 +1,109 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
 
 class AddVehicleOne extends StatelessWidget {
-  const AddVehicleOne({super.key});
+  AddVehicleOne({super.key});
+
+  final AddVehicleMainController addvehicleController =
+      Get.find<AddVehicleMainController>();
+
+  Future<void> _pickImage(ImageSource source, Rx<File?> imageFile) async {
+    await addvehicleController.pickImage(source, imageFile);
+  }
+
+  Widget _buildImageField({
+    required String title,
+    required Rx<File?> imageFile,
+    required VoidCallback onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Obx(() {
+            return Container(
+              height: imageFile.value != null ? 80.h : 46.h,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade200, width: 0.7),
+                borderRadius: BorderRadius.circular(8.r),
+                color: Colors.white,
+              ),
+              child:
+                  imageFile.value != null
+                      ? ClipRRect(
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Image.file(
+                          imageFile.value!,
+                          width: double.infinity,
+                          height: 40.h,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return _buildUploadPlaceholder(title);
+                          },
+                        ),
+                      )
+                      : _buildUploadPlaceholder(title),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUploadPlaceholder(String? placeHolder) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: Row(
+        children: [
+          Icon(Icons.upload, size: 20.sp, color: Colors.grey.shade500),
+          SizedBox(width: 8.w),
+          Text(
+            placeHolder ?? "Upload",
+            style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade600),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showImageSourceDialog(Rx<File?> imageFile) {
+    showModalBottomSheet(
+      context: Get.context!,
+      builder:
+          (context) => SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Gallery'),
+                  onTap: () {
+                    Get.back();
+                    _pickImage(ImageSource.gallery, imageFile);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text('Camera'),
+                  onTap: () {
+                    Get.back();
+                    _pickImage(ImageSource.camera, imageFile);
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,105 +143,128 @@ class AddVehicleOne extends StatelessWidget {
               SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Full Name",
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500Clr242424,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(),
-                            ],
+                child: Form(
+                  key: addvehicleController.addVehicleFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Full Name",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle16w500Clr242424,
+                                ),
+                                SizedBox(height: 6.h),
+                                CommonTextFormFieldWithoutBorder(
+                                  controller:
+                                      addvehicleController
+                                          .fullNameTextEditingController,
+                                  validator:
+                                      (p0) =>
+                                          p0 == null || p0.isEmpty
+                                              ? 'Please enter full name'
+                                              : null,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 7.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Number",
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500Clr242424,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(),
-                            ],
+                          SizedBox(width: 7.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Number",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle16w500Clr242424,
+                                ),
+                                SizedBox(height: 6.h),
+                                CommonTextFormFieldWithoutBorder(
+                                  controller:
+                                      addvehicleController
+                                          .mobileNoTextEditingController,
+                                  keyboardType: TextInputType.phone,
+                                  maxLength: 10,
+                                  validator:
+                                      (p0) =>
+                                          p0 == null || p0.isEmpty
+                                              ? 'Please enter mobile number'
+                                              : null,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "License Number & Upload Image",
-                      style:
-                          TextStyleConstant().subTitleTextStyle16w500Clr242424,
-                    ),
-                    SizedBox(height: 6.h),
-                    Row(
-                      children: [
-                        Expanded(child: CommonTextFormFieldWithoutBorder()),
-                        SizedBox(width: 7.w),
-                        SizedBox(
-                          width: 120.w,
-                          child: CommonTextFormFieldWithoutBorder(
-                            prefixIcon: Icon(Icons.upload, size: 24.sp),
-                            hintText: "Select Image",
-                            maxLines: 1,
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "License Number & Upload Image",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500Clr242424,
+                      ),
+                      SizedBox(height: 6.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: CommonTextFormFieldWithoutBorder(
+                              controller:
+                                  addvehicleController
+                                      .licenseNoTextEditingController,
+                              validator:
+                                  (p0) =>
+                                      p0 == null || p0.isEmpty
+                                          ? 'Please enter license number'
+                                          : null,
+                            ),
                           ),
-                        ),
-                        // Container(
-                        //   height: 48.h,
-                        //   width: 120.w,
-                        //   padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        //   decoration: BoxDecoration(
-                        //     color: ColorConstant.clrBackGround,
-                        //     borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                        //     border: Border.all(
-                        //       color: ColorConstant.clrEEEEEE,
-                        //       width: 1,
-                        //     ),
-                        //   ),
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         Icons.upload,
-                        //         color: ColorConstant.clrSubText,
-                        //         size: 24.sp,
-                        //       ),
-                        //       SizedBox(width: 6.w),
-                        //       Text(
-                        //         "Select Image",
-                        //         overflow: TextOverflow.ellipsis,
-                        //         maxLines: 1,
-                        //         style:
-                        //             TextStyleConstant()
-                        //                 .subTitleTextStyle16w500ClrSubText,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "Address",
-                      style:
-                          TextStyleConstant().subTitleTextStyle16w500Clr242424,
-                    ),
-                    SizedBox(height: 6.h),
-                    CommonTextFormFieldWithoutBorder(maxLines: 2),
-                  ],
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildImageField(
+                                  title: "Select Image",
+                                  imageFile: addvehicleController.licenceImg,
+                                  onTap:
+                                      () => _showImageSourceDialog(
+                                        addvehicleController.licenceImg,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Address",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500Clr242424,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        maxLines: 2,
+                        controller:
+                            addvehicleController.addressTextEditingController,
+                        validator:
+                            (p0) =>
+                                p0 == null || p0.isEmpty
+                                    ? 'Please enter address'
+                                    : null,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

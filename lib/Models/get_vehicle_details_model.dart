@@ -1,19 +1,14 @@
-class GetUserWiseVehicleResponseModel {
+class GetVehicleResponseModel {
   bool? success;
   String? message;
-  List<GetUserVehicleData>? data;
+  VehicleDetailsData? data;
 
-  GetUserWiseVehicleResponseModel({this.success, this.message, this.data});
+  GetVehicleResponseModel({this.success, this.message, this.data});
 
-  GetUserWiseVehicleResponseModel.fromJson(Map<String, dynamic> json) {
+  GetVehicleResponseModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <GetUserVehicleData>[];
-      json['data'].forEach((v) {
-        data!.add(GetUserVehicleData.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? VehicleDetailsData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,32 +16,32 @@ class GetUserWiseVehicleResponseModel {
     data['success'] = success;
     data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
-class GetUserVehicleData {
+class VehicleDetailsData {
   int? id;
   int? userId;
   String? fullName;
   String? mobileNumber;
   String? licenseNumber;
-  String? licenseImage;
+  Null licenseImage;
   String? address;
   String? vehicleModel;
   String? vehicleNumber;
   String? vehicleType;
-  String? deliveryPincodes;
-  String? adharFrontImage;
-  String? adharBackImage;
-  String? rcFrontImage;
-  String? rcBackImage;
+  List<String>? deliveryPincodes;
+  Null adharFrontImage;
+  Null adharBackImage;
+  Null rcFrontImage;
+  Null rcBackImage;
   String? createdAt;
   String? updatedAt;
 
-  GetUserVehicleData({
+  VehicleDetailsData({
     this.id,
     this.userId,
     this.fullName,
@@ -66,7 +61,7 @@ class GetUserVehicleData {
     this.updatedAt,
   });
 
-  GetUserVehicleData.fromJson(Map<String, dynamic> json) {
+  VehicleDetailsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     fullName = json['full_name'];
@@ -77,7 +72,7 @@ class GetUserVehicleData {
     vehicleModel = json['vehicle_model'];
     vehicleNumber = json['vehicle_number'];
     vehicleType = json['vehicle_type'];
-    deliveryPincodes = json['delivery_pincodes'];
+    deliveryPincodes = json['delivery_pincodes'].cast<String>();
     adharFrontImage = json['adhar_front_image'];
     adharBackImage = json['adhar_back_image'];
     rcFrontImage = json['rc_front_image'];

@@ -43,7 +43,7 @@ class LoginController extends GetxController {
       }
 
       var objLogin = RegisterUserResponseModel.fromJson(jsonDecode(response));
-      // GetStorage().write(accessToken, 'Bearer ${objLogin.data?.token}');
+      GetStorage().write(accessToken, 'Bearer ${objLogin.token}');
       GetStorage().write(userId, objLogin.user?.id);
       GetStorage().write(userType, objLogin.user?.userType);
       GetStorage().write(userName, objLogin.user?.name);

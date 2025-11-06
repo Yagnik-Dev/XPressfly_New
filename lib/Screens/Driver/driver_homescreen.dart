@@ -309,15 +309,19 @@ class DriverHomeScreen extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children:
-              vehicles.map((vehicle) => _buildVehicleCard(vehicle)).toList(),
+              vehicles
+                  .asMap()
+                  .entries
+                  .map((entry) => _buildVehicleCard(entry.value, entry.key))
+                  .toList(),
         ),
       );
     });
   }
 
-  Widget _buildVehicleCard(GetUserVehicleData vehicle) {
+  Widget _buildVehicleCard(GetUserVehicleData vehicle, int index) {
     // Determine background color and image based on vehicle type
-    Color bgColor = _getVehicleColor(vehicle.vehicleType);
+    Color bgColor = index.isEven ? Color(0xFFFEE3BA) : Color(0xFFC2EAFF);
     String imagePath = _getVehicleImage(vehicle.vehicleType);
 
     return Container(
@@ -366,7 +370,7 @@ class DriverHomeScreen extends StatelessWidget {
                         Get.toNamed(
                           AppRoutes.vehicleDetailsScreen,
                           arguments:
-                              vehicle, // Pass vehicle data to details screen
+                              vehicle.id, // Pass vehicle data to details screen
                         );
                       },
                       child: Container(

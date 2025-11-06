@@ -1,12 +1,113 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
 
 class AddVehicleThree extends StatelessWidget {
-  const AddVehicleThree({super.key});
+  AddVehicleThree({super.key});
+
+  final AddVehicleMainController addVehicleMainController =
+      Get.find<AddVehicleMainController>();
+
+  Future<void> _pickImage(ImageSource source, Rx<File?> imageFile) async {
+    await addVehicleMainController.pickImage(source, imageFile);
+  }
+
+  Widget _buildImageField({
+    required String title,
+    required Rx<File?> imageFile,
+    required VoidCallback onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Text(
+        //   title,
+        //   style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
+        // ),
+        // SizedBox(height: 6.h),
+        GestureDetector(
+          onTap: onTap,
+          child: Obx(() {
+            return Container(
+              height: imageFile.value != null ? 100.h : 44.h,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300, width: 0.7),
+                borderRadius: BorderRadius.circular(10.r),
+                color: Colors.white,
+              ),
+              child:
+                  imageFile.value != null
+                      ? ClipRRect(
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Image.file(
+                          imageFile.value!,
+                          width: double.infinity,
+                          height: 40.h,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return _buildUploadPlaceholder(null);
+                          },
+                        ),
+                      )
+                      : _buildUploadPlaceholder(title),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUploadPlaceholder(String? placeHolder) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: Row(
+        children: [
+          Icon(Icons.upload, size: 20.sp, color: Colors.grey.shade500),
+          SizedBox(width: 8.w),
+          Text(
+            placeHolder ?? "Upload",
+            style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade600),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showImageSourceDialog(Rx<File?> imageFile) {
+    showModalBottomSheet(
+      context: Get.context!,
+      builder:
+          (context) => SafeArea(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Gallery'),
+                  onTap: () {
+                    Get.back();
+                    _pickImage(ImageSource.gallery, imageFile);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text('Camera'),
+                  onTap: () {
+                    Get.back();
+                    _pickImage(ImageSource.camera, imageFile);
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +155,28 @@ class AddVehicleThree extends StatelessWidget {
                       style:
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),
-                    SizedBox(height: 6.h),
+                    SizedBox(height: 10.h),
                     Row(
                       children: [
                         Expanded(
-                          child: CommonTextFormFieldWithoutBorder(
-                            hintText: "Front Image",
-                            prefixIcon: Icon(Icons.upload, size: 24.sp),
+                          child: _buildImageField(
+                            title: "Front Image",
+                            imageFile: addVehicleMainController.aadharFrontImg,
+                            onTap:
+                                () => _showImageSourceDialog(
+                                  addVehicleMainController.aadharFrontImg,
+                                ),
                           ),
                         ),
-                        SizedBox(width: 7.w),
+                        SizedBox(width: 10.w),
                         Expanded(
-                          child: CommonTextFormFieldWithoutBorder(
-                            hintText: "Back Image",
-                            prefixIcon: Icon(Icons.upload, size: 24.sp),
+                          child: _buildImageField(
+                            title: "Back Image",
+                            imageFile: addVehicleMainController.aadharBackImg,
+                            onTap:
+                                () => _showImageSourceDialog(
+                                  addVehicleMainController.aadharBackImg,
+                                ),
                           ),
                         ),
                       ],
@@ -78,20 +187,28 @@ class AddVehicleThree extends StatelessWidget {
                       style:
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),
-                    SizedBox(height: 6.h),
+                    SizedBox(height: 10.h),
                     Row(
                       children: [
                         Expanded(
-                          child: CommonTextFormFieldWithoutBorder(
-                            hintText: "Front Image",
-                            prefixIcon: Icon(Icons.upload, size: 24.sp),
+                          child: _buildImageField(
+                            title: "Front Image",
+                            imageFile: addVehicleMainController.rcBookFrontImg,
+                            onTap:
+                                () => _showImageSourceDialog(
+                                  addVehicleMainController.rcBookFrontImg,
+                                ),
                           ),
                         ),
-                        SizedBox(width: 7.w),
+                        SizedBox(width: 10.w),
                         Expanded(
-                          child: CommonTextFormFieldWithoutBorder(
-                            hintText: "Back Image",
-                            prefixIcon: Icon(Icons.upload, size: 24.sp),
+                          child: _buildImageField(
+                            title: "Back Image",
+                            imageFile: addVehicleMainController.rcBookBackImg,
+                            onTap:
+                                () => _showImageSourceDialog(
+                                  addVehicleMainController.rcBookBackImg,
+                                ),
                           ),
                         ),
                       ],

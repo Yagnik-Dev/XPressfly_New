@@ -5,10 +5,15 @@ import 'package:xpressfly_git/Common%20Components/delete_dialog.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/vehicle_details_controller.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class VehicleDetailsScreen extends StatelessWidget {
-  const VehicleDetailsScreen({super.key});
+  VehicleDetailsScreen({super.key});
+
+  final VehicleDetailsController vehicleDetailsController = Get.put(
+    VehicleDetailsController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +72,23 @@ class VehicleDetailsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Mahindra Jeeto",
+                          vehicleDetailsController
+                                  .vehicleDetails
+                                  .value
+                                  .data
+                                  ?.vehicleModel ??
+                              "Tata Ace",
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle22w600Clr242424,
                         ),
                         Text(
-                          "GJ05AE8080",
+                          vehicleDetailsController
+                                  .vehicleDetails
+                                  .value
+                                  .data
+                                  ?.vehicleNumber ??
+                              "GJ01AB1234",
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500Clr242424,
@@ -159,7 +174,7 @@ class VehicleDetailsScreen extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              Get.toNamed(AppRoutes.editVehicleDetailsScreen);
+                              Get.toNamed(AppRoutes.addVehicleMainScreen);
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: ColorConstant.clrSecondary,

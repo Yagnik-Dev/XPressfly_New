@@ -102,6 +102,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
   final void Function()? onTap;
+  final void Function(String)? onChanged;
   final bool? readOnly;
   final Widget? suffixIcon;
   final Color? fillColor;
@@ -116,6 +117,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
     this.validator,
     this.prefixIcon,
     this.onTap,
+    this.onChanged,
     this.readOnly,
     this.suffixIcon,
     this.fillColor,
@@ -133,6 +135,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
       maxLines: maxLines,
       readOnly: readOnly ?? false,
       onTap: onTap,
+      onChanged: onChanged,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         counterText: '',

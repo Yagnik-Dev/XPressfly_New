@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
-import 'package:xpressfly_git/Controller/profilel_controller.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import '../../Routes/app_routes.dart';
 
 class ProfileScreen extends StatelessWidget {

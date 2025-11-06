@@ -1,7 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
+import 'package:xpressfly_git/Constants/image_constant.dart';
+import 'package:xpressfly_git/Constants/text_style_constant.dart';
 
 Future<void> showErrorDialog(String title, String content) async {
   await Get.dialog(
@@ -80,5 +83,75 @@ Future showMessage(String title, String message) async {
     margin: const EdgeInsets.all(8),
     backgroundColor: ColorConstant.clrPrimary,
     colorText: ColorConstant.clrBackGround,
+  );
+}
+
+Future<dynamic> approvedDialog(
+  // BuildContext context,
+  String? title,
+  String? message,
+) {
+  return Get.dialog(
+    barrierColor: Colors.black.withOpacity(0.7),
+    // context: context,
+    // builder: (context) {
+    SimpleDialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      backgroundColor: ColorConstant.clrBorder,
+      children: [
+        SizedBox(height: 20.h),
+        Image.asset(ImageConstant.imgApproved, height: 48.h, width: 48.w),
+        SizedBox(height: 10.h),
+        Text(
+          title ?? '',
+          textAlign: TextAlign.center,
+          style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          message ?? '',
+          textAlign: TextAlign.center,
+          style: TextStyleConstant().subTitleTextStyle18w400Clr242424,
+        ),
+        SizedBox(height: 20.h),
+      ],
+    ),
+    // },
+  );
+}
+
+Future<dynamic> declineDialog(
+  // BuildContext context,
+  String? title,
+  String message,
+) {
+  return Get.dialog(
+    // barrierColor: Colors.black.withOpacity(0.7),
+    // context: context,
+    // builder: (context) {
+    SimpleDialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      backgroundColor: ColorConstant.clrBorder,
+      children: [
+        SizedBox(height: 20.h),
+        Image.asset(ImageConstant.imgDeclined, height: 48.h, width: 48.w),
+        SizedBox(height: 10.h),
+        Text(
+          title ?? '',
+          textAlign: TextAlign.center,
+          style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyleConstant().subTitleTextStyle18w400Clr242424,
+        ),
+        SizedBox(height: 20.h),
+      ],
+    ),
+    // },
   );
 }

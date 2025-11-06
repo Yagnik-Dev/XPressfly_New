@@ -5,6 +5,7 @@ class ApiConstant {
   static const String profile = "users";
   static const String toggleDuty = "duty/toggle";
   static const String userWiseVehicle = "vehicles/user";
+  static const String vehiclesDetails = "vehicles";
   static const String commonErrorMessage = "Something went wrong";
 
   // ================ Forgot Password ====================

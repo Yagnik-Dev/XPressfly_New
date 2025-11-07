@@ -19,7 +19,6 @@ class EditProfileScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: ColorConstant.clrF7FCFF,
-        // backgroundColor: Colors.red,
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -49,30 +48,35 @@ class EditProfileScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30.r),
-                    child: InkWell(
-                      onTap: () {
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
                         Get.back();
                       },
-                      child: Container(
-                        width: 100.w,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Back",
-                          style:
-                              TextStyleConstant()
-                                  .subTitleTextStyle18w600Clr242424,
-                        ),
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: ColorConstant.clrSecondary),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
+                      child: Text(
+                        "Back",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle18w600Clr242424,
                       ),
                     ),
                   ),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
                         if (profileController.formKeyProfile.currentState!
                             .validate()) {
-                          // Save profile changes logic here
+                          profileController.updateUserProfile((success) {
+                            if (success) {
+                              Get.back();
+                            }
+                          });
                         }
                       },
                       style: OutlinedButton.styleFrom(
@@ -106,11 +110,8 @@ class EditProfileScreen extends StatelessWidget {
                       backgroundImage: NetworkImage(
                         "https://cdn-icons-png.flaticon.com/512/149/149071.png",
                       ),
-                      // replace with NetworkImage if dynamic
                     ),
                     Container(
-                      // width: 30.w,
-                      // height: 30.h,
                       margin: EdgeInsets.only(left: 6.w, top: 4.h),
                       padding: EdgeInsets.all(8.sp),
                       decoration: BoxDecoration(
@@ -130,22 +131,34 @@ class EditProfileScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10.h),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      profileController.userDetails.value.data?.name ?? "-",
-                      style:
-                          TextStyleConstant().subTitleTextStyle22w600Clr242424,
+                // Name Field - Editable like in the screenshot
+                SizedBox(
+                  width: 200.w,
+                  child: CommonTextFormFieldWithoutBorder(
+                    controller: profileController.nameTextEditingController,
+                    hintText: "Enter your name",
+                    // textAlign: TextAlign.center,
+                    // contentPadding: EdgeInsets.symmetric(
+                    //   vertical: 8.h,
+                    //   horizontal: 16.w,
+                    // ),
+                    // style: TextStyleConstant().subTitleTextStyle22w600Clr242424
+                    //     .copyWith(fontSize: 22.sp),
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.only(right: 8.w),
+                      child: Icon(
+                        Icons.edit,
+                        size: 18.h,
+                        color: ColorConstant.clrSubText,
+                      ),
                     ),
-                    SizedBox(width: 10.w),
-                    Icon(
-                      Icons.edit,
-                      size: 18.h,
-                      color: ColorConstant.clrSubText,
-                    ),
-                  ],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ],
             ),
@@ -176,6 +189,7 @@ class EditProfileScreen extends StatelessWidget {
                                   .subTitleTextStyle20w500Clr242424,
                         ),
                         SizedBox(height: 20.h),
+
                         // Phone Field
                         Text(
                           "Number",
@@ -187,59 +201,52 @@ class EditProfileScreen extends StatelessWidget {
                         CommonTextFormFieldWithoutBorder(
                           hintText: "+91 98765 43210",
                           keyboardType: TextInputType.phone,
-                          controller: TextEditingController(
-                            text:
-                                profileController
-                                    .mobileTextEditingController
-                                    .text,
-                          ),
+                          maxLength: 10,
+                          controller:
+                              profileController.mobileTextEditingController,
                           suffixIcon: Icon(
                             Icons.edit,
                             color: ColorConstant.clrPrimary,
                             size: 18.h,
                           ),
-                          validator: (p0) {
-                            if (p0 == null || p0.isEmpty) {
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
                               return 'Please enter mobile number';
-                            } else if (p0.length < 10) {
-                              return 'Mobile number must be at least 10 digits';
+                            } else if (value.length < 10) {
+                              return 'Mobile number must be 10 digits';
                             }
                             return null;
                           },
                         ),
                         SizedBox(height: 16.h),
-                        // Email Field + Verify
+
+                        // Email Field
                         Text(
-                          "Email",
+                          "Pincode",
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500Clr242424,
                         ),
                         SizedBox(height: 6.h),
                         CommonTextFormFieldWithoutBorder(
-                          hintText: "jagdishsain25@gmail.com",
-                          controller: TextEditingController(
-                            text:
-                                profileController
-                                    .emailTextEditingController
-                                    .text,
-                          ),
+                          // hintText: "jagdishsain25@gmail.com",
+                          controller:
+                              profileController.pincodeTextEditingController,
                           keyboardType: TextInputType.emailAddress,
                           suffixIcon: Icon(
                             Icons.edit,
                             color: ColorConstant.clrPrimary,
                             size: 18.h,
                           ),
-                          validator: (p0) {
-                            if (p0 == null || p0.isEmpty) {
-                              return 'Please enter email';
-                            } else if (!GetUtils.isEmail(p0)) {
-                              return 'Please enter a valid email';
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter pincode';
                             }
                             return null;
                           },
                         ),
                         SizedBox(height: 16.h),
+
                         // Address Field
                         Text(
                           "Address",
@@ -250,21 +257,17 @@ class EditProfileScreen extends StatelessWidget {
                         SizedBox(height: 6.h),
                         CommonTextFormFieldWithoutBorder(
                           hintText: "90, Houses, Surat, Gujarat - 395010",
-                          controller: TextEditingController(
-                            text:
-                                profileController
-                                    .addressTextEditingController
-                                    .text,
-                          ),
+                          controller:
+                              profileController.cityTextEditingController,
                           maxLines: 2,
                           suffixIcon: Icon(
                             Icons.edit,
                             color: ColorConstant.clrPrimary,
                             size: 18.h,
                           ),
-                          validator: (p0) {
-                            if (p0 == null || p0.isEmpty) {
-                              return 'Please enter address';
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter city';
                             }
                             return null;
                           },

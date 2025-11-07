@@ -74,11 +74,11 @@ class DriverHomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hello Jagnish",
+                "Hello ${GetStorage().read(userName) ?? 'Driver'}",
                 style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
               ),
               Text(
-                "Surat, GJ",
+                GetStorage().read(userAddress) ?? 'address',
                 style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
               ),
             ],

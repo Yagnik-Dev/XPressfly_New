@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/create_vehicle_model.dart';
+import 'package:xpressfly_git/Models/get_vehicle_Details_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
@@ -27,15 +28,17 @@ class AddVehicleMainController extends GetxController {
   var dobTextEditingController = TextEditingController();
   var vehicleConditionTextEditingController = TextEditingController();
   var pinCodeTextEditingController = TextEditingController();
+
   GlobalKey<FormState> addVehicleFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> addVehicleTwoFormKey = GlobalKey<FormState>();
+
   Rx<File?> licenceImg = Rx<File?>(null);
   Rx<File?> aadharFrontImg = Rx<File?>(null);
   Rx<File?> aadharBackImg = Rx<File?>(null);
   Rx<File?> rcBookFrontImg = Rx<File?>(null);
   Rx<File?> rcBookBackImg = Rx<File?>(null);
-  var imgPicker = ImagePicker();
 
+  var imgPicker = ImagePicker();
   var intCurrentStep = 0.obs;
   final pageviewController = PageController(initialPage: 0);
   RxInt selectedIndex = 0.obs;
@@ -43,6 +46,41 @@ class AddVehicleMainController extends GetxController {
   RxString selectedVehicleTitle = "".obs;
   RxString selectedVehicleIcon = "".obs;
   Rx<Color> selectedVehicleColor = Color(0xffffffff).obs;
+
+  // New properties for update functionality
+  RxBool isUpdateMode = false.obs;
+  RxInt vehicleId = 0.obs;
+  Rx<VehicleDetailsData?> existingVehicleData = Rx<VehicleDetailsData?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Check if we're in update mode and get vehicle data
+    if (Get.arguments != null && Get.arguments is Map<String, dynamic>) {
+      final args = Get.arguments as Map<String, dynamic>;
+      if (args['isUpdate'] == true && args['vehicleId'] != null) {
+        isUpdateMode.value = true;
+        vehicleId.value = args['vehicleId'];
+        loadVehicleData(args['vehicleData']);
+      }
+    }
+  }
+
+  // Load existing vehicle data into form
+  void loadVehicleData(VehicleDetailsData vehicleData) {
+    existingVehicleData.value = vehicleData;
+
+    // Populate form fields with existing data
+    fullNameTextEditingController.text = vehicleData.fullName ?? '';
+    mobileNoTextEditingController.text = vehicleData.mobileNumber ?? '';
+    licenseNoTextEditingController.text = vehicleData.licenseNumber ?? '';
+    addressTextEditingController.text = vehicleData.address ?? '';
+    vehicleModelTextEditingController.text = vehicleData.vehicleModel ?? '';
+    vehicleNoTextEditingController.text = vehicleData.vehicleNumber ?? '';
+    selectedVehicleTitle.value = vehicleData.vehicleType ?? '';
+    pinCodeTextEditingController.text =
+        vehicleData.deliveryPincodes?.join(', ') ?? '';
+  }
 
   void pickVehicleType(String title, String icon, Color color) {
     selectedVehicleTitle.value = title;
@@ -71,40 +109,42 @@ class AddVehicleMainController extends GetxController {
       return;
     }
 
-    // Validate required images are uploaded
-    if (licenceImg.value == null) {
-      hideLoading();
-      declineDialog("Error", "Please upload licence image");
-      onCompleteHandler(false);
-      return;
-    }
+    // For create mode, validate all required images
+    if (!isUpdateMode.value) {
+      if (licenceImg.value == null) {
+        hideLoading();
+        declineDialog("Error", "Please upload licence image");
+        onCompleteHandler(false);
+        return;
+      }
 
-    if (aadharFrontImg.value == null) {
-      hideLoading();
-      declineDialog("Error", "Please upload Aadhar front image");
-      onCompleteHandler(false);
-      return;
-    }
+      if (aadharFrontImg.value == null) {
+        hideLoading();
+        declineDialog("Error", "Please upload Aadhar front image");
+        onCompleteHandler(false);
+        return;
+      }
 
-    if (aadharBackImg.value == null) {
-      hideLoading();
-      declineDialog("Error", "Please upload Aadhar back image");
-      onCompleteHandler(false);
-      return;
-    }
+      if (aadharBackImg.value == null) {
+        hideLoading();
+        declineDialog("Error", "Please upload Aadhar back image");
+        onCompleteHandler(false);
+        return;
+      }
 
-    if (rcBookFrontImg.value == null) {
-      hideLoading();
-      declineDialog("Error", "Please upload RC book front image");
-      onCompleteHandler(false);
-      return;
-    }
+      if (rcBookFrontImg.value == null) {
+        hideLoading();
+        declineDialog("Error", "Please upload RC book front image");
+        onCompleteHandler(false);
+        return;
+      }
 
-    if (rcBookBackImg.value == null) {
-      hideLoading();
-      declineDialog("Error", "Please upload RC book back image");
-      onCompleteHandler(false);
-      return;
+      if (rcBookBackImg.value == null) {
+        hideLoading();
+        declineDialog("Error", "Please upload RC book back image");
+        onCompleteHandler(false);
+        return;
+      }
     }
 
     var headers = {
@@ -127,56 +167,91 @@ class AddVehicleMainController extends GetxController {
         "delivery_pincodes": [pinCodeTextEditingController.text.trim()],
       });
 
-      // Add files - they won't be null because we validated above
-      formData.files.addAll([
-        MapEntry(
-          "license_image",
-          multipart_file.MultipartFile.fromFileSync(
-            licenceImg.value!.path,
-            filename: licenceImg.value!.path.split('/').last,
+      // Add files only if they are selected (for update) or required (for create)
+      if (licenceImg.value != null) {
+        formData.files.add(
+          MapEntry(
+            "license_image",
+            multipart_file.MultipartFile.fromFileSync(
+              licenceImg.value!.path,
+              filename: licenceImg.value!.path.split('/').last,
+            ),
           ),
-        ),
-        MapEntry(
-          "adhar_front_image",
-          multipart_file.MultipartFile.fromFileSync(
-            aadharFrontImg.value!.path,
-            filename: aadharFrontImg.value!.path.split('/').last,
+        );
+      }
+
+      if (aadharFrontImg.value != null) {
+        formData.files.add(
+          MapEntry(
+            "adhar_front_image",
+            multipart_file.MultipartFile.fromFileSync(
+              aadharFrontImg.value!.path,
+              filename: aadharFrontImg.value!.path.split('/').last,
+            ),
           ),
-        ),
-        MapEntry(
-          "adhar_back_image",
-          multipart_file.MultipartFile.fromFileSync(
-            aadharBackImg.value!.path,
-            filename: aadharBackImg.value!.path.split('/').last,
+        );
+      }
+
+      if (aadharBackImg.value != null) {
+        formData.files.add(
+          MapEntry(
+            "adhar_back_image",
+            multipart_file.MultipartFile.fromFileSync(
+              aadharBackImg.value!.path,
+              filename: aadharBackImg.value!.path.split('/').last,
+            ),
           ),
-        ),
-        MapEntry(
-          "rc_front_image",
-          multipart_file.MultipartFile.fromFileSync(
-            rcBookFrontImg.value!.path,
-            filename: rcBookFrontImg.value!.path.split('/').last,
+        );
+      }
+
+      if (rcBookFrontImg.value != null) {
+        formData.files.add(
+          MapEntry(
+            "rc_front_image",
+            multipart_file.MultipartFile.fromFileSync(
+              rcBookFrontImg.value!.path,
+              filename: rcBookFrontImg.value!.path.split('/').last,
+            ),
           ),
-        ),
-        MapEntry(
-          "rc_back_image",
-          multipart_file.MultipartFile.fromFileSync(
-            rcBookBackImg.value!.path,
-            filename: rcBookBackImg.value!.path.split('/').last,
+        );
+      }
+
+      if (rcBookBackImg.value != null) {
+        formData.files.add(
+          MapEntry(
+            "rc_back_image",
+            multipart_file.MultipartFile.fromFileSync(
+              rcBookBackImg.value!.path,
+              filename: rcBookBackImg.value!.path.split('/').last,
+            ),
           ),
-        ),
-      ]);
+        );
+      }
 
       // Log the request
       log("Headers: $headers");
       log("Form Data Fields: ${formData.fields}");
       log("Form Data Files: ${formData.files.map((f) => f.key).toList()}");
 
-      var response = await ServiceCall().postMultipart(
-        ApiConstant.baseUrl,
-        ApiConstant.vehiclesDetails,
-        formData,
-        headers,
-      );
+      dynamic response;
+
+      if (isUpdateMode.value) {
+        // Use PUT request for update
+        response = await ServiceCall().putMultipart(
+          ApiConstant.baseUrl,
+          "${ApiConstant.vehiclesDetails}/${vehicleId.value}",
+          formData,
+          headers,
+        );
+      } else {
+        // Use POST request for create
+        response = await ServiceCall().postMultipart(
+          ApiConstant.baseUrl,
+          ApiConstant.vehiclesDetails,
+          formData,
+          headers,
+        );
+      }
 
       if (response == null) {
         hideLoading();
@@ -184,57 +259,103 @@ class AddVehicleMainController extends GetxController {
         return;
       }
 
-      var objAddProduct = CreateVehicleResponseModel.fromJson(
-        jsonDecode(response),
-      );
+      debugPrint('Raw Response: $response');
+
+      // Handle the response - it might not be valid JSON
+      dynamic parsedResponse;
+      try {
+        // First try to parse as regular JSON
+        parsedResponse = jsonDecode(response);
+      } catch (e) {
+        debugPrint(
+          'JSON decode failed, trying to handle non-standard format: $e',
+        );
+
+        // If JSON parsing fails, try to handle the non-standard format
+        // The response appears to be in a Map-like format but not proper JSON
+        if (response is String) {
+          // Try to manually parse the response
+          if (response.contains("success: true") &&
+              response.contains("message:")) {
+            // This is a successful response in non-JSON format
+            hideLoading();
+            onCompleteHandler(true);
+            approvedDialog("Success", "Vehicle updated successfully");
+
+            // Don't clear form in update mode
+            if (!isUpdateMode.value) {
+              clearForm();
+            }
+            return;
+          }
+        }
+
+        // If we can't parse it, show error
+        hideLoading();
+        declineDialog("Error", "Failed to process server response");
+        onCompleteHandler(false);
+        return;
+      }
+
+      // If we successfully parsed JSON, process normally
+      var objAddProduct = CreateVehicleResponseModel.fromJson(parsedResponse);
 
       hideLoading();
       onCompleteHandler(true);
       approvedDialog("Success", objAddProduct.message.toString());
 
-      // Clear form after successful submission
-      clearForm();
+      // Clear form after successful submission only in create mode
+      if (!isUpdateMode.value) {
+        clearForm();
+      }
 
       return objAddProduct;
     } catch (error) {
       hideLoading();
       if (error is DioException) {
         final responseData = error.response?.data;
-        debugPrint('Response Data: $responseData');
+        debugPrint('DioError Response Data: $responseData');
 
-        Map<String, dynamic>? parsedData;
+        // Handle Dio errors
+        String errorMessage = 'An error occurred';
+
         if (responseData is String) {
-          try {
-            parsedData = jsonDecode(responseData);
-          } catch (e) {
-            debugPrint('Failed to parse responseData: $e');
+          // Try to extract error message from non-JSON response
+          if (responseData.contains("message:")) {
+            // Extract message from the non-JSON format
+            final messageMatch = RegExp(
+              r"message:\s*([^,]+)",
+            ).firstMatch(responseData);
+            if (messageMatch != null) {
+              errorMessage = messageMatch.group(1)?.trim() ?? errorMessage;
+            }
+          } else {
+            errorMessage = responseData;
           }
-        } else if (responseData is Map<String, dynamic>) {
-          parsedData = responseData;
+        } else if (responseData is Map) {
+          errorMessage = responseData['message']?.toString() ?? errorMessage;
         }
 
-        if (parsedData != null && parsedData['data'] != null) {
-          final errors = parsedData['data'] as Map<String, dynamic>;
-          final errorMessages = errors.entries
-              .map((entry) {
-                final value = entry.value;
-                if (value is List) {
-                  return value.join(', ');
-                } else {
-                  return '$value';
-                }
-              })
-              .join('\n');
-          await declineDialog("Validation Error", errorMessages);
-        } else {
-          await declineDialog(
-            "Error",
-            parsedData?['message'] ?? 'An unknown error occurred',
-          );
-        }
+        await declineDialog("Error", errorMessage);
       } else {
-        debugPrint('Error is not a DioException: $error');
+        debugPrint('Non-Dio Error: $error');
+
+        // Check if this is the successful but malformed response case
+        if (error is FormatException &&
+            error.toString().contains("success: true")) {
+          // This is actually a success case with malformed JSON
+          hideLoading();
+          onCompleteHandler(true);
+          approvedDialog("Success", "Vehicle updated successfully");
+
+          if (!isUpdateMode.value) {
+            clearForm();
+          }
+          return;
+        }
+
         handleError(error);
+        await declineDialog("Error", "An unexpected error occurred");
       }
       onCompleteHandler(false);
       return false;
@@ -259,5 +380,8 @@ class AddVehicleMainController extends GetxController {
     selectedVehicleColor.value = Color(0xffffffff);
     intCurrentStep.value = 0;
     pageviewController.jumpToPage(0);
+    isUpdateMode.value = false;
+    vehicleId.value = 0;
+    existingVehicleData.value = null;
   }
 }

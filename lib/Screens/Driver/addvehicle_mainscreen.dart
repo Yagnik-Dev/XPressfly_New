@@ -59,7 +59,9 @@ class AddVehicleMainScreen extends StatelessWidget {
                   child: CommonButtonRounded(
                     btnText:
                         addvehicleController.intCurrentStep.value == 2
-                            ? "Submit"
+                            ? (addvehicleController.isUpdateMode.value
+                                ? "Update"
+                                : "Submit")
                             : "Next",
                     color: ColorConstant.clrSecondary,
                     onPressed: () async {
@@ -84,14 +86,11 @@ class AddVehicleMainScreen extends StatelessWidget {
                         }
                       } else {
                         // This is the submit step
-                        // if (addvehicleController.addVehicleFormKey.currentState!
-                        //     .validate()) {
                         await addvehicleController.createVehicle((success) {
                           if (success) {
                             Get.back();
                           }
                         });
-                        // }
                       }
                     },
                   ),
@@ -106,11 +105,14 @@ class AddVehicleMainScreen extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(0, 46.sp, 0, 0),
             child: Column(
               children: [
-                Text(
-                  'Add Vehicle',
-                  style: TextStyleConstant().subTitleTextStyle26w600Clr242424,
+                Obx(
+                  () => Text(
+                    addvehicleController.isUpdateMode.value
+                        ? 'Update Vehicle'
+                        : 'Add Vehicle',
+                    style: TextStyleConstant().subTitleTextStyle26w600Clr242424,
+                  ),
                 ),
-                // SizedBox(height: 10.h),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
@@ -118,7 +120,6 @@ class AddVehicleMainScreen extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      // here manage 3 container based on stepper
                       Obx(
                         () => Expanded(
                           child: Container(

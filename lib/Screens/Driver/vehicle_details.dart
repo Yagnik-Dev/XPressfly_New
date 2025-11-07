@@ -174,7 +174,22 @@ class VehicleDetailsScreen extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              Get.toNamed(AppRoutes.addVehicleMainScreen);
+                              // Pass vehicle data to edit screen
+                              Get.toNamed(
+                                AppRoutes.addVehicleMainScreen,
+                                arguments: {
+                                  'isUpdate': true,
+                                  'vehicleId':
+                                      vehicleDetailsController.vehicleId,
+                                  'vehicleData':
+                                      vehicleDetailsController
+                                          .vehicleDetails
+                                          .value
+                                          .data,
+                                },
+                              )?.then((_) {
+                                vehicleDetailsController.getData();
+                              });
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: ColorConstant.clrSecondary,

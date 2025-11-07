@@ -131,4 +131,26 @@ class ServiceCall {
       return response.toString();
     }
   }
+
+  Future<String?> putMultipart(
+    String baseUrl,
+    String endPoint,
+    FormData formData,
+    Map<String, dynamic> headers,
+  ) async {
+    try {
+      var response = await Dio().put(
+        '$baseUrl$endPoint',
+        data: formData,
+        options: Options(headers: headers),
+      );
+      return response.data.toString();
+    } on DioException catch (e) {
+      debugPrint('Dio Error: $e');
+      return null;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
+  }
 }

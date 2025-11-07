@@ -129,7 +129,7 @@ class ProfileScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Email",
+                            "Pincode",
                             style:
                                 TextStyleConstant()
                                     .subTitleTextStyle16w500Clr242424,
@@ -170,7 +170,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Address Field
                       Text(
-                        "Address",
+                        "City",
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,

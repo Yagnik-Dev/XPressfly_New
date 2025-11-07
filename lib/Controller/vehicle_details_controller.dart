@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/get_vehicle_Details_model.dart';
+import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../Services/rest_service.dart';
 
 class VehicleDetailsController extends GetxController {
@@ -26,7 +27,9 @@ class VehicleDetailsController extends GetxController {
   }
 
   Future<void> getVehicleDetailsCall(int vehicleId) async {
-    isVehicleLoading.value = true;
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
 
     try {
       var headers = {
@@ -50,20 +53,24 @@ class VehicleDetailsController extends GetxController {
 
       if (parsedResponse.success ?? false) {
         vehicleDetails.value = parsedResponse;
+        hideLoading();
       } else {
         throw Exception(parsedResponse.message ?? 'Failed to load vehicles');
       }
     } catch (error) {
+      hideLoading();
+
       debugPrint('Error loading vehicles: $error');
     } finally {
-      isVehicleLoading.value = false;
+      // isVehicleLoading.value = false;
+      hideLoading();
     }
   }
 
-  Future<void> deleteVehicleCall(int vehicleId) async {
-    isVehicleLoading.value = true;
-
+  Future<bool> deleteVehicleCall() async {
     try {
+      showLoading();
+
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': GetStorage().read(accessToken),
@@ -79,19 +86,20 @@ class VehicleDetailsController extends GetxController {
         throw Exception('No response from server');
       }
 
-      var parsedResponse = GetVehicleResponseModel.fromJson(
-        jsonDecode(response),
-      );
+      var parsedResponse = jsonDecode(response);
 
-      if (parsedResponse.success ?? false) {
-        vehicleDetails.value = parsedResponse;
+      if (parsedResponse['success'] == true) {
+        hideLoading();
+        return true;
       } else {
-        throw Exception(parsedResponse.message ?? 'Failed to load vehicles');
+        throw Exception(
+          parsedResponse['message'] ?? 'Failed to delete vehicle',
+        );
       }
     } catch (error) {
-      debugPrint('Error loading vehicles: $error');
-    } finally {
-      isVehicleLoading.value = false;
+      hideLoading();
+      debugPrint('Error deleting vehicle: $error');
+      return false;
     }
   }
 }

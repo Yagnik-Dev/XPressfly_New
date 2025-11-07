@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/driver_home_controller.dart';
+import 'package:xpressfly_git/Controller/vehicle_details_controller.dart';
 
 class DeleteVehicleDialog extends StatelessWidget {
-  const DeleteVehicleDialog({super.key});
+  DeleteVehicleDialog({super.key});
+
+  final VehicleDetailsController vehicleDetailsController =
+      Get.find<VehicleDetailsController>();
+  final DriverHomeController driverHomeController =
+      Get.find<DriverHomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +75,6 @@ class DeleteVehicleDialog extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 12.w),
-
                 // Sure Button
                 Expanded(
                   child: ElevatedButton(
@@ -78,11 +85,39 @@ class DeleteVehicleDialog extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 14.h),
                     ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const DeleteSuccess(),
-                      );
+                    // Update the DeleteVehicleDialog's Sure button:
+                    onPressed: () async {
+                      final success =
+                          await vehicleDetailsController.deleteVehicleCall();
+                      if (success) {
+                        Navigator.pop(context, true);
+                        if (context.mounted) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder:
+                                (context) => DeleteSuccess(
+                                  onAnimationComplete: () {
+                                    Future.delayed(
+                                      const Duration(seconds: 2),
+                                      () async {
+                                        Get.back();
+                                        await driverHomeController
+                                            .refreshVehicleList();
+                                      },
+                                    );
+                                  },
+                                ),
+                          );
+                        }
+                      } else {
+                        Navigator.pop(context, false);
+                        Get.snackbar(
+                          'Error',
+                          'Failed to delete vehicle. Please try again.',
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      }
                     },
                     child: Text(
                       "Sure",
@@ -101,10 +136,14 @@ class DeleteVehicleDialog extends StatelessWidget {
 }
 
 class DeleteSuccess extends StatelessWidget {
-  const DeleteSuccess({super.key});
+  final VoidCallback? onAnimationComplete;
+  const DeleteSuccess({super.key, this.onAnimationComplete});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      onAnimationComplete?.call();
+    });
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 12.w),
       backgroundColor: ColorConstant.clrWhite,

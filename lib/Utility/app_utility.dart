@@ -59,7 +59,7 @@ showLoading() {
           height: 80,
           padding: const EdgeInsets.all(10),
           child: Center(
-            child: CircularProgressIndicator(color: ColorConstant.clrPrimary),
+            child: CircularProgressIndicator(color: ColorConstant.clr242424),
           ),
         ),
       ),

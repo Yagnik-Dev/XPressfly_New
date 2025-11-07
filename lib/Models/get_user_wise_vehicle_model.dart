@@ -38,7 +38,7 @@ class GetUserVehicleData {
   String? vehicleModel;
   String? vehicleNumber;
   String? vehicleType;
-  String? deliveryPincodes;
+  List<String>? deliveryPincodes;
   String? adharFrontImage;
   String? adharBackImage;
   String? rcFrontImage;
@@ -77,7 +77,7 @@ class GetUserVehicleData {
     vehicleModel = json['vehicle_model'];
     vehicleNumber = json['vehicle_number'];
     vehicleType = json['vehicle_type'];
-    deliveryPincodes = json['delivery_pincodes'];
+    deliveryPincodes = json['delivery_pincodes'].cast<String>();
     adharFrontImage = json['adhar_front_image'];
     adharBackImage = json['adhar_back_image'];
     rcFrontImage = json['rc_front_image'];

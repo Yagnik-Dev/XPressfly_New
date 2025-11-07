@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:xpressfly_git/Common%20Components/common_button.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
+import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
@@ -186,7 +191,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 return GestureDetector(
                   onTap:
                       () => setState(() {
+                        print(index);
                         selectedIndex = index;
+                        if (index == 7) {
+                          // Logout action
+                          showLogoutDialog(context);
+                        }
                       }),
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -268,4 +278,60 @@ class DrawerItem extends StatelessWidget {
       hoverColor: Colors.grey.shade100,
     );
   }
+}
+
+showLogoutDialog(BuildContext context) {
+  // final ThemeController themeController = Get.find<ThemeController>();
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        // themeController.themeMode.value == ThemeMode.dark
+        //     ? ColorConstant.clr27292A
+        // : Colors.white,
+        title: Text(
+          // LocalizationStrings.logoutConfirmationText.tr,
+          'Are you sure you want to logout?',
+          textAlign: TextAlign.center,
+          style: TextStyleConstant().subTitleTextStyle20w500Clr242424,
+        ),
+        actionsAlignment: MainAxisAlignment.spaceAround,
+        // actionsPadding: EdgeInsets.symmetric(vertical: 10),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text(
+              // LocalizationStrings.cancel.tr,
+              'Cancel',
+              style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
+            ),
+          ),
+          SizedBox(
+            width: 105.w,
+            height: 35.h,
+            child: CommonButton(
+              color: ColorConstant.clr242424,
+              onPressed: () {
+                // GetStorage().remove(userData);
+                GetStorage().remove(accessToken);
+                GetStorage().remove(userId);
+                GetStorage().remove(userType);
+                GetStorage().remove(userName);
+                GetStorage().remove(userPhone);
+                GetStorage().remove(userAddress);
+                GetStorage().remove(userPincode);
+                GetStorage().remove(userProfileImage);
+                Get.offAllNamed(AppRoutes.selectAuthScreen);
+              },
+              btnText: "Logout",
+              // 'Logout',
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

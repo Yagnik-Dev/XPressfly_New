@@ -122,6 +122,7 @@ class AddVehicleTwo extends StatelessWidget {
                       SizedBox(height: 6.h),
                       GestureDetector(
                         onTap: () {
+                          Get.focusScope?.unfocus();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

@@ -77,29 +77,74 @@ class AddVehicleOne extends StatelessWidget {
   }
 
   void _showImageSourceDialog(Rx<File?> imageFile) {
+    Get.focusScope?.unfocus();
     showModalBottomSheet(
       context: Get.context!,
+      backgroundColor: ColorConstant.clrWhite,
+
       builder:
           (context) => SafeArea(
-            child: Wrap(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.photo_library),
-                  title: Text('Gallery'),
-                  onTap: () {
-                    Get.back();
-                    _pickImage(ImageSource.gallery, imageFile);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.photo_camera),
-                  title: Text('Camera'),
-                  onTap: () {
-                    Get.back();
-                    _pickImage(ImageSource.camera, imageFile);
-                  },
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                      _pickImage(ImageSource.gallery, imageFile);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: ColorConstant.clrSecondary,
+                          child: Icon(
+                            Icons.photo_library,
+                            color: ColorConstant.clrWhite,
+                            size: 30.sp,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          'Gallery',
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w400clrSecondary,
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                      _pickImage(ImageSource.camera, imageFile);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: ColorConstant.clrSecondary,
+                          child: Icon(
+                            Icons.photo_camera,
+                            color: ColorConstant.clrWhite,
+                            size: 30.sp,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          'Camera',
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w400clrSecondary,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
     );

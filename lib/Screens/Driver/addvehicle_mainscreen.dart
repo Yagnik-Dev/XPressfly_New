@@ -5,6 +5,7 @@ import 'package:xpressfly_git/Common%20Components/common_button.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
+import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_one.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_three.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_two.dart';
@@ -16,6 +17,8 @@ class AddVehicleMainScreen extends StatelessWidget {
   AddVehicleMainController addvehicleController = Get.put(
     AddVehicleMainController(),
   );
+  final DriverHomeController driverHomeController =
+      Get.find<DriverHomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,43 +59,50 @@ class AddVehicleMainScreen extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: CommonButtonRounded(
-                    btnText:
-                        addvehicleController.intCurrentStep.value == 2
-                            ? (addvehicleController.isUpdateMode.value
-                                ? "Update"
-                                : "Submit")
-                            : "Next",
-                    color: ColorConstant.clrSecondary,
-                    onPressed: () async {
-                      if (addvehicleController.intCurrentStep.value == 0) {
-                        if (addvehicleController.addVehicleFormKey.currentState!
-                            .validate()) {
-                          addvehicleController.pageviewController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      } else if (addvehicleController.intCurrentStep.value ==
-                          1) {
-                        if (addvehicleController
-                            .addVehicleTwoFormKey
-                            .currentState!
-                            .validate()) {
-                          addvehicleController.pageviewController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      } else {
-                        // This is the submit step
-                        await addvehicleController.createVehicle((success) {
-                          if (success) {
-                            Get.back();
+                  child: Obx(
+                    () => CommonButtonRounded(
+                      btnText:
+                          addvehicleController.intCurrentStep.value == 2
+                              ? (addvehicleController.isUpdateMode.value
+                                  ? "Update"
+                                  : "Submit")
+                              : "Next",
+                      color: ColorConstant.clrSecondary,
+                      onPressed: () async {
+                        if (addvehicleController.intCurrentStep.value == 0) {
+                          if (addvehicleController
+                              .addVehicleFormKey
+                              .currentState!
+                              .validate()) {
+                            addvehicleController.pageviewController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
                           }
-                        });
-                      }
-                    },
+                        } else if (addvehicleController.intCurrentStep.value ==
+                            1) {
+                          if (addvehicleController
+                              .addVehicleTwoFormKey
+                              .currentState!
+                              .validate()) {
+                            addvehicleController.pageviewController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        } else {
+                          // This is the submit step
+                          await addvehicleController.createVehicle((
+                            success,
+                          ) async {
+                            if (success) {
+                              await driverHomeController.refreshVehicleList();
+                              Get.back();
+                            }
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
               ],

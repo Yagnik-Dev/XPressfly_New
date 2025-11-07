@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/login_controller.dart';
 import 'package:xpressfly_git/Controller/otp_controller.dart';
-import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/join_as_screen.dart';
 import '../../Common Components/common_button.dart';
 import '../../Common Components/common_textfield.dart';
 
 class OtpScreen extends StatelessWidget {
   String? mobileNo;
-  OtpScreen({super.key, this.mobileNo});
+  int? loginType;
+  OtpScreen({super.key, this.mobileNo, this.loginType});
 
   final OtpController otpController = Get.put(OtpController());
 
@@ -84,7 +85,9 @@ class OtpScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8.h),
                     CommonTextFormField(
-                      controller: otpController.otpTextEditingController,
+                      controller:
+                          otpController.otpTextEditingController =
+                              TextEditingController(text: '1234'),
                       keyboardType: TextInputType.number,
                       maxLength: 4,
                       letterSpacing: 30,
@@ -103,12 +106,20 @@ class OtpScreen extends StatelessWidget {
                       btnText: "CONFIRM",
                       onPressed: () {
                         if (otpController.formKey.currentState!.validate()) {
-                          Get.to(
-                            () => JoinAsScreen(
-                              mobileNo: mobileNo,
-                              otp: otpController.otpTextEditingController.text,
-                            ),
-                          );
+                          if (loginType == 1) {
+                            Get.find<LoginController>().loginApiCall(
+                              (p0) {},
+                              details: {"mobile_number": mobileNo},
+                            );
+                          } else {
+                            Get.to(
+                              () => JoinAsScreen(
+                                mobileNo: mobileNo,
+                                otp:
+                                    otpController.otpTextEditingController.text,
+                              ),
+                            );
+                          }
                         }
                       },
                       color: ColorConstant.clrSecondary,

@@ -49,6 +49,7 @@ class ImageConstant {
   static String imgParcelThree = '${imageBasePath}img_parcel_three.png';
   static String imgParcelFour = '${imageBasePath}img_parcel_four.png';
   static String imgParcelFive = '${imageBasePath}img_parcel_five.png';
+  static String imgCardTopRight = '${imageBasePath}card_topright.png';
   static String imgTimer = '${imageBasePath}img_timer.png';
   static String imgTrackOrder = '${imageSvgBasePath}track_order.svg';
 

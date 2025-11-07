@@ -6,7 +6,6 @@ import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
-import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class YourDetailsScreen extends StatelessWidget {
   final int type;
@@ -149,22 +148,22 @@ class YourDetailsScreen extends StatelessWidget {
                   if (loginController.formKeyYourDetails.currentState
                           ?.validate() ??
                       false) {
-                    // loginController.registerApiCall(
-                    //   (p0) {},
-                    //   details: {
-                    //     "name": loginController.nameTextEditingController.text,
-                    //     "city": loginController.cityTextEditingController.text,
-                    //     "pincode":
-                    //         loginController.pincodeTextEditingController.text,
-                    //     "mobile_number": mobileNo,
-                    //     "otp": otp,
-                    //     "user_type": type,
-                    //   },
-                    // );
+                    loginController.registerApiCall(
+                      (p0) {},
+                      details: {
+                        "name": loginController.nameTextEditingController.text,
+                        "city": loginController.cityTextEditingController.text,
+                        "pincode":
+                            loginController.pincodeTextEditingController.text,
+                        "mobile_number": mobileNo,
+                        "otp": otp,
+                        "user_type": type,
+                      },
+                    );
 
-                    type == 1
-                        ? Get.toNamed(AppRoutes.driverBottomBarScreen)
-                        : Get.toNamed(AppRoutes.customerBottomBarScreen);
+                    // type == 1
+                    //     ? Get.toNamed(AppRoutes.driverBottomBarScreen)
+                    //     : Get.toNamed(AppRoutes.customerBottomBarScreen);
                   }
                   // Get.toNamed(AppRoutes.driverBottomBarScreen);
                 },

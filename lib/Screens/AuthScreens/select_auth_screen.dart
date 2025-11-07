@@ -68,14 +68,16 @@ class SelectAuthScreen extends StatelessWidget {
                   CommonButton(
                     btnText: 'LOGIN',
                     onPressed: () {
-                      Get.toNamed(AppRoutes.loginScreen);
+                      Get.toNamed(AppRoutes.loginScreen, arguments: 1);
                     },
                     color: ColorConstant.clrSecondary,
                   ),
                   SizedBox(height: 10.h),
                   CommonButton(
                     btnText: 'SIGN UP',
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.loginScreen, arguments: 0);
+                    },
                     color: ColorConstant.clrPrimary,
                   ),
                 ],

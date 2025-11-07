@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/dutystatus_model.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
@@ -25,6 +26,13 @@ class DriverHomeController extends GetxController {
 
   Future<void> getData() async {
     await userWiseVehicleListCall();
+  }
+
+  Future<void> refreshVehicleList() async {
+    isVehicleLoading.value = true;
+    await userWiseVehicleListCall();
+    Get.back();
+    isVehicleLoading.value = false;
   }
 
   Future<bool> toggleDutyApiCall({Map<String, dynamic>? details}) async {
@@ -77,8 +85,8 @@ class DriverHomeController extends GetxController {
 
       var response = await ServiceCall().get(
         ApiConstant.baseUrl,
-        "${ApiConstant.userWiseVehicle}/1",
-        // "${ApiConstant.userWiseVehicle}/${GetStorage().read(userId)}",
+        // "${ApiConstant.userWiseVehicle}/1",
+        "${ApiConstant.userWiseVehicle}/${GetStorage().read(userId)}",
         headers,
       );
 
@@ -110,7 +118,7 @@ class DriverHomeController extends GetxController {
     Get.snackbar(
       'Error',
       message,
-      backgroundColor: Colors.red,
+      backgroundColor: ColorConstant.clrError,
       colorText: Colors.white,
     );
   }
@@ -120,7 +128,7 @@ class DriverHomeController extends GetxController {
     Get.snackbar(
       'Success',
       message,
-      backgroundColor: Colors.green,
+      backgroundColor: ColorConstant.clr242424,
       colorText: Colors.white,
     );
   }

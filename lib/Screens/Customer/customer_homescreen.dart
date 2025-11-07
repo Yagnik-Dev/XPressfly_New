@@ -93,7 +93,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           children: [
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.fromLTRB(19.w, 0, 0, 19.h),
               margin: EdgeInsets.fromLTRB(15.w, 8.h, 15.w, 15.h),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -107,101 +107,123 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
+                alignment: Alignment.topRight,
                 children: [
-                  Image.asset(
-                    ImageConstant.imgVerificationComplete,
-                    height: 34.h,
-                    width: 34.w,
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    'Verification Required',
-                    style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    'Verify Your Account With Your Aadhar Card',
-                    style: TextStyleConstant().subTitleTextStyle14w400clr666666,
-                  ),
-                  SizedBox(height: 24),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              ImageConstant.imgSafeDelivery,
-                              height: 20.h,
-                              width: 18.w,
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              'Safe Delivery',
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle14w500ClrSubText,
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 16.h),
+                      Image.asset(
+                        ImageConstant.imgVerificationComplete,
+                        height: 34.h,
+                        width: 34.w,
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              ImageConstant.imgFastDelivery,
-                              height: 20.h,
-                              width: 20.w,
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              'Fast Delivery',
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle14w500ClrSubText,
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 5.h),
+                      Text(
+                        'Verification Required',
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle18w600Clr242424,
                       ),
-                      Switch(
-                        // value: driverHomeController.isSwitched.value,
-                        value: true,
-                        activeColor: ColorConstant.clrSecondary,
-                        activeTrackColor: ColorConstant.clrSecondary
-                            .withOpacity(0.3),
-                        inactiveTrackColor: ColorConstant.clrWhite,
-                        inactiveThumbColor: ColorConstant.clrSecondary,
-                        trackOutlineColor: WidgetStatePropertyAll(
-                          ColorConstant.clrSecondary,
-                        ),
-                        onChanged: (value) {
-                          // driverHomeController.isSwitched.value =
-                          //     !driverHomeController.isSwitched.value;
-                          // driverHomeController.isSwitched.refresh();
-                        },
+                      SizedBox(height: 5.h),
+                      Text(
+                        'Verify Your Account With Your Aadhar Card',
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle14w400clr666666,
                       ),
+                      SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  ImageConstant.imgSafeDelivery,
+                                  height: 20.h,
+                                  width: 18.w,
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  'Safe Delivery',
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle14w500ClrSubText,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  ImageConstant.imgFastDelivery,
+                                  height: 20.h,
+                                  width: 20.w,
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  'Fast Delivery',
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle14w500ClrSubText,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Switch(
+                            // value: driverHomeController.isSwitched.value,
+                            value: true,
+                            activeColor: ColorConstant.clrSecondary,
+                            activeTrackColor: ColorConstant.clrSecondary
+                                .withOpacity(0.3),
+                            inactiveTrackColor: ColorConstant.clrWhite,
+                            inactiveThumbColor: ColorConstant.clrSecondary,
+                            trackOutlineColor: WidgetStatePropertyAll(
+                              ColorConstant.clrSecondary,
+                            ),
+                            onChanged: (value) {
+                              // driverHomeController.isSwitched.value =
+                              //     !driverHomeController.isSwitched.value;
+                              // driverHomeController.isSwitched.refresh();
+                            },
+                          ),
+                          SizedBox(width: 16.w),
 
-                      // InkWell(
-                      //   onTap: () {
-                      //     Get.toNamed(AppRoutes.verificationScreen);
-                      //   },
-                      //   child: Container(
-                      //     padding: EdgeInsets.all(12),
-                      //     decoration: BoxDecoration(
-                      //       color: Color(0xFFE74C3C),
-                      //       shape: BoxShape.circle,
-                      //     ),
-                      //     child: Icon(
-                      //       Icons.arrow_back,
-                      //       color: Colors.white,
-                      //       size: 20,
-                      //     ),
-                      //   ),
-                      // ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Get.toNamed(AppRoutes.verificationScreen);
+                          //   },
+                          //   child: Container(
+                          //     padding: EdgeInsets.all(12),
+                          //     decoration: BoxDecoration(
+                          //       color: Color(0xFFE74C3C),
+                          //       shape: BoxShape.circle,
+                          //     ),
+                          //     child: Icon(
+                          //       Icons.arrow_back,
+                          //       color: Colors.white,
+                          //       size: 20,
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
                     ],
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(34.r),
+                      bottomLeft: Radius.circular(30.r),
+                    ),
+                    child: Image.asset(
+                      ImageConstant.imgCardTopRight,
+                      // height: 100.h,
+                      width: 110.w,
+                    ),
                   ),
                 ],
               ),

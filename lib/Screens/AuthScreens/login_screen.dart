@@ -7,7 +7,6 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
-import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/otp_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -108,6 +107,7 @@ class LoginScreen extends StatelessWidget {
                                   loginController
                                       .phoneTextEditingController
                                       .text,
+                              loginType: loginController.loginType,
                             ),
                           );
                         }

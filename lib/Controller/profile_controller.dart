@@ -3,8 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
+import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/profile_model.dart';
+import 'package:xpressfly_git/Models/update_profile_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
@@ -17,7 +19,7 @@ class ProfileController extends GetxController {
   var nameTextEditingController = TextEditingController();
   var pincodeTextEditingController = TextEditingController();
   var cityTextEditingController = TextEditingController();
-
+  final RxBool isEditingName = false.obs;
   GlobalKey<FormState> formKeyProfile = GlobalKey<FormState>();
   Rx<GetUserProfileDataModel> userDetails = Rx<GetUserProfileDataModel>(
     GetUserProfileDataModel(),
@@ -46,8 +48,9 @@ class ProfileController extends GetxController {
     });
 
     var headers = {
+      'Content-Type': 'multipart/form-data',
+      'accept': 'application/json',
       'Authorization': GetStorage().read(accessToken),
-      'Content-Type': 'application/x-www-form-urlencoded',
     };
 
     var formData = {
@@ -55,7 +58,6 @@ class ProfileController extends GetxController {
       'mobile_number': mobileTextEditingController.text.trim(),
       'pincode': pincodeTextEditingController.text.trim(),
       'city': cityTextEditingController.text.trim(),
-      // Add other fields as needed based on your API
     };
 
     try {
@@ -74,9 +76,23 @@ class ProfileController extends GetxController {
 
       var responseData = jsonDecode(response);
 
-      if (responseData['success'] == true) {
-        // Update local user details
-        await getUserDetails((success) {});
+      if (responseData['status'] == true) {
+        // Update local user details and storage
+        final updatedUser = UserProfileUpdateResponseModel.fromJson(
+          responseData,
+        );
+
+        // Update local storage with new user data
+        if (updatedUser.data != null) {
+          GetStorage().write(userName, updatedUser.data?.name);
+          GetStorage().write(userPhone, updatedUser.data?.mobileNumber);
+          GetStorage().write(userAddress, updatedUser.data?.city);
+          GetStorage().write(userPincode, updatedUser.data?.pincode);
+        }
+
+        // Also call getUserDetails to ensure everything is synced
+        // await getUserDetails((success) {});
+
         hideLoading();
         onCompleteHandler(true);
         showSuccessSnackbar('Profile updated successfully');
@@ -137,7 +153,7 @@ class ProfileController extends GetxController {
     Get.snackbar(
       'Success',
       message,
-      backgroundColor: Colors.green,
+      backgroundColor: ColorConstant.clr242424,
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
     );
@@ -147,7 +163,7 @@ class ProfileController extends GetxController {
     Get.snackbar(
       'Error',
       message,
-      backgroundColor: Colors.red,
+      backgroundColor: ColorConstant.clrError,
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
     );
@@ -221,13 +237,13 @@ class ProfileController extends GetxController {
               })
               .join('\n');
         } else {
-          // declineDialog(
-          //   LocalizationStrings.error.tr,
-          //   parsedData?['message'] ?? 'An unknown error occurred',
-          // );
+          declineDialog(
+            "Error",
+            parsedData?['message'] ?? 'An unknown error occurred',
+          );
         }
       } else {
-        debugPrint('Error is not a DioException: $error'); // Debug log
+        debugPrint('Error is not a DioException: $error');
         handleError(error);
       }
       return false;

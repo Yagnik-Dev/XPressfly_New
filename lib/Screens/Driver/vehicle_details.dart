@@ -5,7 +5,9 @@ import 'package:xpressfly_git/Common%20Components/delete_dialog.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Controller/vehicle_details_controller.dart';
+import 'package:xpressfly_git/Models/get_vehicle_Details_model.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class VehicleDetailsScreen extends StatelessWidget {
@@ -14,6 +16,7 @@ class VehicleDetailsScreen extends StatelessWidget {
   final VehicleDetailsController vehicleDetailsController = Get.put(
     VehicleDetailsController(),
   );
+  DriverHomeController driverHomeController = Get.find<DriverHomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -143,11 +146,11 @@ class VehicleDetailsScreen extends StatelessWidget {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder:
-                                    (context) => const DeleteVehicleDialog(),
+                                builder: (context) => DeleteVehicleDialog(),
                               ).then((confirmed) {
                                 if (confirmed == true) {
                                   // Perform delete action
+                                  driverHomeController.refreshVehicleList();
                                 }
                               });
                             },
@@ -185,7 +188,8 @@ class VehicleDetailsScreen extends StatelessWidget {
                                       vehicleDetailsController
                                           .vehicleDetails
                                           .value
-                                          .data,
+                                          .data ??
+                                      VehicleDetailsData(),
                                 },
                               )?.then((_) {
                                 vehicleDetailsController.getData();

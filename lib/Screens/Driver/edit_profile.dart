@@ -35,7 +35,6 @@ class EditProfileScreen extends StatelessWidget {
             ),
           ),
         ),
-
         persistentFooterButtons: [
           Container(
             color: ColorConstant.clrWhite,
@@ -132,32 +131,91 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 // Name Field - Editable like in the screenshot
+                // SizedBox(
+                //   width: 200.w,
+                //   child: CommonTextFormFieldWithoutBorder(
+                //     controller: profileController.nameTextEditingController,
+                //     hintText: "Enter your name",
+                //     // textAlign: TextAlign.center,
+                //     // contentPadding: EdgeInsets.symmetric(
+                //     //   vertical: 8.h,
+                //     //   horizontal: 16.w,
+                //     // ),
+                //     // style: TextStyleConstant().subTitleTextStyle22w600Clr242424
+                //     //     .copyWith(fontSize: 22.sp),
+                //     suffixIcon: Padding(
+                //       padding: EdgeInsets.only(right: 8.w),
+                //       child: Icon(
+                //         Icons.edit,
+                //         size: 18.h,
+                //         color: ColorConstant.clrSubText,
+                //       ),
+                //     ),
+                //     validator: (value) {
+                //       if (value == null || value.isEmpty) {
+                //         return 'Please enter your name';
+                //       }
+                //       return null;
+                //     },
+                //   ),
+                // ),
                 SizedBox(
                   width: 200.w,
-                  child: CommonTextFormFieldWithoutBorder(
-                    controller: profileController.nameTextEditingController,
-                    hintText: "Enter your name",
-                    // textAlign: TextAlign.center,
-                    // contentPadding: EdgeInsets.symmetric(
-                    //   vertical: 8.h,
-                    //   horizontal: 16.w,
-                    // ),
-                    // style: TextStyleConstant().subTitleTextStyle22w600Clr242424
-                    //     .copyWith(fontSize: 22.sp),
-                    suffixIcon: Padding(
-                      padding: EdgeInsets.only(right: 8.w),
-                      child: Icon(
-                        Icons.edit,
-                        size: 18.h,
-                        color: ColorConstant.clrSubText,
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your name';
-                      }
-                      return null;
-                    },
+                  child: Obx(
+                    () =>
+                        profileController.isEditingName.value
+                            ? CommonTextFormFieldWithoutBorder(
+                              controller:
+                                  profileController.nameTextEditingController,
+                              hintText: "Enter your name",
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.only(right: 8.w),
+                                child: InkWell(
+                                  onTap:
+                                      () =>
+                                          profileController
+                                              .isEditingName
+                                              .value = false,
+                                  child: Icon(
+                                    Icons.check,
+                                    size: 18.h,
+                                    color: ColorConstant.clrPrimary,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your name';
+                                }
+                                return null;
+                              },
+                            )
+                            : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  profileController
+                                      .nameTextEditingController
+                                      .text,
+                                  style: TextStyleConstant()
+                                      .subTitleTextStyle22w600Clr242424
+                                      .copyWith(fontSize: 22.sp),
+                                ),
+                                SizedBox(width: 8.w),
+                                InkWell(
+                                  onTap:
+                                      () =>
+                                          profileController
+                                              .isEditingName
+                                              .value = true,
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 18.h,
+                                    color: ColorConstant.clrSubText,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ],
@@ -229,10 +287,11 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 6.h),
                         CommonTextFormFieldWithoutBorder(
-                          // hintText: "jagdishsain25@gmail.com",
                           controller:
                               profileController.pincodeTextEditingController,
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.number,
+                          // hintText: "Enter your pincode",
+                          maxLength: 6,
                           suffixIcon: Icon(
                             Icons.edit,
                             color: ColorConstant.clrPrimary,
@@ -240,13 +299,14 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter pincode';
+                              return 'Please enter your pincode';
+                            } else if (value.length != 6) {
+                              return 'Pincode must be 6 digits';
                             }
                             return null;
                           },
                         ),
                         SizedBox(height: 16.h),
-
                         // Address Field
                         Text(
                           "Address",

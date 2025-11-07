@@ -111,7 +111,8 @@ class DriverHomeScreen extends StatelessWidget {
   Widget _buildEarningsCard() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(19.w, 0, 0, 19.h),
+      // padding: EdgeInsets.all(20),
       margin: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -125,78 +126,102 @@ class DriverHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        alignment: Alignment.topRight,
         children: [
-          Text(
-            'Today Earning',
-            style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
-          ),
-          Text(
-            '₹ 3,265.00',
-            style: TextStyleConstant().subTitleTextStyle40w600clrSecondary,
-          ),
-          SizedBox(height: 24),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Trips',
-                      style:
-                          TextStyleConstant().subTitleTextStyle14w500ClrSubText,
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      '15',
-                      style:
-                          TextStyleConstant().subTitleTextStyle14w600clr242424,
-                    ),
-                  ],
-                ),
+              SizedBox(height: 16.h),
+              Text(
+                'Today Earning',
+                style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Distance',
-                      style:
-                          TextStyleConstant().subTitleTextStyle14w500ClrSubText,
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      '60km',
-                      style:
-                          TextStyleConstant().subTitleTextStyle14w600clr242424,
-                    ),
-                  ],
-                ),
+              Text(
+                '₹ 3,265.00',
+                style: TextStyleConstant().subTitleTextStyle40w600clrSecondary,
               ),
-              Obx(
-                () => Switch(
-                  value: driverHomeController.isSwitched.value,
-                  activeColor: ColorConstant.clrSecondary,
-                  activeTrackColor: ColorConstant.clrSecondary.withOpacity(0.3),
-                  inactiveTrackColor: ColorConstant.clrWhite,
-                  inactiveThumbColor: ColorConstant.clrSecondary,
-                  trackOutlineColor: WidgetStatePropertyAll(
-                    ColorConstant.clrSecondary,
+              SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Trips',
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle14w500ClrSubText,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '15',
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle14w600clr242424,
+                        ),
+                      ],
+                    ),
                   ),
-                  onChanged: (value) {
-                    driverHomeController.isSwitched.value = value;
-                    driverHomeController.toggleDutyApiCall(
-                      details: {
-                        "user_id": GetStorage().read(userId),
-                        "on_duty": value ? "1" : "0",
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Distance',
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle14w500ClrSubText,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '60km',
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle14w600clr242424,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Obx(
+                    () => Switch(
+                      value: driverHomeController.isSwitched.value,
+                      activeColor: ColorConstant.clrSecondary,
+                      activeTrackColor: ColorConstant.clrSecondary.withOpacity(
+                        0.3,
+                      ),
+                      inactiveTrackColor: ColorConstant.clrWhite,
+                      inactiveThumbColor: ColorConstant.clrSecondary,
+                      trackOutlineColor: WidgetStatePropertyAll(
+                        ColorConstant.clrSecondary,
+                      ),
+                      onChanged: (value) {
+                        driverHomeController.isSwitched.value = value;
+                        driverHomeController.toggleDutyApiCall(
+                          details: {
+                            "user_id": GetStorage().read(userId),
+                            "on_duty": value ? "1" : "0",
+                          },
+                        );
                       },
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  SizedBox(width: 16.w),
+                ],
               ),
             ],
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(34.r),
+              bottomLeft: Radius.circular(30.r),
+            ),
+            child: Image.asset(
+              ImageConstant.imgCardTopRight,
+              // height: 100.h,
+              width: 110.w,
+            ),
           ),
         ],
       ),
@@ -213,7 +238,10 @@ class DriverHomeScreen extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Get.toNamed(AppRoutes.addVehicleMainScreen);
+            Get.toNamed(AppRoutes.addVehicleMainScreen)?.then((_) async {
+              // Refresh vehicle list after returning from Add Vehicle screen
+              await driverHomeController.getData();
+            });
           },
           child: Text(
             'Add Vehicle',
@@ -287,7 +315,10 @@ class DriverHomeScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(AppRoutes.addVehicleMainScreen);
+                  Get.toNamed(AppRoutes.addVehicleMainScreen)?.then((_) async {
+                    // Refresh vehicle list after returning from Add Vehicle screen
+                    await driverHomeController.getData();
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorConstant.clrSecondary,
@@ -297,7 +328,7 @@ class DriverHomeScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Add Vehicle',
-                  style: TextStyleConstant().subTitleTextStyle14w500ClrSubText,
+                  style: TextStyleConstant().subTitleTextStyle14w700clrWhite,
                 ),
               ),
             ],

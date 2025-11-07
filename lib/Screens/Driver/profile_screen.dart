@@ -83,7 +83,15 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              Get.toNamed(AppRoutes.editProfileScreen);
+                              Get.toNamed(AppRoutes.editProfileScreen)?.then((
+                                value,
+                              ) async {
+                                if (value == true) {
+                                  await profileController.getUserDetails(
+                                    (isSuccess) {},
+                                  );
+                                }
+                              });
                             },
                             child: Text(
                               "Edit Profile",
@@ -147,25 +155,21 @@ class ProfileScreen extends StatelessWidget {
                       CommonTextFormFieldWithoutBorder(
                         controller: TextEditingController(
                           text:
-                              profileController
-                                  .userDetails
-                                  .value
-                                  .data
-                                  ?.mobileNumber,
+                              profileController.userDetails.value.data?.pincode,
                         ),
-                        hintText: "jagdishsain25@gmail.com",
+                        // hintText: "jagdishsain25@gmail.com",
                         keyboardType: TextInputType.emailAddress,
                         readOnly: true,
-                        suffixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 12.sp, 20.sp, 12.sp),
-                          child: Text(
-                            "Verify",
-                            style: TextStyle(
-                              color: ColorConstant.clrPrimary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
+                        // suffixIcon: Padding(
+                        //   padding: EdgeInsets.fromLTRB(0, 12.sp, 20.sp, 12.sp),
+                        //   child: Text(
+                        //     "Verify",
+                        //     style: TextStyle(
+                        //       color: ColorConstant.clrPrimary,
+                        //       fontWeight: FontWeight.w500,
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                       SizedBox(height: 16.h),
                       // Address Field

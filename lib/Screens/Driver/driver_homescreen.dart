@@ -185,26 +185,28 @@ class DriverHomeScreen extends StatelessWidget {
                     ),
                   ),
                   Obx(
-                    () => Switch(
-                      value: driverHomeController.isSwitched.value,
-                      activeColor: ColorConstant.clrSecondary,
-                      activeTrackColor: ColorConstant.clrSecondary.withOpacity(
-                        0.3,
+                    () => Transform.scale(
+                      scale: 0.9,
+                      child: Switch(
+                        value: driverHomeController.isSwitched.value,
+                        activeColor: ColorConstant.clrSecondary,
+                        activeTrackColor: ColorConstant.clrSecondary
+                            .withOpacity(0.3),
+                        inactiveTrackColor: ColorConstant.clrWhite,
+                        inactiveThumbColor: ColorConstant.clrSecondary,
+                        trackOutlineColor: WidgetStatePropertyAll(
+                          ColorConstant.clrSecondary,
+                        ),
+                        onChanged: (value) {
+                          driverHomeController.isSwitched.value = value;
+                          driverHomeController.toggleDutyApiCall(
+                            details: {
+                              "user_id": GetStorage().read(userId),
+                              "on_duty": value ? "1" : "0",
+                            },
+                          );
+                        },
                       ),
-                      inactiveTrackColor: ColorConstant.clrWhite,
-                      inactiveThumbColor: ColorConstant.clrSecondary,
-                      trackOutlineColor: WidgetStatePropertyAll(
-                        ColorConstant.clrSecondary,
-                      ),
-                      onChanged: (value) {
-                        driverHomeController.isSwitched.value = value;
-                        driverHomeController.toggleDutyApiCall(
-                          details: {
-                            "user_id": GetStorage().read(userId),
-                            "on_duty": value ? "1" : "0",
-                          },
-                        );
-                      },
                     ),
                   ),
                   SizedBox(width: 16.w),

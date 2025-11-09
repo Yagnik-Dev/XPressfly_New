@@ -19,9 +19,10 @@ class YourDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstant.clrBackGround,
+      backgroundColor: ColorConstant.clrF7FCFF,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: ColorConstant.clrF7FCFF,
         leadingWidth: 70.w,
         centerTitle: true,
         leading: InkWell(
@@ -32,8 +33,8 @@ class YourDetailsScreen extends StatelessWidget {
               height: 50.w,
               width: 50.w,
               decoration: BoxDecoration(
-                color: ColorConstant.clrF1F1F1,
-                border: Border.all(color: ColorConstant.clrFFE2DF, width: 1.w),
+                color: ColorConstant.clrWhite,
+                // border: Border.all(color: ColorConstant.clrFFE2DF, width: 1.w),
                 shape: BoxShape.circle,
               ),
               child: Icon(

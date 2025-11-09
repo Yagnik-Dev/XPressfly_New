@@ -14,10 +14,11 @@ class JoinAsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: ColorConstant.clrBackGround,
+      backgroundColor: ColorConstant.clrF7FCFF,
       appBar: AppBar(
         leadingWidth: 70.w,
         centerTitle: true,
+        backgroundColor: ColorConstant.clrF7FCFF,
         leading: InkWell(
           onTap: () => Get.back(),
           child: Padding(
@@ -26,8 +27,8 @@ class JoinAsScreen extends StatelessWidget {
               height: 50.w,
               width: 50.w,
               decoration: BoxDecoration(
-                color: ColorConstant.clrF1F1F1,
-                border: Border.all(color: ColorConstant.clrFFE2DF, width: 1.w),
+                color: ColorConstant.clrWhite,
+                // border: Border.all(color: ColorConstant.clrFFE2DF, width: 1.w),
                 shape: BoxShape.circle,
               ),
               child: Icon(

@@ -20,6 +20,7 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstant.clrF7FCFF,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -35,11 +36,11 @@ class OtpScreen extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(12.sp),
                   decoration: BoxDecoration(
-                    color: ColorConstant.clrF1F1F1,
-                    border: Border.all(
-                      color: ColorConstant.clrFFE2DF,
-                      width: 1.w,
-                    ),
+                    color: ColorConstant.clrWhite,
+                    // border: Border.all(
+                    //   color: ColorConstant.clrFFE2DF,
+                    //   width: 1.w,
+                    // ),
                     // borderRadius: BorderRadius.circular(12.r),
                     shape: BoxShape.circle,
                   ),

@@ -174,22 +174,25 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                               ],
                             ),
                           ),
-                          Switch(
-                            // value: driverHomeController.isSwitched.value,
-                            value: true,
-                            activeColor: ColorConstant.clrSecondary,
-                            activeTrackColor: ColorConstant.clrSecondary
-                                .withOpacity(0.3),
-                            inactiveTrackColor: ColorConstant.clrWhite,
-                            inactiveThumbColor: ColorConstant.clrSecondary,
-                            trackOutlineColor: WidgetStatePropertyAll(
-                              ColorConstant.clrSecondary,
+                          Transform.scale(
+                            scale: 0.9,
+                            child: Switch(
+                              // value: driverHomeController.isSwitched.value,
+                              value: true,
+                              activeColor: ColorConstant.clrSecondary,
+                              activeTrackColor: ColorConstant.clrSecondary
+                                  .withOpacity(0.3),
+                              inactiveTrackColor: ColorConstant.clrWhite,
+                              inactiveThumbColor: ColorConstant.clrSecondary,
+                              trackOutlineColor: WidgetStatePropertyAll(
+                                ColorConstant.clrSecondary,
+                              ),
+                              onChanged: (value) {
+                                // driverHomeController.isSwitched.value =
+                                //     !driverHomeController.isSwitched.value;
+                                // driverHomeController.isSwitched.refresh();
+                              },
                             ),
-                            onChanged: (value) {
-                              // driverHomeController.isSwitched.value =
-                              //     !driverHomeController.isSwitched.value;
-                              // driverHomeController.isSwitched.refresh();
-                            },
                           ),
                           SizedBox(width: 16.w),
 

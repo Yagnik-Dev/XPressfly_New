@@ -47,21 +47,21 @@ class EditProfileScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30.r),
+                    child: InkWell(
+                      onTap: () {
                         Get.back();
                       },
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        side: BorderSide(color: ColorConstant.clrSecondary),
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                      ),
-                      child: Text(
-                        "Back",
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle18w600Clr242424,
+                      child: Container(
+                        width: 100.w,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Back",
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle18w600Clr242424,
+                        ),
                       ),
                     ),
                   ),

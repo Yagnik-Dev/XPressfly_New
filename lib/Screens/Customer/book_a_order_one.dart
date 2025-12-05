@@ -134,7 +134,7 @@ class _BookAOrderOneState extends State<BookAOrderOne> {
                                 TextStyleConstant()
                                     .subTitleTextStyle22w600Clr242424,
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -144,7 +144,7 @@ class _BookAOrderOneState extends State<BookAOrderOne> {
                                       .subTitleTextStyle16w500Clr242424,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: 8.h),
                           Row(
                             children: [
                               Expanded(
@@ -163,7 +163,7 @@ class _BookAOrderOneState extends State<BookAOrderOne> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20.h),
+                          SizedBox(height: 15.h),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -173,7 +173,7 @@ class _BookAOrderOneState extends State<BookAOrderOne> {
                                       .subTitleTextStyle16w500Clr242424,
                             ),
                           ),
-                          SizedBox(height: 9.h),
+                          SizedBox(height: 8.h),
                           Row(
                             children: [
                               Expanded(
@@ -191,6 +191,21 @@ class _BookAOrderOneState extends State<BookAOrderOne> {
                                 ),
                               ),
                             ],
+                          ),
+                          SizedBox(height: 15.h),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Approx Weight of Your Items",
+                              style:
+                                  TextStyleConstant()
+                                      .subTitleTextStyle16w500Clr242424,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          CommonTextFormFieldWithoutBorder(
+                            hintText: "ex. 15-20 kg Simple table",
+                            fillColor: ColorConstant.clrF7FCFF,
                           ),
                         ],
                       ),

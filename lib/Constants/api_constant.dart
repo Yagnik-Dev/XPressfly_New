@@ -1,7 +1,10 @@
 class ApiConstant {
-  static const String baseUrl = "https://www.xpressfly.in/portal/api/";
-  static const String login = "auth/login";
-  static const String register = "auth/register";
+  static const String baseUrl = "https://api.xpressfly.in/";
+  static const String sendOtp = "user/send-otp/";
+  // static const String register = "auth/register";
+  static const String verifyOtp = "user/verify-otp/";
+  static const String createDriver = "user/create-driver/";
+  static const String createCustomer = "user/create-customer/";
   static const String profile = "users";
   static const String toggleDuty = "duty/toggle";
   static const String userWiseVehicle = "vehicles/user";

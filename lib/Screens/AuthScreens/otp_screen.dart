@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
 import 'package:xpressfly_git/Controller/otp_controller.dart';
+import 'package:xpressfly_git/Models/login_model.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/join_as_screen.dart';
 import '../../Common Components/common_button.dart';
 import '../../Common Components/common_textfield.dart';
@@ -13,7 +14,8 @@ import '../../Common Components/common_textfield.dart';
 class OtpScreen extends StatelessWidget {
   String? mobileNo;
   int? loginType;
-  OtpScreen({super.key, this.mobileNo, this.loginType});
+  String? otp;
+  OtpScreen({super.key, this.mobileNo, this.loginType, this.otp});
 
   final OtpController otpController = Get.put(OtpController());
 
@@ -88,9 +90,9 @@ class OtpScreen extends StatelessWidget {
                     CommonTextFormField(
                       controller:
                           otpController.otpTextEditingController =
-                              TextEditingController(text: '1234'),
+                              TextEditingController(text: otp ?? ""),
                       keyboardType: TextInputType.number,
-                      maxLength: 4,
+                      maxLength: 6,
                       letterSpacing: 30,
                       textAlign: TextAlign.center,
                       hintText: "Enter OTP",
@@ -98,7 +100,7 @@ class OtpScreen extends StatelessWidget {
                           (p0) =>
                               (p0 == null || p0.isEmpty)
                                   ? 'Please enter OTP'
-                                  : (p0.length < 4)
+                                  : (p0.length < 6)
                                   ? 'Please enter valid OTP'
                                   : null,
                     ),
@@ -108,18 +110,34 @@ class OtpScreen extends StatelessWidget {
                       onPressed: () {
                         if (otpController.formKey.currentState!.validate()) {
                           if (loginType == 1) {
-                            Get.find<LoginController>().loginApiCall(
+                            Get.find<LoginController>().verifyOtpApiCall(
                               (p0) {},
-                              details: {"mobile_number": mobileNo},
-                            );
-                          } else {
-                            Get.to(
-                              () => JoinAsScreen(
-                                mobileNo: mobileNo,
+                              details: LoginRequestModel(
+                                phone: mobileNo.toString(),
                                 otp:
-                                    otpController.otpTextEditingController.text,
+                                    otpController.otpTextEditingController.text
+                                        .toString(),
+                                type: "signin",
                               ),
                             );
+                          } else {
+                            Get.find<LoginController>().verifyOtpApiCall(
+                              (p0) {},
+                              details: LoginRequestModel(
+                                phone: mobileNo.toString(),
+                                otp:
+                                    otpController.otpTextEditingController.text
+                                        .toString(),
+                                type: "signup",
+                              ),
+                            );
+                            // Get.to(
+                            //   () => JoinAsScreen(
+                            //     mobileNo: mobileNo,
+                            //     otp:
+                            //         otpController.otpTextEditingController.text,
+                            //   ),
+                            // );
                           }
                         }
                       },

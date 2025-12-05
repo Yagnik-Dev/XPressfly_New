@@ -93,6 +93,13 @@ class VehicleTypeScreen extends StatelessWidget {
                                 SizedBox(height: 8.h),
                                 InkWell(
                                   onTap: () {
+                                    if (onSelected != null) {
+                                      onSelected!(
+                                        item['title'],
+                                        item['icon'],
+                                        item['color'],
+                                      );
+                                    }
                                     // Get.toNamed(AppRoutes.vehicleDetailsScreen);
                                   },
                                   child: Align(

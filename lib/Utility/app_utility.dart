@@ -79,7 +79,7 @@ Future showMessage(String title, String message) async {
     title,
     message,
     snackPosition: SnackPosition.BOTTOM,
-    duration: const Duration(milliseconds: 1200),
+    duration: const Duration(milliseconds: 1600),
     margin: const EdgeInsets.all(8),
     backgroundColor: ColorConstant.clrPrimary,
     colorText: ColorConstant.clrBackGround,

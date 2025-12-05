@@ -46,22 +46,22 @@ class JoinAsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 4.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 2.h,
-                    color: ColorConstant.clrSecondary,
-                  ),
-                ),
-                Expanded(
-                  child: Container(height: 2.h, color: ColorConstant.clrEEEEEE),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 4.h),
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         child: Container(
+          //           height: 2.h,
+          //           color: ColorConstant.clrSecondary,
+          //         ),
+          //       ),
+          //       Expanded(
+          //         child: Container(height: 2.h, color: ColorConstant.clrEEEEEE),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(height: 12.h),
           Text(
             "Select your type of account",

@@ -54,10 +54,20 @@ class TextStyleConstant {
     fontWeight: FontWeight.w400,
     fontSize: 12.sp,
   );
+  TextStyle subTitleTextStyle10w400clrD5D5D5 = GoogleFonts.lato(
+    color: ColorConstant.clrD5D5D5,
+    fontWeight: FontWeight.w400,
+    fontSize: 10.sp,
+  );
   TextStyle subTitleTextStyle14w700clrWhite = GoogleFonts.lato(
     color: ColorConstant.clrWhite,
     fontWeight: FontWeight.w700,
     fontSize: 14.sp,
+  );
+  TextStyle subTitleTextStyle16w600clrWhite = GoogleFonts.lato(
+    color: ColorConstant.clrWhite,
+    fontWeight: FontWeight.w600,
+    fontSize: 16.sp,
   );
   TextStyle subTitleTextStyle35w700clr242424 = GoogleFonts.lato(
     color: ColorConstant.clr242424,

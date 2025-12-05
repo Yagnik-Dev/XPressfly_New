@@ -31,24 +31,103 @@ class DriverHomeScreen extends StatelessWidget {
           _buildEarningsCard(),
           SizedBox(height: 4.h),
           Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+            child: Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 30.h,
+                  ), // Space for verification container
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 18.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20.h), // Extra space at top
+                      _buildVehicleHeader(),
+                      SizedBox(height: 10.h),
+                      _buildSearchField(),
+                      SizedBox(height: 16.h),
+                      _buildVehicleList(),
+                    ],
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  _buildVehicleHeader(),
-                  SizedBox(height: 10.h),
-                  _buildSearchField(),
-                  SizedBox(height: 16.h),
-                  _buildVehicleList(),
-                ],
-              ),
+                Positioned(
+                  top: 0,
+                  left: 0.w,
+                  right: 0.w,
+                  child: _buildVerificationContainer(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Add this new method for the verification container
+  Widget _buildVerificationContainer() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: ColorConstant.clr3B3B3B,
+        borderRadius: BorderRadius.circular(18.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset(
+            ImageConstant.imgVerificationRequired,
+            height: 40.h,
+            width: 40.w,
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Verification Required',
+                  style: TextStyleConstant().subTitleTextStyle16w600clrWhite,
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  'Verify Your Account With Your Details',
+                  style: TextStyleConstant().subTitleTextStyle10w400clrD5D5D5,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: ColorConstant.clr292929,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.arrow_outward_rounded,
+              color: ColorConstant.clrWhite,
             ),
           ),
         ],

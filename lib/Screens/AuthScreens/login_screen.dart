@@ -7,7 +7,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
-import 'package:xpressfly_git/Screens/AuthScreens/otp_screen.dart';
+import 'package:xpressfly_git/Models/login_model.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -102,15 +102,38 @@ class LoginScreen extends StatelessWidget {
                       btnText: "GET OTP",
                       onPressed: () {
                         if (loginController.formKey.currentState!.validate()) {
-                          Get.to(
-                            () => OtpScreen(
-                              mobileNo:
-                                  loginController
-                                      .phoneTextEditingController
-                                      .text,
-                              loginType: loginController.loginType,
-                            ),
-                          );
+                          if (loginController.loginType == 1) {
+                            loginController.loginApiCall(
+                              (p0) {},
+                              details: LoginRequestModel(
+                                phone:
+                                    loginController
+                                        .phoneTextEditingController
+                                        .text,
+                                type: "signin",
+                              ),
+                            );
+                          } else {
+                            loginController.registerApiCall(
+                              (p0) {},
+                              details: LoginRequestModel(
+                                phone:
+                                    loginController
+                                        .phoneTextEditingController
+                                        .text,
+                                type: "signup",
+                              ),
+                            );
+                          }
+                          // Get.to(
+                          //   () => OtpScreen(
+                          //     mobileNo:
+                          //         loginController
+                          //             .phoneTextEditingController
+                          //             .text,
+                          //     loginType: loginController.loginType,
+                          //   ),
+                          // );
                         }
                       },
                       color: ColorConstant.clrSecondary,

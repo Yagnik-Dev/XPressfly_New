@@ -318,7 +318,7 @@ showLogoutDialog(BuildContext context) {
                 // GetStorage().remove(userData);
                 GetStorage().remove(accessToken);
                 GetStorage().remove(userId);
-                GetStorage().remove(userType);
+                GetStorage().remove(userRole);
                 GetStorage().remove(userName);
                 GetStorage().remove(userPhone);
                 GetStorage().remove(userAddress);

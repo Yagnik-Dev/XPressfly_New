@@ -8,12 +8,11 @@ class SplashController extends GetxController {
   void onInit() {
     super.onInit();
     Future.delayed(const Duration(seconds: 5), () {
-      if (GetStorage().read(accessToken) != null) {
-        if (GetStorage().read(userType) == 0 ||
-            GetStorage().read(userType) == "0") {
+      if (GetStorage().read(accessToken) != null &&
+          GetStorage().read(accessToken) != "Bearer null") {
+        if (GetStorage().read(userRole) == "customer") {
           Get.offAndToNamed(AppRoutes.customerBottomBarScreen);
-        } else if (GetStorage().read(userType) == 1 ||
-            GetStorage().read(userType) == "1") {
+        } else if (GetStorage().read(userRole) == "driver") {
           Get.offAndToNamed(AppRoutes.driverBottomBarScreen);
         }
       } else {

@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
+import 'package:xpressfly_git/Screens/AuthScreens/device_info_details.dart';
 
 class SelectAuthScreen extends StatelessWidget {
   const SelectAuthScreen({super.key});
@@ -60,9 +61,14 @@ class SelectAuthScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Let’s get started',
-                    style: TextStyleConstant().subTitleTextStyle18w600,
+                  InkWell(
+                    onTap: () {
+                      loadDeviceData();
+                    },
+                    child: Text(
+                      'Let’s get started',
+                      style: TextStyleConstant().subTitleTextStyle18w600,
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   CommonButton(

@@ -1,3 +1,25 @@
+class LoginRequestModel {
+  String? phone;
+  String? otp;
+  String? type;
+
+  LoginRequestModel({this.phone, this.otp, this.type});
+
+  LoginRequestModel.fromJson(Map<String, dynamic> json) {
+    phone = json['phone'];
+    otp = json['otp'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['phone'] = phone;
+    data['otp'] = otp;
+    data['type'] = type;
+    return data;
+  }
+}
+
 class LoginResponseModel {
   bool? status;
   String? message;

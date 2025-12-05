@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Common%20Components/common_button.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
+import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
-import 'package:xpressfly_git/Controller/login_controller.dart';
+import 'package:xpressfly_git/Screens/AuthScreens/verification_screen.dart';
 
 class YourDetailsScreen extends StatelessWidget {
   final int type;
@@ -14,17 +15,20 @@ class YourDetailsScreen extends StatelessWidget {
 
   YourDetailsScreen({super.key, required this.type, this.mobileNo, this.otp});
 
-  final LoginController loginController = Get.find<LoginController>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController pincodeController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstant.clrF7FCFF,
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: ColorConstant.clrF7FCFF,
-        leadingWidth: 70.w,
         centerTitle: true,
+        elevation: 0,
+        leadingWidth: 70.w,
         leading: InkWell(
           onTap: () => Get.back(),
           child: Padding(
@@ -34,7 +38,6 @@ class YourDetailsScreen extends StatelessWidget {
               width: 50.w,
               decoration: BoxDecoration(
                 color: ColorConstant.clrWhite,
-                // border: Border.all(color: ColorConstant.clrFFE2DF, width: 1.w),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -45,134 +48,159 @@ class YourDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
+        automaticallyImplyLeading: false,
         title: Text(
           "Your Details",
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(28),
+            bottomRight: Radius.circular(28),
+          ),
+        ),
       ),
-      body: Form(
-        key: loginController.formKeyYourDetails,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 4.h),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 2.h,
-                      color: ColorConstant.clrEEEEEE,
-                    ),
+      persistentFooterButtons: [
+        Padding(
+          padding: EdgeInsets.only(bottom: 4.h, top: 4.h),
+          child: CommonButtonRounded(
+            color: ColorConstant.clrSecondary,
+            btnText: "Next",
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                Get.to(
+                  VerificationScreen(
+                    type: type,
+                    mobileNo: mobileNo,
+                    otp: otp,
+                    name: nameController.text.trim(),
+                    city: cityController.text.trim(),
+                    pincode: pincodeController.text.trim(),
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 2.h,
-                      color: ColorConstant.clrSecondary,
-                    ),
-                  ),
-                ],
+                );
+              }
+            },
+          ),
+        ),
+      ],
+      body: Stack(
+        children: [
+          Positioned(
+            top: 150.h,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              decoration: BoxDecoration(
+                color: ColorConstant.clrWhite,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.r),
+                  topRight: Radius.circular(30.r),
+                ),
               ),
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              "Enter your details",
-              textAlign: TextAlign.center,
-              style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
-            ),
-            SizedBox(height: 24.h),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: Form(
+                key: formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Your name",
-                      style: TextStyleConstant().subTitleTextStyle16w500,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 70.h),
+                            Text(
+                              "Your name",
+                              style:
+                                  TextStyleConstant()
+                                      .subTitleTextStyle16w500ClrSubText,
+                            ),
+                            SizedBox(height: 6.h),
+                            CommonTextFormFieldWithoutBorder(
+                              controller: nameController,
+                              validator:
+                                  (p0) =>
+                                      p0 == null || p0.isEmpty
+                                          ? "Please enter your name"
+                                          : null,
+                            ),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "Your city",
+                              style:
+                                  TextStyleConstant()
+                                      .subTitleTextStyle16w500ClrSubText,
+                            ),
+                            SizedBox(height: 6.h),
+                            CommonTextFormFieldWithoutBorder(
+                              controller: cityController,
+                              validator:
+                                  (p0) =>
+                                      p0 == null || p0.isEmpty
+                                          ? "Please enter your city"
+                                          : null,
+                            ),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "Your pincode",
+                              style:
+                                  TextStyleConstant()
+                                      .subTitleTextStyle16w500ClrSubText,
+                            ),
+                            SizedBox(height: 6.h),
+                            CommonTextFormFieldWithoutBorder(
+                              controller: pincodeController,
+                              maxLength: 6,
+                              keyboardType: TextInputType.number,
+                              validator:
+                                  (p0) =>
+                                      p0 != null && p0.length < 6
+                                          ? "Please enter valid pincode"
+                                          : null,
+                            ),
+                            SizedBox(height: 20.h),
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8.h),
-                    CommonTextFormField(
-                      controller: loginController.nameTextEditingController,
-                      // hintText: "Enter your name",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      "Your city",
-                      style: TextStyleConstant().subTitleTextStyle16w500,
-                    ),
-                    SizedBox(height: 8.h),
-                    CommonTextFormField(
-                      controller: loginController.cityTextEditingController,
-                      // hintText: "Enter your city",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your city';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      "Your pincode",
-                      style: TextStyleConstant().subTitleTextStyle16w500,
-                    ),
-                    SizedBox(height: 8.h),
-                    CommonTextFormField(
-                      controller: loginController.pincodeTextEditingController,
-                      keyboardType: TextInputType.number,
-                      // hintText: "Enter your pincode",
-                      maxLength: 6,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your pincode';
-                        } else if (value.length != 6) {
-                          return 'Pincode must be 6 digits';
-                        }
-                        return null;
-                      },
-                    ),
+
+                    // Padding(
+                    //   padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
+                    //   child: CommonButtonRounded(
+                    //     color: ColorConstant.clrSecondary,
+                    //     btnText: "Next",
+                    //     onPressed: () {
+                    //       if (formKey.currentState!.validate()) {
+                    //         Get.to(VerificationScreen(
+                    //           type: type,
+                    //           mobileNo: mobileNo,
+                    //           otp: otp,
+                    //           name: nameController.text.trim(),
+                    //           city: cityController.text.trim(),
+                    //           pincode: pincodeController.text.trim(),
+                    //         ));
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 20.h),
-              child: CommonButton(
-                btnText: 'DONE',
-                onPressed: () {
-                  if (loginController.formKeyYourDetails.currentState
-                          ?.validate() ??
-                      false) {
-                    loginController.registerApiCall(
-                      (p0) {},
-                      details: {
-                        "name": loginController.nameTextEditingController.text,
-                        "city": loginController.cityTextEditingController.text,
-                        "pincode":
-                            loginController.pincodeTextEditingController.text,
-                        "mobile_number": mobileNo,
-                        "otp": otp,
-                        "user_type": type,
-                      },
-                    );
-
-                    // type == 1
-                    //     ? Get.toNamed(AppRoutes.driverBottomBarScreen)
-                    //     : Get.toNamed(AppRoutes.customerBottomBarScreen);
-                  }
-                  // Get.toNamed(AppRoutes.driverBottomBarScreen);
-                },
-                color: ColorConstant.clrSecondary,
+          ),
+          Positioned(
+            top: 20.h,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Image.asset(
+                ImageConstant.imgYourDetails,
+                height: 180.h,
+                width: 160.w,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

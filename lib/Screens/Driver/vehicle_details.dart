@@ -67,9 +67,10 @@ class VehicleDetailsScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.only(top: 60.h),
+                padding: EdgeInsets.only(top: 40.h),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,37 +109,47 @@ class VehicleDetailsScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Overview",
+                        "Pin code",
                         style:
                             TextStyleConstant().titleTextStyle20w600Clr242424,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildOverviewCard(
-                          ImageConstant.imgDistance,
-                          "Distance",
-                          "6,570",
-                          " km",
-                        ),
-                        _buildOverviewCard(
-                          ImageConstant.imgTrips,
-                          "Trips",
-                          "50",
-                          "",
-                        ),
-                        _buildOverviewCard(
-                          ImageConstant.imgCapacity,
-                          "Capacity",
-                          "705",
-                          " kg",
-                        ),
-                      ],
+                    Text(
+                      "Serviceable pin codes as selected by the driver",
+                      style:
+                          TextStyleConstant().subTitleTextStyle14w400ClrSubText,
                     ),
-                    // const SizedBox(height: 30),
-                    Spacer(),
+                    const SizedBox(height: 12),
+                    Expanded(
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        // physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1.7,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.all(6.sp),
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: ColorConstant.clrF2FAFF,
+                                borderRadius: BorderRadius.circular(9.r),
+                              ),
+                              child: Text(
+                                "123456",
+                                style:
+                                    TextStyleConstant()
+                                        .subTitleTextStyle16w500Clr242424,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
                     Row(
                       children: [
                         Expanded(

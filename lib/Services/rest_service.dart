@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +49,7 @@ class ServiceCall {
     dynamic params, [
     dynamic requestheader,
   ]) async {
-    var res = jsonEncode(params);
+    // var res = jsonEncode(params);
     var response = await Dio()
         .post(
           baseUrl + api,
@@ -62,7 +60,7 @@ class ServiceCall {
           ),
         )
         .timeout(const Duration(seconds: timeOutDuration));
-    debugPrint("request body $res");
+    // debugPrint("request body $res");
     debugPrint(response.data);
     return response.data;
   }

@@ -7,11 +7,13 @@ class CommonButton extends StatelessWidget {
   final String btnText;
   final void Function()? onPressed;
   final Color? color;
+  final double? radius;
   const CommonButton({
     super.key,
     required this.btnText,
     required this.onPressed,
     this.color,
+    this.radius,
   });
 
   @override
@@ -25,7 +27,9 @@ class CommonButton extends StatelessWidget {
             color ?? ColorConstant.clrPrimary,
           ),
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.sp)),
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(radius ?? 18.sp),
+            ),
           ),
         ),
         onPressed: onPressed,

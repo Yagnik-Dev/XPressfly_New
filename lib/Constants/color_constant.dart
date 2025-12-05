@@ -28,5 +28,8 @@ class ColorConstant {
   static Color clr008000 = Color(0xff008000);
   static Color clr292929 = Color(0xff292929);
   static Color clr444444 = Color(0xff444444);
+  static Color clr3B3B3B = Color(0xff3B3B3B);
+  static Color clrD5D5D5 = Color(0xffD5D5D5);
+  static Color clr999999 = Color(0xff999999);
   static Color clrError = const Color.fromRGBO(255, 0, 0, 1.0);
 }

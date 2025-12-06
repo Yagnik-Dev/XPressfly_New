@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 
 class VehicleTypeScreen extends StatelessWidget {
-  final Function(String title, String icon, Color color)? onSelected;
-  const VehicleTypeScreen({super.key, this.onSelected});
+  final Function(String title, String icon, int color)? onSelected;
+  VehicleTypeScreen({super.key, this.onSelected});
+
+  final driverHomeController = Get.find<DriverHomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +48,19 @@ class VehicleTypeScreen extends StatelessWidget {
                     SizedBox(height: 14.h),
                     GridView.builder(
                       shrinkWrap: true,
-                      itemCount: vehicleTypes.length,
+                      itemCount:
+                          driverHomeController
+                              .vehicleTypeList
+                              .value
+                              .data
+                              ?.length ??
+                          0,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 1.3,
+                        childAspectRatio: 1.4,
                         crossAxisSpacing: 12.w,
-                        mainAxisSpacing: 12.h,
+                        mainAxisSpacing: 10.h,
                       ),
                       itemBuilder: (context, index) {
                         final item = vehicleTypes[index];
@@ -58,68 +68,37 @@ class VehicleTypeScreen extends StatelessWidget {
                           onTap: () {
                             if (onSelected != null) {
                               onSelected!(
-                                item['title'],
-                                item['icon'],
-                                item['color'],
+                                driverHomeController
+                                    .vehicleTypeList
+                                    .value
+                                    .data![index]
+                                    .name!,
+                                driverHomeController
+                                    .vehicleTypeList
+                                    .value
+                                    .data![index]
+                                    .logo!,
+                                int.parse(
+                                  driverHomeController
+                                      .vehicleTypeList
+                                      .value
+                                      .data![index]
+                                      .colorCode!
+                                      .replaceFirst('#', '0xff'),
+                                ),
                               );
                             }
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: item["color"],
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            padding: EdgeInsets.fromLTRB(11.w, 12.h, 0.w, 0.h),
-                            child: Stack(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Image.asset(
-                                    item["icon"],
-                                    fit: BoxFit.contain,
-                                    height:
-                                        80.h, // <-- give fixed size instead of Expanded
-                                    width: 80.w,
-                                  ),
-                                ),
-
-                                Text(
-                                  item["title"],
-                                  style:
-                                      TextStyleConstant()
-                                          .subTitleTextStyle16w500Clr242424,
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 8.h),
-                                InkWell(
-                                  onTap: () {
-                                    if (onSelected != null) {
-                                      onSelected!(
-                                        item['title'],
-                                        item['icon'],
-                                        item['color'],
-                                      );
-                                    }
-                                    // Get.toNamed(AppRoutes.vehicleDetailsScreen);
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Container(
-                                      padding: EdgeInsets.all(8.sp),
-                                      margin: EdgeInsets.only(bottom: 8.h),
-                                      decoration: BoxDecoration(
-                                        color: ColorConstant.clrFFFAFA,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_outward_rounded,
-                                        color: ColorConstant.clrSecondary,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: Image.network(
+                            driverHomeController
+                                .vehicleTypeList
+                                .value
+                                .data![index]
+                                .image!,
+                            fit: BoxFit.contain,
+                            height:
+                                80.h, // <-- give fixed size instead of Expanded
+                            width: 80.w,
                           ),
                         );
                       },

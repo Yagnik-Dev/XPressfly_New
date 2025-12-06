@@ -28,27 +28,33 @@ class AddVehicleOne extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Text(
+        //   title,
+        //   style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
+        // ),
+        // SizedBox(height: 6.h),
         GestureDetector(
           onTap: onTap,
           child: Obx(() {
             return Container(
-              height: imageFile.value != null ? 80.h : 46.h,
+              // height: imageFile.value != null ? 100.h : null,
+              width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade200, width: 0.7),
-                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(color: Colors.grey.shade300, width: 0.7),
+                borderRadius: BorderRadius.circular(10.r),
                 color: Colors.white,
               ),
               child:
                   imageFile.value != null
                       ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(12.r),
                         child: Image.file(
                           imageFile.value!,
                           width: double.infinity,
-                          height: 40.h,
+                          height: 82.h,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
-                            return _buildUploadPlaceholder(title);
+                            return _buildUploadPlaceholder(null);
                           },
                         ),
                       )
@@ -62,14 +68,21 @@ class AddVehicleOne extends StatelessWidget {
 
   Widget _buildUploadPlaceholder(String? placeHolder) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: Row(
+      decoration: BoxDecoration(
+        color: ColorConstant.clrFAFBFF,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 18.h),
+      child: Column(
         children: [
-          Icon(Icons.upload, size: 20.sp, color: Colors.grey.shade500),
-          SizedBox(width: 8.w),
+          Icon(
+            Icons.file_upload_outlined,
+            size: 30.sp,
+            color: ColorConstant.clr999999,
+          ),
           Text(
             placeHolder ?? "Upload",
-            style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade600),
+            style: TextStyle(fontSize: 14.sp, color: ColorConstant.clr999999),
           ),
         ],
       ),
@@ -250,48 +263,6 @@ class AddVehicleOne extends StatelessWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        "License Number & Upload Image",
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500Clr242424,
-                      ),
-                      SizedBox(height: 6.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: CommonTextFormFieldWithoutBorder(
-                              controller:
-                                  addvehicleController
-                                      .licenseNoTextEditingController,
-                              validator:
-                                  (p0) =>
-                                      p0 == null || p0.isEmpty
-                                          ? 'Please enter license number'
-                                          : null,
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildImageField(
-                                  title: "Select Image",
-                                  imageFile: addvehicleController.licenceImg,
-                                  onTap:
-                                      () => _showImageSourceDialog(
-                                        addvehicleController.licenceImg,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
                         "Address",
                         style:
                             TextStyleConstant()
@@ -308,6 +279,75 @@ class AddVehicleOne extends StatelessWidget {
                                     ? 'Please enter address'
                                     : null,
                       ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Upload your RC book images",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500Clr242424,
+                      ),
+                      SizedBox(height: 6.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _buildImageField(
+                              title: "Upload front",
+                              imageFile: addvehicleController.rcBookFrontImg,
+                              onTap:
+                                  () => _showImageSourceDialog(
+                                    addvehicleController.rcBookFrontImg,
+                                  ),
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: _buildImageField(
+                              title: "Upload back",
+                              imageFile: addvehicleController.rcBookBackImg,
+                              onTap:
+                                  () => _showImageSourceDialog(
+                                    addvehicleController.rcBookBackImg,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [..
+                      //     Expanded(
+                      //       child: CommonTextFormFieldWithoutBorder(
+                      //         controller:
+                      //             addvehicleController
+                      //                 .licenseNoTextEditingController,
+                      //         validator:
+                      //             (p0) =>
+                      //                 p0 == null || p0.isEmpty
+                      //                     ? 'Please enter license number'
+                      //                     : null,
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 10.w),
+                      //     Expanded(
+                      //       child: Column(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           _buildImageField(
+                      //             title: "Select Image",
+                      //             imageFile: addvehicleController.licenceImg,
+                      //             onTap:
+                      //                 () => _showImageSourceDialog(
+                      //                   addvehicleController.licenceImg,
+                      //                 ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),

@@ -50,7 +50,7 @@ class DriverHomeScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: 20.h), // Extra space at top
+                      SizedBox(height: 20.h),
                       _buildVehicleHeader(),
                       SizedBox(height: 10.h),
                       _buildSearchField(),

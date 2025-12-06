@@ -5,6 +5,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/dutystatus_model.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
+import 'package:xpressfly_git/Models/get_vehicle_type.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../Constants/api_constant.dart';
@@ -17,6 +18,8 @@ class DriverHomeController extends GetxController {
   var isVehicleLoading = false.obs;
   Rx<GetUserWiseVehicleResponseModel> userWiseVehicleList =
       GetUserWiseVehicleResponseModel().obs;
+  Rx<GetVehicleTypeResponseModel> vehicleTypeList =
+      GetVehicleTypeResponseModel().obs;
 
   @override
   void onInit() {
@@ -25,6 +28,7 @@ class DriverHomeController extends GetxController {
   }
 
   Future<void> getData() async {
+    await vehicleTypesAPICall();
     await userWiseVehicleListCall();
   }
 
@@ -71,6 +75,45 @@ class DriverHomeController extends GetxController {
       hideLoading();
       handleError(error);
       return false;
+    }
+  }
+
+  Future<void> vehicleTypesAPICall() async {
+    isVehicleLoading.value = true;
+
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': GetStorage().read(accessToken),
+      };
+
+      var response = await ServiceCall().get(
+        ApiConstant.baseUrl,
+        // "${ApiConstant.userWiseVehicle}/1",
+        ApiConstant.vehicleTypes,
+        headers,
+      );
+
+      if (response == null) {
+        throw Exception('No response from server');
+      }
+
+      var parsedResponse = GetVehicleTypeResponseModel.fromJson(
+        jsonDecode(response),
+      );
+
+      // if (parsedResponse.message ?? false) {
+      vehicleTypeList.value = parsedResponse;
+      // } else {
+      //   throw Exception(parsedResponse.message ?? 'Failed to load vehicles');
+      // }
+    } catch (error) {
+      // errorMessage.value = error is DioException
+      //     ? error.response?.data?['message'] ?? error.message ?? 'Network error occurred'
+      //     : error.toString();
+      debugPrint('Error loading vehicles: $error');
+    } finally {
+      isVehicleLoading.value = false;
     }
   }
 

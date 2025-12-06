@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
+import 'package:xpressfly_git/Constants/storage_constant.dart';
+import 'package:xpressfly_git/Models/create_driver_model.dart';
 import 'package:xpressfly_git/Models/otp_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
@@ -12,7 +15,7 @@ import 'package:dio/src/form_data.dart' as formdata;
 class BankDetailController extends GetxController {
   var bankAccountNumberController = TextEditingController();
   var bankAccountNameController = TextEditingController();
-  var bankIFSCController = TextEditingController();
+  var bankIFSCController = TextEditingController(text: "HDFC0001234");
 
   final GlobalKey<FormState> bankDetailFormKey = GlobalKey<FormState>();
 
@@ -40,17 +43,22 @@ class BankDetailController extends GetxController {
         return false;
       }
 
-      var objLogin = OtpResponseModel.fromJson(jsonDecode(response));
-      // GetStorage().write(accessToken, 'Bearer ${objLogin.token}');
-      // GetStorage().write(userId, objLogin.user?.id);
-      // GetStorage().write(userType, objLogin.user?.userType);
-      // GetStorage().write(userName, objLogin.user?.name);
-      // GetStorage().write(userPhone, objLogin.user?.mobileNumber);
-      // GetStorage().write(userAddress, objLogin.user?.city);
-      // GetStorage().write(userPincode, objLogin.user?.pincode);
+      var objCreateDriver = CreateDriverResponseModel.fromJson(
+        jsonDecode(response),
+      );
+      GetStorage().write(accessToken, 'Bearer ${objCreateDriver.accessToken}');
+      GetStorage().write(userId, objCreateDriver.user?.id);
+      GetStorage().write(userRole, objCreateDriver.user?.role);
+      GetStorage().write(userName, objCreateDriver.user?.name);
+      GetStorage().write(userPhone, objCreateDriver.user?.phone);
+      GetStorage().write(userAddress, objCreateDriver.user?.city);
+      GetStorage().write(userPincode, objCreateDriver.user?.pincode);
       hideLoading();
       onCompleteHandler(true);
-      approvedDialog('Success', objLogin.message.toString());
+      approvedDialog('Success', objCreateDriver.message.toString());
+      Future.delayed(const Duration(seconds: 2)).then((_) {
+        Get.offAllNamed('/driver_home_screen');
+      });
       return true;
     } catch (error) {
       hideLoading();
@@ -58,49 +66,80 @@ class BankDetailController extends GetxController {
         final responseData = error.response?.data;
         debugPrint('Response Data: $responseData'); // Debug log
 
-        Map<String, dynamic>? parsedData;
-        if (responseData is String) {
-          try {
-            parsedData = jsonDecode(responseData);
-          } catch (e) {
-            debugPrint('Failed to parse responseData: $e');
-          }
-        } else if (responseData is Map<String, dynamic>) {
-          parsedData = responseData;
-        }
-
-        if (parsedData != null && parsedData['errors'] != null) {
-          final errors = parsedData['errors'] as Map<String, dynamic>;
-          final errorMessages = errors.entries
-              .map((entry) {
-                // final key = entry.key;
-                final value = entry.value;
-                if (value is List) {
-                  return value.join(', ');
-                  // return '$key: ${value.join(', ')}';
-                } else {
-                  return '$value';
-                  // return '$key: $value';
-                }
-              })
-              .join('\n');
-          // declineDialog(
-          //   LocalizationStrings.validationError.tr,
-          //   errorMessages,
-          // ).then((value) {
-          //   Get.offAllNamed('/login_screen');
-          // });
-        } else {
-          declineDialog(
-            "Error",
-            parsedData?['message'] ?? 'An unknown error occurred',
-          );
-        }
+        final errorMessage = _formatErrorMessage(responseData);
+        declineDialog("Error", errorMessage);
       } else {
         debugPrint('Error is not a DioException: $error');
         handleError(error);
       }
       return false;
     }
+  }
+}
+
+String _formatErrorMessage(dynamic responseData) {
+  try {
+    // If server returned a JSON string, try to decode it
+    if (responseData is String) {
+      try {
+        responseData = jsonDecode(responseData);
+      } catch (_) {
+        // not JSON, treat as plain text message
+        return responseData;
+      }
+    }
+
+    // If it's a map, handle known keys
+    if (responseData is Map<String, dynamic>) {
+      // 1) "errors": { "field": ["msg", ...], ... }
+      if (responseData.containsKey('errors')) {
+        final errors = responseData['errors'];
+        if (errors is Map) {
+          final messages = <String>[];
+          errors.forEach((key, value) {
+            if (value is List) {
+              messages.add(value.join(', '));
+            } else if (value is String) {
+              messages.add(value);
+            } else {
+              messages.add(value.toString());
+            }
+          });
+          return messages.join('\n');
+        } else if (errors is List) {
+          return errors.join('\n');
+        } else {
+          return errors.toString();
+        }
+      }
+
+      // 2) direct message fields: "message", "error"
+      final parts = <String>[];
+      if (responseData['message'] != null)
+        parts.add(responseData['message'].toString());
+      if (responseData['error'] != null)
+        parts.add(responseData['error'].toString());
+
+      // 3) field-specific top-level messages, e.g. "bank_account": "Failed..."
+      responseData.forEach((key, value) {
+        if (key != 'message' && key != 'errors' && key != 'error') {
+          if (value is String)
+            parts.add(value);
+          else if (value is List)
+            parts.add(value.join(', '));
+        }
+      });
+
+      if (parts.isNotEmpty) return parts.join('\n');
+
+      // fallback: stringify whole map
+      return responseData.toString();
+    }
+
+    // fallback for any other types
+    return responseData?.toString() ?? 'An unknown error occurred';
+  } catch (e) {
+    debugPrint('Error formatting response data: $e');
+    return 'An unknown error occurred';
   }
 }

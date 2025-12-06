@@ -177,7 +177,6 @@ class AddVehicleTwo extends StatelessWidget {
                                       addvehicleController
                                           .selectedVehicleTitle
                                           .value,
-
                                       style:
                                           TextStyleConstant()
                                               .subTitleTextStyle18w600Clr242424,
@@ -188,13 +187,13 @@ class AddVehicleTwo extends StatelessWidget {
                                         .selectedVehicleIcon
                                         .value !=
                                     "")
-                                  Image.asset(
+                                  Image.network(
                                     addvehicleController
                                         .selectedVehicleIcon
                                         .value,
-                                    height: 70.h,
-                                    width: 100.w,
-                                    fit: BoxFit.contain,
+                                    height: 75.h,
+                                    width: 75.w,
+                                    // fit: BoxFit.contain,
                                   ),
                                 // Icon(
                                 //   Icons.arrow_drop_down,

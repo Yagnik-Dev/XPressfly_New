@@ -82,10 +82,10 @@ class AddVehicleMainController extends GetxController {
         vehicleData.deliveryPincodes?.join(', ') ?? '';
   }
 
-  void pickVehicleType(String title, String icon, Color color) {
+  void pickVehicleType(String title, String icon, int color) {
     selectedVehicleTitle.value = title;
     selectedVehicleIcon.value = icon;
-    selectedVehicleColor.value = color;
+    selectedVehicleColor.value = Color(color);
     update();
     Get.back();
   }

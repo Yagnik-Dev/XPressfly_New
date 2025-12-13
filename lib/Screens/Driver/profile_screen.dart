@@ -48,7 +48,7 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 10.h),
                 Text(
                   // GetStorage().read(userName) ?? "Jagdish Sain",
-                  profileController.userDetails.value.data?.name ??
+                  profileController.userDetails.value.user?.name ??
                       "Jagdish Sain",
                   style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
                 ),
@@ -117,12 +117,7 @@ class ProfileScreen extends StatelessWidget {
                         maxLength: 10,
                         readOnly: true,
                         controller: TextEditingController(
-                          text:
-                              profileController
-                                  .userDetails
-                                  .value
-                                  .data
-                                  ?.mobileNumber,
+                          text: profileController.userDetails.value.user?.phone,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -155,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                       CommonTextFormFieldWithoutBorder(
                         controller: TextEditingController(
                           text:
-                              profileController.userDetails.value.data?.pincode,
+                              profileController.userDetails.value.user?.pincode,
                         ),
                         // hintText: "jagdishsain25@gmail.com",
                         keyboardType: TextInputType.emailAddress,
@@ -185,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
                         maxLines: 2,
                         readOnly: true,
                         controller: TextEditingController(
-                          text: profileController.userDetails.value.data?.city,
+                          text: profileController.userDetails.value.user?.city,
                         ),
                       ),
                     ],

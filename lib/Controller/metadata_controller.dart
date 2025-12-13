@@ -1,69 +1,59 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
-import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
-import 'package:xpressfly_git/Models/profile_model.dart';
-import 'package:xpressfly_git/Models/update_profile_model.dart';
+import 'package:xpressfly_git/Models/privacypolicy_model.dart';
+import 'package:xpressfly_git/Models/termsandcondition_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import 'package:xpressfly_git/Utility/common_imports.dart';
 
-class ProfileController extends GetxController {
-  var mobileTextEditingController = TextEditingController();
-  // var emailTextEditingController = TextEditingController();
-  // var addressTextEditingController = TextEditingController();
-  var nameTextEditingController = TextEditingController();
-  var pincodeTextEditingController = TextEditingController();
-  var cityTextEditingController = TextEditingController();
-  final RxBool isEditingName = false.obs;
-  GlobalKey<FormState> formKeyProfile = GlobalKey<FormState>();
-  Rx<GetUserProfileDataModel> userDetails = Rx<GetUserProfileDataModel>(
-    GetUserProfileDataModel(),
+class MetadataController extends GetxController {
+  var selectedTabIndex = 0.obs;
+
+  Rx<TermsAndConditionsModel> termsAndConditions = Rx<TermsAndConditionsModel>(
+    TermsAndConditionsModel(),
   );
+  Rx<PrivacyPolicyModel> privacyPolicy = Rx<PrivacyPolicyModel>(
+    PrivacyPolicyModel(),
+  );
+
+  void changeTabIndex(int index) {
+    selectedTabIndex.value = index;
+  }
 
   @override
   void onInit() {
     super.onInit();
-    getData().then((value) {
-      nameTextEditingController.text = userDetails.value.user?.name ?? '';
-      mobileTextEditingController.text = userDetails.value.user?.phone ?? '';
-      pincodeTextEditingController.text = userDetails.value.user?.pincode ?? '';
-      cityTextEditingController.text = userDetails.value.user?.city ?? '';
-    });
+    getdata();
   }
 
-  Future getData() async {
-    await getUserDetails((p0) {});
+  Future getdata() async {
+    await getTermsAndConditions((p0) {});
+    await getPrivacyPolicy((p0) {});
   }
 
-  // Update Profile Method
-  Future<bool> updateUserProfile(Function(bool) onCompleteHandler) async {
+  Future getTermsAndConditions(
+    Function(bool) onCompleteHandler, {
+    Map<String, dynamic>? details,
+  }) async {
     Future.delayed(Duration.zero, () {
       showLoading();
     });
 
     var headers = {
-      'Content-Type': 'multipart/form-data',
-      'accept': 'application/json',
+      'Content-Type': 'application/json',
       'Authorization': GetStorage().read(accessToken),
     };
 
-    var formData = {
-      'name': nameTextEditingController.text.trim(),
-      'mobile_number': mobileTextEditingController.text.trim(),
-      'pincode': pincodeTextEditingController.text.trim(),
-      'city': cityTextEditingController.text.trim(),
-    };
-
     try {
-      var response = await ServiceCall().put(
+      var response = await ServiceCall().get(
         ApiConstant.baseUrl,
-        "${ApiConstant.profile}/${GetStorage().read(userId)}",
-        formData,
+        ApiConstant.termsAndConditions,
         headers,
       );
 
@@ -73,37 +63,15 @@ class ProfileController extends GetxController {
         return false;
       }
 
-      var responseData = jsonDecode(response);
+      termsAndConditions.value = TermsAndConditionsModel.fromJson(
+        jsonDecode(response),
+      );
 
-      if (responseData['status'] == true) {
-        // Update local user details and storage
-        final updatedUser = UserProfileUpdateResponseModel.fromJson(
-          responseData,
-        );
+      hideLoading();
+      onCompleteHandler(true);
+      // approvedDialog('Success', objUserWiseVehicles.message.toString());
 
-        // Update local storage with new user data
-        if (updatedUser.data != null) {
-          GetStorage().write(userName, updatedUser.data?.name);
-          GetStorage().write(userPhone, updatedUser.data?.mobileNumber);
-          GetStorage().write(userAddress, updatedUser.data?.city);
-          GetStorage().write(userPincode, updatedUser.data?.pincode);
-        }
-
-        // Also call getUserDetails to ensure everything is synced
-        // await getUserDetails((success) {});
-
-        hideLoading();
-        onCompleteHandler(true);
-        showSuccessSnackbar('Profile updated successfully');
-        return true;
-      } else {
-        hideLoading();
-        onCompleteHandler(false);
-        showErrorSnackbar(
-          responseData['message'] ?? 'Failed to update profile',
-        );
-        return false;
-      }
+      return termsAndConditions.value;
     } catch (error) {
       hideLoading();
       if (error is DioException) {
@@ -123,19 +91,22 @@ class ProfileController extends GetxController {
 
         if (parsedData != null && parsedData['errors'] != null) {
           final errors = parsedData['errors'] as Map<String, dynamic>;
-          final errorMessage = errors.entries
+          errors.entries
               .map((entry) {
+                // final key = entry.key;
                 final value = entry.value;
                 if (value is List) {
                   return value.join(', ');
+                  // return '$key: ${value.join(', ')}';
                 } else {
                   return '$value';
+                  // return '$key: $value';
                 }
               })
               .join('\n');
-          showErrorSnackbar(errorMessage);
         } else {
-          showErrorSnackbar(
+          declineDialog(
+            "Error",
             parsedData?['message'] ?? 'An unknown error occurred',
           );
         }
@@ -143,32 +114,11 @@ class ProfileController extends GetxController {
         debugPrint('Error is not a DioException: $error');
         handleError(error);
       }
-      onCompleteHandler(false);
       return false;
     }
   }
 
-  void showSuccessSnackbar(String message) {
-    Get.snackbar(
-      'Success',
-      message,
-      backgroundColor: ColorConstant.clr242424,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  void showErrorSnackbar(String message) {
-    Get.snackbar(
-      'Error',
-      message,
-      backgroundColor: ColorConstant.clrError,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-
-  Future getUserDetails(
+  Future getPrivacyPolicy(
     Function(bool) onCompleteHandler, {
     Map<String, dynamic>? details,
   }) async {
@@ -184,7 +134,7 @@ class ProfileController extends GetxController {
     try {
       var response = await ServiceCall().get(
         ApiConstant.baseUrl,
-        ApiConstant.profile,
+        ApiConstant.privacyPolicy,
         headers,
       );
 
@@ -194,15 +144,13 @@ class ProfileController extends GetxController {
         return false;
       }
 
-      userDetails.value = GetUserProfileDataModel.fromJson(
-        jsonDecode(response),
-      );
+      privacyPolicy.value = PrivacyPolicyModel.fromJson(jsonDecode(response));
 
       hideLoading();
       onCompleteHandler(true);
       // approvedDialog('Success', objUserWiseVehicles.message.toString());
 
-      return userDetails.value;
+      return privacyPolicy.value;
     } catch (error) {
       hideLoading();
       if (error is DioException) {

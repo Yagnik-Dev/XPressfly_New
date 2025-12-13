@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -142,7 +144,7 @@ class LoginScreen extends StatelessWidget {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          print('Terms & Conditions tapped');
+                          log('Terms & Conditions tapped');
                           // Add navigation logic here
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsScreen()));
                         },

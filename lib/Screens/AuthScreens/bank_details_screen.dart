@@ -1,5 +1,7 @@
 import 'dart:io';
+// ignore: implementation_imports
 import 'package:dio/src/form_data.dart' as formdata;
+// ignore: implementation_imports
 import 'package:dio/src/multipart_file.dart' as multipart_file;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +21,7 @@ class BankDetailsScreen extends StatelessWidget {
   final String? otp;
   final String? name;
   final String? city;
+  final String? email;
   final String? pincode;
   final File aadharFrontImg;
   final File aadharBackImg;
@@ -32,6 +35,7 @@ class BankDetailsScreen extends StatelessWidget {
     this.otp,
     this.name,
     this.city,
+    this.email,
     this.pincode,
     required this.aadharFrontImg,
     required this.aadharBackImg,
@@ -116,7 +120,7 @@ class BankDetailsScreen extends StatelessWidget {
                       bankDetailController.bankAccountNameController.text,
                   "bank_ifsc": bankDetailController.bankIFSCController.text,
                   // "profile_image": "",
-                  "email": "user@gmail.com",
+                  "email": email,
                   "address": "surat",
                   // "adhar_card_front": aadharFrontImg.path,
                   // "adhar_card_back": aadharBackImg.path,

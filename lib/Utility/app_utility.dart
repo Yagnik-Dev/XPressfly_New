@@ -92,7 +92,7 @@ Future<dynamic> approvedDialog(
   String? message,
 ) {
   return Get.dialog(
-    barrierColor: Colors.black.withOpacity(0.7),
+    barrierColor: Colors.black.withValues(alpha: 0.7),
     // context: context,
     // builder: (context) {
     SimpleDialog(

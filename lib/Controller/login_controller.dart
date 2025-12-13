@@ -28,7 +28,6 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    print("object");
     if (Get.arguments != null) {
       loginType = Get.arguments;
     }
@@ -298,7 +297,7 @@ class LoginController extends GetxController {
       GetStorage().write(userPhone, objVerifyOtp.user?.phone);
       GetStorage().write(userAddress, objVerifyOtp.user?.city);
       GetStorage().write(userPincode, objVerifyOtp.user?.pincode);
-      GetStorage().write(refreshToken, objVerifyOtp.refreshToken);
+      GetStorage().write(refreshTokenVal, objVerifyOtp.refreshToken);
       hideLoading();
       onCompleteHandler(true);
       approvedDialog('Success', objVerifyOtp.message.toString());

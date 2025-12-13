@@ -1,73 +1,121 @@
 class GetUserProfileDataModel {
-  bool? status;
   String? message;
-  ProfileData? data;
+  UserProfileData? user;
 
-  GetUserProfileDataModel({this.status, this.message, this.data});
+  GetUserProfileDataModel({this.message, this.user});
 
   GetUserProfileDataModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? ProfileData.fromJson(json['data']) : null;
+    user = json['user'] != null ? UserProfileData.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
     data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
 }
 
-class ProfileData {
+class UserProfileData {
   int? id;
+  String? phone;
+  Null profileImage;
   String? name;
-  String? mobileNumber;
-  String? mobileNumberVerifiedAt;
+  String? email;
+  String? address;
   String? pincode;
   String? city;
-  int? userType;
+  String? role;
+  String? adharCardFront;
+  String? adharCardBack;
+  bool? isActive;
+  bool? isPhoneVerified;
+  bool? isVerified;
   String? createdAt;
   String? updatedAt;
+  String? bankAccountHolderName;
+  String? bankAccountNumber;
+  String? bankIfsc;
+  String? driverLicenseFront;
+  String? driverLicenseBack;
+  bool? isDutyOn;
 
-  ProfileData({
-    this.id,
-    this.name,
-    this.mobileNumber,
-    this.mobileNumberVerifiedAt,
-    this.pincode,
-    this.city,
-    this.userType,
-    this.createdAt,
-    this.updatedAt,
-  });
+  UserProfileData(
+      {this.id,
+      this.phone,
+      this.profileImage,
+      this.name,
+      this.email,
+      this.address,
+      this.pincode,
+      this.city,
+      this.role,
+      this.adharCardFront,
+      this.adharCardBack,
+      this.isActive,
+      this.isPhoneVerified,
+      this.isVerified,
+      this.createdAt,
+      this.updatedAt,
+      this.bankAccountHolderName,
+      this.bankAccountNumber,
+      this.bankIfsc,
+      this.driverLicenseFront,
+      this.driverLicenseBack,
+      this.isDutyOn});
 
-  ProfileData.fromJson(Map<String, dynamic> json) {
+  UserProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    phone = json['phone'];
+    profileImage = json['profile_image'];
     name = json['name'];
-    mobileNumber = json['mobile_number'];
-    mobileNumberVerifiedAt = json['mobile_number_verified_at'];
+    email = json['email'];
+    address = json['address'];
     pincode = json['pincode'];
     city = json['city'];
-    userType = json['user_type'];
+    role = json['role'];
+    adharCardFront = json['adhar_card_front'];
+    adharCardBack = json['adhar_card_back'];
+    isActive = json['is_active'];
+    isPhoneVerified = json['is_phone_verified'];
+    isVerified = json['is_verified'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    bankAccountHolderName = json['bank_account_holder_name'];
+    bankAccountNumber = json['bank_account_number'];
+    bankIfsc = json['bank_ifsc'];
+    driverLicenseFront = json['driver_license_front'];
+    driverLicenseBack = json['driver_license_back'];
+    isDutyOn = json['is_duty_on'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['phone'] = phone;
+    data['profile_image'] = profileImage;
     data['name'] = name;
-    data['mobile_number'] = mobileNumber;
-    data['mobile_number_verified_at'] = mobileNumberVerifiedAt;
+    data['email'] = email;
+    data['address'] = address;
     data['pincode'] = pincode;
     data['city'] = city;
-    data['user_type'] = userType;
+    data['role'] = role;
+    data['adhar_card_front'] = adharCardFront;
+    data['adhar_card_back'] = adharCardBack;
+    data['is_active'] = isActive;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_verified'] = isVerified;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['bank_account_holder_name'] = bankAccountHolderName;
+    data['bank_account_number'] = bankAccountNumber;
+    data['bank_ifsc'] = bankIfsc;
+    data['driver_license_front'] = driverLicenseFront;
+    data['driver_license_back'] = driverLicenseBack;
+    data['is_duty_on'] = isDutyOn;
     return data;
   }
 }

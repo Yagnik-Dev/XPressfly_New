@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/driver_home_controller.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
@@ -30,42 +32,70 @@ class DriverHomeScreen extends StatelessWidget {
           _buildAppBar(),
           _buildEarningsCard(),
           SizedBox(height: 4.h),
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 30.h,
-                  ), // Space for verification container
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 18.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
+          Obx(
+            () => Expanded(
+              child: Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      top:
+                          Get.find<ProfileController>()
+                                      .userDetails
+                                      .value
+                                      .user
+                                      ?.isVerified ==
+                                  false
+                              ? 30.h
+                              : 0,
+                    ), // Space for verification container
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 18.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Visibility(
+                          visible:
+                              Get.find<ProfileController>()
+                                  .userDetails
+                                  .value
+                                  .user
+                                  ?.isVerified ==
+                              false,
+                          child: SizedBox(height: 20.h),
+                        ),
+                        _buildVehicleHeader(),
+                        SizedBox(height: 10.h),
+                        _buildSearchField(),
+                        SizedBox(height: 16.h),
+                        _buildVehicleList(),
+                      ],
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20.h),
-                      _buildVehicleHeader(),
-                      SizedBox(height: 10.h),
-                      _buildSearchField(),
-                      SizedBox(height: 16.h),
-                      _buildVehicleList(),
-                    ],
+                  Visibility(
+                    visible:
+                        Get.find<ProfileController>()
+                            .userDetails
+                            .value
+                            .user
+                            ?.isVerified ==
+                        false,
+                    child: Positioned(
+                      top: 0,
+                      left: 0.w,
+                      right: 0.w,
+                      child: _buildVerificationContainer(),
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 0,
-                  left: 0.w,
-                  right: 0.w,
-                  child: _buildVerificationContainer(),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -84,7 +114,7 @@ class DriverHomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(18.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 8,
             offset: Offset(0, 2),
@@ -149,18 +179,25 @@ class DriverHomeScreen extends StatelessWidget {
           child: Image.asset(ImageConstant.imgUser),
         ),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Hello ${GetStorage().read(userName) ?? 'Driver'}",
-                style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
-              ),
-              Text(
-                GetStorage().read(userAddress) ?? 'address',
-                style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
-              ),
-            ],
+          child: InkWell(
+            onTap: () {
+              log(
+                "refresh token ${GetStorage().read(refreshTokenVal).toString()}",
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Hello ${GetStorage().read(userName) ?? 'Driver'}",
+                  style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
+                ),
+                Text(
+                  GetStorage().read(userAddress) ?? 'address',
+                  style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                ),
+              ],
+            ),
           ),
         ),
         Builder(
@@ -198,7 +235,7 @@ class DriverHomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(34.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 8,
             offset: Offset(0, 2),
@@ -269,8 +306,9 @@ class DriverHomeScreen extends StatelessWidget {
                       child: Switch(
                         value: driverHomeController.isSwitched.value,
                         activeColor: ColorConstant.clrSecondary,
-                        activeTrackColor: ColorConstant.clrSecondary
-                            .withOpacity(0.3),
+                        activeTrackColor: ColorConstant.clrSecondary.withValues(
+                          alpha: 0.3,
+                        ),
                         inactiveTrackColor: ColorConstant.clrWhite,
                         inactiveThumbColor: ColorConstant.clrSecondary,
                         trackOutlineColor: WidgetStatePropertyAll(
@@ -434,7 +472,10 @@ class DriverHomeScreen extends StatelessWidget {
   Widget _buildVehicleCard(GetUserVehicleData vehicle, int index) {
     // Determine background color and image based on vehicle type
     Color bgColor = index.isEven ? Color(0xFFFEE3BA) : Color(0xFFC2EAFF);
-    String imagePath = _getVehicleImage(vehicle.vehicleType);
+    String imagePath =
+        vehicle.vehicleType?.logo ??
+        ImageConstant.imgSmallTruck; // Default image if logo is null
+    // String imagePath = _getVehicleImage(vehicle.vehicleModel);
 
     return Container(
       height: 165.h,
@@ -500,7 +541,16 @@ class DriverHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Image.asset(imagePath, height: 160.h, width: 160.w),
+              // Image.network(imagePath, height: 160.h, width: 160.w),
+              Padding(
+                padding: EdgeInsets.only(top: 20.h),
+                child: Image.network(
+                  imagePath,
+                  fit: BoxFit.fill,
+                  height: 140.h,
+                  width: 160.w,
+                ),
+              ),
             ],
           ),
         ],

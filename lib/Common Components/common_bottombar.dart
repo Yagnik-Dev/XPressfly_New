@@ -58,10 +58,12 @@ class CustomBottomBar extends StatelessWidget {
         ),
         child: SvgPicture.asset(
           asset,
-          color:
-              selectedIndex == index
-                  ? ColorConstant.clrBottomBarBackground
-                  : ColorConstant.clrBottomBarItemColor,
+          colorFilter: ColorFilter.mode(
+            selectedIndex == index
+                ? ColorConstant.clrBottomBarBackground
+                : ColorConstant.clrBottomBarItemColor,
+            BlendMode.srcIn,
+          ),
           // size: 26,
           height: 20.h,
         ),

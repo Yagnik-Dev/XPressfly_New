@@ -68,167 +68,188 @@ class VehicleDetailsScreen extends StatelessWidget {
               ),
               child: Padding(
                 padding: EdgeInsets.only(top: 40.h),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          vehicleDetailsController
-                                  .vehicleDetails
-                                  .value
-                                  .data
-                                  ?.vehicleModel ??
-                              "Tata Ace",
-                          style:
-                              TextStyleConstant()
-                                  .subTitleTextStyle22w600Clr242424,
-                        ),
-                        Text(
-                          vehicleDetailsController
-                                  .vehicleDetails
-                                  .value
-                                  .data
-                                  ?.vehicleNumber ??
-                              "GJ01AB1234",
-                          style:
-                              TextStyleConstant()
-                                  .subTitleTextStyle16w500Clr242424,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      "The perfect mini truck with ample space to carry TVs, tables, chairs and all your household essentials with ease.",
-                      style:
-                          TextStyleConstant().subTitleTextStyle14w400ClrSubText,
-                    ),
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Pin code",
-                        style:
-                            TextStyleConstant().titleTextStyle20w600Clr242424,
-                      ),
-                    ),
-                    Text(
-                      "Serviceable pin codes as selected by the driver",
-                      style:
-                          TextStyleConstant().subTitleTextStyle14w400ClrSubText,
-                    ),
-                    const SizedBox(height: 12),
-                    Expanded(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        // physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 1.7,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.all(6.sp),
-                            child: Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: ColorConstant.clrF2FAFF,
-                                borderRadius: BorderRadius.circular(9.r),
-                              ),
-                              child: Text(
-                                "123456",
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500Clr242424,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => DeleteVehicleDialog(),
-                              ).then((confirmed) {
-                                if (confirmed == true) {
-                                  // Perform delete action
-                                  driverHomeController.refreshVehicleList();
-                                }
-                              });
-                            },
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: ColorConstant.clrF2FAFF,
-                              side: const BorderSide(color: Colors.transparent),
-                              padding: EdgeInsets.symmetric(vertical: 12.h),
-                            ),
-                            icon: Image.asset(
-                              ImageConstant.imgDeleteBtn,
-                              color: ColorConstant.clrSecondary,
-                              width: 24.w,
-                              height: 24.h,
-                            ),
-                            label: Text(
-                              "Delete",
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle18w600Clr242424,
-                            ),
+                child: Obx(
+                  () => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            vehicleDetailsController
+                                    .vehicleDetails
+                                    .value
+                                    .data
+                                    ?.vehicleModel ??
+                                "Tata Ace",
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle22w600Clr242424,
                           ),
+                          Text(
+                            vehicleDetailsController
+                                    .vehicleDetails
+                                    .value
+                                    .data
+                                    ?.vehicleNumber ??
+                                "GJ01AB1234",
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle16w500Clr242424,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.h),
+                      Text(
+                        "The perfect mini truck with ample space to carry TVs, tables, chairs and all your household essentials with ease.",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle14w400ClrSubText,
+                      ),
+                      const SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Pin code",
+                          style:
+                              TextStyleConstant().titleTextStyle20w600Clr242424,
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () {
-                              // Pass vehicle data to edit screen
-                              Get.toNamed(
-                                AppRoutes.addVehicleMainScreen,
-                                arguments: {
-                                  'isUpdate': true,
-                                  'vehicleId':
-                                      vehicleDetailsController.vehicleId,
-                                  'vehicleData':
-                                      vehicleDetailsController
+                      ),
+                      Text(
+                        "Serviceable pin codes as selected by the driver",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle14w400ClrSubText,
+                      ),
+                      const SizedBox(height: 12),
+                      Expanded(
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              vehicleDetailsController
+                                  .vehicleDetails
+                                  .value
+                                  .data
+                                  ?.zipCode
+                                  ?.length ??
+                              0,
+                          // physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 1.7,
+                              ),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.all(6.sp),
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: ColorConstant.clrF2FAFF,
+                                  borderRadius: BorderRadius.circular(9.r),
+                                ),
+                                child: Text(
+                                  vehicleDetailsController
                                           .vehicleDetails
                                           .value
-                                          .data ??
-                                      VehicleDetailsData(),
-                                },
-                              )?.then((_) {
-                                vehicleDetailsController.getData();
-                              });
-                            },
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: ColorConstant.clrSecondary,
-                              side: const BorderSide(color: Colors.transparent),
-                              padding: EdgeInsets.symmetric(vertical: 12.h),
-                            ),
-                            icon: Image.asset(
-                              ImageConstant.imgEditBtn,
-                              color: ColorConstant.clrFFFAFA,
-                              width: 24.w,
-                              height: 24.h,
-                            ),
-                            label: Text(
-                              "Edit",
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle18w500clrFFFAFA,
+                                          .data
+                                          ?.zipCode?[index] ??
+                                      "",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle16w500Clr242424,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => DeleteVehicleDialog(),
+                                ).then((confirmed) {
+                                  if (confirmed == true) {
+                                    // Perform delete action
+                                    driverHomeController.refreshVehicleList();
+                                  }
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: ColorConstant.clrF2FAFF,
+                                side: const BorderSide(
+                                  color: Colors.transparent,
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 12.h),
+                              ),
+                              icon: Image.asset(
+                                ImageConstant.imgDeleteBtn,
+                                color: ColorConstant.clrSecondary,
+                                width: 24.w,
+                                height: 24.h,
+                              ),
+                              label: Text(
+                                "Delete",
+                                style:
+                                    TextStyleConstant()
+                                        .subTitleTextStyle18w600Clr242424,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                // Pass vehicle data to edit screen
+                                Get.toNamed(
+                                  AppRoutes.addVehicleMainScreen,
+                                  arguments: {
+                                    'isUpdate': true,
+                                    'vehicleId':
+                                        vehicleDetailsController.vehicleId,
+                                    'vehicleData':
+                                        vehicleDetailsController
+                                            .vehicleDetails
+                                            .value
+                                            .data ??
+                                        VehicleDetailsData(),
+                                  },
+                                )?.then((_) {
+                                  vehicleDetailsController.getData();
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: ColorConstant.clrSecondary,
+                                side: const BorderSide(
+                                  color: Colors.transparent,
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 12.h),
+                              ),
+                              icon: Image.asset(
+                                ImageConstant.imgEditBtn,
+                                color: ColorConstant.clrFFFAFA,
+                                width: 24.w,
+                                height: 24.h,
+                              ),
+                              label: Text(
+                                "Edit",
+                                style:
+                                    TextStyleConstant()
+                                        .subTitleTextStyle18w500clrFFFAFA,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -239,63 +260,31 @@ class VehicleDetailsScreen extends StatelessWidget {
             top: 50.h,
             left: 0,
             right: 0,
-            child: Center(
-              child: Image.asset(ImageConstant.imgSmallTruckFull, height: 180),
+            child: Obx(
+              () => Center(
+                child:
+                    vehicleDetailsController
+                                .vehicleDetails
+                                .value
+                                .data
+                                ?.vehicleType
+                                ?.logo ==
+                            null
+                        ? CircularProgressIndicator()
+                        : Image.network(
+                          vehicleDetailsController
+                                  .vehicleDetails
+                                  .value
+                                  .data
+                                  ?.vehicleType
+                                  ?.logo ??
+                              '',
+                          height: 180,
+                        ),
+              ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // Reusable Card Widgets
-  static Widget _buildOverviewCard(
-    String imageIcon,
-    String title,
-    String value1,
-    String value2,
-  ) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(15.sp),
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(
-          color: const Color(0xffF6FAFF),
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              imageIcon,
-              color: Colors.black54,
-              width: 24,
-              height: 24,
-            ),
-            const SizedBox(height: 6),
-            Text(
-              title,
-              style: TextStyleConstant().subTitleTextStyle12w500Clr242424,
-            ),
-            const SizedBox(height: 4),
-            // Text(
-            //   value,
-            //   style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-            // ),
-            Text.rich(
-              TextSpan(
-                text: value1,
-                style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
-                children: [
-                  TextSpan(
-                    text: value2,
-                    style: TextStyleConstant().subTitleTextStyle12w500Clr242424,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

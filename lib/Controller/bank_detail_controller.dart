@@ -6,10 +6,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/create_driver_model.dart';
-import 'package:xpressfly_git/Models/otp_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import '../Utility/app_utility.dart';
+// ignore: implementation_imports
 import 'package:dio/src/form_data.dart' as formdata;
 
 class BankDetailController extends GetxController {

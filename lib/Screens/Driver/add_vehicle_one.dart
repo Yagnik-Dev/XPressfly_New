@@ -188,7 +188,7 @@ class AddVehicleOne extends StatelessWidget {
                         vertical: 8.h,
                         horizontal: 22.w,
                       ),
-                      child: Image.asset(ImageConstant.imgAddVehicleOne),
+                      child: Image.asset(ImageConstant.imgAddVehicleThree),
                     ),
                     Text(
                       "Your Details",
@@ -220,6 +220,7 @@ class AddVehicleOne extends StatelessWidget {
                                 ),
                                 SizedBox(height: 6.h),
                                 CommonTextFormFieldWithoutBorder(
+                                  readOnly: true,
                                   controller:
                                       addvehicleController
                                           .fullNameTextEditingController,
@@ -245,6 +246,7 @@ class AddVehicleOne extends StatelessWidget {
                                 ),
                                 SizedBox(height: 6.h),
                                 CommonTextFormFieldWithoutBorder(
+                                  readOnly: true,
                                   controller:
                                       addvehicleController
                                           .mobileNoTextEditingController,
@@ -270,6 +272,8 @@ class AddVehicleOne extends StatelessWidget {
                       ),
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
+                        readOnly: true,
+
                         maxLines: 2,
                         controller:
                             addvehicleController.addressTextEditingController,

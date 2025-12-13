@@ -63,7 +63,7 @@ class VehicleTypeScreen extends StatelessWidget {
                         mainAxisSpacing: 10.h,
                       ),
                       itemBuilder: (context, index) {
-                        final item = vehicleTypes[index];
+                        // final item = vehicleTypes[index];
                         return GestureDetector(
                           onTap: () {
                             if (onSelected != null) {

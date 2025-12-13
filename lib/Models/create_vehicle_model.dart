@@ -1,19 +1,16 @@
 class CreateVehicleResponseModel {
-  bool? success;
   String? message;
   Data? data;
 
-  CreateVehicleResponseModel({this.success, this.message, this.data});
+  CreateVehicleResponseModel({this.message, this.data});
 
   CreateVehicleResponseModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
     data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
@@ -23,63 +20,114 @@ class CreateVehicleResponseModel {
 }
 
 class Data {
-  String? userId;
-  String? fullName;
-  String? mobileNumber;
-  String? licenseNumber;
-  String? address;
+  int? id;
   String? vehicleModel;
   String? vehicleNumber;
-  String? vehicleType;
-  List<String>? deliveryPincodes;
-  String? updatedAt;
+  List<String>? zipCode;
+  String? rcBookFront;
+  String? rcBookBack;
+  VehicleType? vehicleType;
+  int? vehicleOwner;
   String? createdAt;
-  int? id;
+  String? updatedAt;
 
   Data({
-    this.userId,
-    this.fullName,
-    this.mobileNumber,
-    this.licenseNumber,
-    this.address,
+    this.id,
     this.vehicleModel,
     this.vehicleNumber,
+    this.zipCode,
+    this.rcBookFront,
+    this.rcBookBack,
     this.vehicleType,
-    this.deliveryPincodes,
-    this.updatedAt,
+    this.vehicleOwner,
     this.createdAt,
-    this.id,
+    this.updatedAt,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
-    userId = json['user_id'];
-    fullName = json['full_name'];
-    mobileNumber = json['mobile_number'];
-    licenseNumber = json['license_number'];
-    address = json['address'];
+    id = json['id'];
     vehicleModel = json['vehicle_model'];
     vehicleNumber = json['vehicle_number'];
-    vehicleType = json['vehicle_type'];
-    deliveryPincodes = json['delivery_pincodes'].cast<String>();
-    updatedAt = json['updated_at'];
+    zipCode = json['zip_code'].cast<String>();
+    rcBookFront = json['rc_book_front'];
+    rcBookBack = json['rc_book_back'];
+    vehicleType =
+        json['vehicle_type'] != null
+            ? VehicleType.fromJson(json['vehicle_type'])
+            : null;
+    vehicleOwner = json['vehicle_owner'];
     createdAt = json['created_at'];
-    id = json['id'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['user_id'] = userId;
-    data['full_name'] = fullName;
-    data['mobile_number'] = mobileNumber;
-    data['license_number'] = licenseNumber;
-    data['address'] = address;
+    data['id'] = id;
     data['vehicle_model'] = vehicleModel;
     data['vehicle_number'] = vehicleNumber;
-    data['vehicle_type'] = vehicleType;
-    data['delivery_pincodes'] = deliveryPincodes;
-    data['updated_at'] = updatedAt;
+    data['zip_code'] = zipCode;
+    data['rc_book_front'] = rcBookFront;
+    data['rc_book_back'] = rcBookBack;
+    if (vehicleType != null) {
+      data['vehicle_type'] = vehicleType!.toJson();
+    }
+    data['vehicle_owner'] = vehicleOwner;
     data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class VehicleType {
+  int? id;
+  String? createdAt;
+  String? updatedAt;
+  bool? isActive;
+  String? name;
+  String? logo;
+  String? image;
+  String? colorCode;
+  String? pricePerKm;
+  String? description;
+
+  VehicleType({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.isActive,
+    this.name,
+    this.logo,
+    this.image,
+    this.colorCode,
+    this.pricePerKm,
+    this.description,
+  });
+
+  VehicleType.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    isActive = json['is_active'];
+    name = json['name'];
+    logo = json['logo'];
+    image = json['image'];
+    colorCode = json['color_code'];
+    pricePerKm = json['price_per_km'];
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['is_active'] = isActive;
+    data['name'] = name;
+    data['logo'] = logo;
+    data['image'] = image;
+    data['color_code'] = colorCode;
+    data['price_per_km'] = pricePerKm;
+    data['description'] = description;
     return data;
   }
 }

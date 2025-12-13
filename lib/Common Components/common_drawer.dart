@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -91,9 +93,9 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       // Name + City
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            "Hello Jagnish",
+                            "Hello ${GetStorage().read(userName) ?? 'User'}",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -101,7 +103,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                             ),
                           ),
                           Text(
-                            "Surat, GJ",
+                            "${GetStorage().read(userAddress) ?? 'City Name'}",
                             style: TextStyle(
                               color: Colors.white70,
                               fontSize: 14,
@@ -110,7 +112,15 @@ class _CommonDrawerState extends State<CommonDrawer> {
                         ],
                       ),
                       const Spacer(),
-                      Image.asset(ImageConstant.imgEditBtn, height: 20.h),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.editProfileScreen);
+                        },
+                        child: Image.asset(
+                          ImageConstant.imgEditBtn,
+                          height: 20.h,
+                        ),
+                      ),
                       SizedBox(width: 12.w),
                     ],
                   ),
@@ -119,59 +129,11 @@ class _CommonDrawerState extends State<CommonDrawer> {
             ),
           ),
           SizedBox(height: 20.h),
-          // Drawer Items
-          // Expanded(
-          //   child: ListView(
-          //     padding: EdgeInsets.zero,
-          //     children: [
-          //       _drawerItem(ImageConstant.imgHomeBottom, "Home"),
-          //       _drawerItem(ImageConstant.imgParcelBottom, "Order Request"),
-          //       _drawerItem(ImageConstant.imgHistoryBottom, "Order History"),
-          //       _drawerItem(ImageConstant.imgProfileBottom, "Profile"),
-          //       Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          //         child: Divider(color: ColorConstant.clrEEEEEE),
-          //       ),
-          //       _drawerItem(
-          //         ImageConstant.imgTermsAndCondition,
-          //         "Terms & Condition",
-          //       ),
-          //       _drawerItem(ImageConstant.imgPrivacyPolicy, "Privacy Policy"),
-          //       _drawerItem(ImageConstant.imgHelpAndSupport, "Help & Support"),
-          //       Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          //         child: Divider(color: ColorConstant.clrEEEEEE),
-          //       ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(
-          //     horizontal: 50.w,
-          //     vertical: 9.h,
-          //   ),
-          //   child: Row(
-          //     children: [
-          //       SvgPicture.asset(
-          //         ImageConstant.imgLogout,
-          //         height: 17.h,
-          //         color: ColorConstant.clrSecondary,
-          //       ),
-          //       SizedBox(width: 16.w),
-          //       Text(
-          //         "Logout",
-          //         style:
-          //             TextStyleConstant()
-          //                 .subTitleTextStyle18w500ClrSecondary,
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          //     ],
-          //   ),
-          // ),
           Flexible(
             child: ListView.separated(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.zero,
+              // physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 60.h),
               separatorBuilder: (context, index) {
                 return Visibility(
                   visible: index == 3 || index == 6,
@@ -191,9 +153,14 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 return GestureDetector(
                   onTap:
                       () => setState(() {
-                        print(index);
+                        log(index.toString());
                         selectedIndex = index;
-                        if (index == 7) {
+                        if (index == 4) {
+                          Get.toNamed(AppRoutes.metaDataScreen);
+                        } else if (index == 7) {
+                          // Logout action
+                          showLogoutDialog(context);
+                        } else if (index == 8) {
                           // Logout action
                           showLogoutDialog(context);
                         }
@@ -247,7 +214,10 @@ class _CommonDrawerState extends State<CommonDrawer> {
       leading: SvgPicture.asset(
         icon ?? "",
         height: 17.h,
-        color: clrIcon ?? ColorConstant.clr444444,
+        colorFilter: ColorFilter.mode(
+          clrIcon ?? ColorConstant.clr444444,
+          BlendMode.srcIn,
+        ),
       ),
       title: Text(title ?? "", style: style),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -268,7 +238,7 @@ class DrawerItem extends StatelessWidget {
       leading: SvgPicture.asset(
         iconPath,
         height: 17.h,
-        color: ColorConstant.clr444444,
+        colorFilter: ColorFilter.mode(ColorConstant.clr444444, BlendMode.srcIn),
       ),
       title: Text(
         title,

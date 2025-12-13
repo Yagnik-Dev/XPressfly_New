@@ -10,6 +10,7 @@ import 'package:xpressfly_git/Screens/Customer/customer_bottombar_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/customer_homescreen.dart';
 import 'package:xpressfly_git/Screens/Customer/timer_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/verification_screen.dart';
+import 'package:xpressfly_git/Screens/DrawerScreens/metadata_screen.dart';
 import 'package:xpressfly_git/Screens/Driver/addvehicle_mainscreen.dart';
 import 'package:xpressfly_git/Screens/Driver/driver_homescreen.dart';
 import 'package:xpressfly_git/Screens/Driver/driver_bottombar_screen.dart';
@@ -38,7 +39,9 @@ class AppRoutes {
   static const String customerBottomBarScreen = '/customer_bottom_bar_screen';
   static const String verificationScreen = '/verification_screen';
   static const String bookAOrderMainScreen = '/book_a_order_main_screen';
-  static const String waitForResponseTimerScreen = '/wait_for_response_timer_screen';
+  static const String waitForResponseTimerScreen =
+      '/wait_for_response_timer_screen';
+  static const String metaDataScreen = '/metadata_screen';
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -61,10 +64,14 @@ class AppRoutes {
     GetPage(name: customerHomeScreen, page: () => CustomerHomeScreen()),
     GetPage(name: verificationScreen, page: () => VerificationScreen()),
     GetPage(name: bookAOrderMainScreen, page: () => BookAOrderMainScreen()),
-    GetPage(name: waitForResponseTimerScreen, page: () => WaitForResponseTimerScreen()),
+    GetPage(
+      name: waitForResponseTimerScreen,
+      page: () => WaitForResponseTimerScreen(),
+    ),
     GetPage(
       name: editVehicleDetailsScreen,
       page: () => EditVehicleDetailsScreen(),
     ),
+    GetPage(name: metaDataScreen, page: () => MetadataScreen()),
   ];
 }

@@ -7,7 +7,6 @@ import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
 import 'package:xpressfly_git/Controller/otp_controller.dart';
 import 'package:xpressfly_git/Models/login_model.dart';
-import 'package:xpressfly_git/Screens/AuthScreens/join_as_screen.dart';
 import '../../Common Components/common_button.dart';
 import '../../Common Components/common_textfield.dart';
 

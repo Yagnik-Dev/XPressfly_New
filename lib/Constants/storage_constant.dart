@@ -7,4 +7,4 @@ const userPhone = 'userPhone';
 const userProfileImage = 'userProfileImage';
 const userAddress = 'userAddress';
 const userPincode = 'userPincode';
-const refreshToken = 'refreshToken';
+const refreshTokenVal = 'refreshToken';

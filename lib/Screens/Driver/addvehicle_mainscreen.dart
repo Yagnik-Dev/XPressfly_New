@@ -7,7 +7,6 @@ import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
 import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_one.dart';
-import 'package:xpressfly_git/Screens/Driver/add_vehicle_three.dart';
 import 'package:xpressfly_git/Screens/Driver/add_vehicle_two.dart';
 
 // ignore: must_be_immutable
@@ -62,7 +61,7 @@ class AddVehicleMainScreen extends StatelessWidget {
                   child: Obx(
                     () => CommonButtonRounded(
                       btnText:
-                          addvehicleController.intCurrentStep.value == 2
+                          addvehicleController.intCurrentStep.value == 1
                               ? (addvehicleController.isUpdateMode.value
                                   ? "Update"
                                   : "Submit")
@@ -85,22 +84,31 @@ class AddVehicleMainScreen extends StatelessWidget {
                               .addVehicleTwoFormKey
                               .currentState!
                               .validate()) {
-                            addvehicleController.pageviewController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
+                            await addvehicleController.createVehicle((
+                              success,
+                            ) async {
+                              if (success) {
+                                await driverHomeController.refreshVehicleList();
+                                Get.back();
+                              }
+                            });
+                            // addvehicleController.pageviewController.nextPage(
+                            //   duration: const Duration(milliseconds: 300),
+                            //   curve: Curves.easeInOut,
+                            // );
                           }
-                        } else {
-                          // This is the submit step
-                          await addvehicleController.createVehicle((
-                            success,
-                          ) async {
-                            if (success) {
-                              await driverHomeController.refreshVehicleList();
-                              Get.back();
-                            }
-                          });
                         }
+                        // else {
+                        //   // This is the submit step
+                        //   await addvehicleController.createVehicle((
+                        //     success,
+                        //   ) async {
+                        //     if (success) {
+                        //       await driverHomeController.refreshVehicleList();
+                        //       Get.back();
+                        //     }
+                        //   });
+                        // }
                       },
                     ),
                   ),
@@ -159,21 +167,21 @@ class AddVehicleMainScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 6.w),
-                      Obx(
-                        () => Expanded(
-                          child: Container(
-                            height: 4.h,
-                            decoration: BoxDecoration(
-                              color:
-                                  addvehicleController.intCurrentStep.value == 2
-                                      ? ColorConstant.clrSecondary
-                                      : ColorConstant.clrF2FAFF,
-                              borderRadius: BorderRadius.circular(30.r),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // SizedBox(width: 6.w),
+                      // Obx(
+                      //   () => Expanded(
+                      //     child: Container(
+                      //       height: 4.h,
+                      //       decoration: BoxDecoration(
+                      //         color:
+                      //             addvehicleController.intCurrentStep.value == 2
+                      //                 ? ColorConstant.clrSecondary
+                      //                 : ColorConstant.clrF2FAFF,
+                      //         borderRadius: BorderRadius.circular(30.r),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -191,7 +199,7 @@ class AddVehicleMainScreen extends StatelessWidget {
       child: PageView(
         controller: addvehicleController.pageviewController,
         physics: const NeverScrollableScrollPhysics(),
-        children: [AddVehicleOne(), AddVehicleTwo(), AddVehicleThree()],
+        children: [AddVehicleOne(), AddVehicleTwo()],
         onPageChanged: (value) {
           addvehicleController.intCurrentStep.value = value;
           addvehicleController.intCurrentStep.refresh();

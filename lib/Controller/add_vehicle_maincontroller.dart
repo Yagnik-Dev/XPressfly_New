@@ -12,6 +12,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
+import 'package:xpressfly_git/Controller/driver_home_controller.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Models/create_vehicle_model.dart';
 import 'package:xpressfly_git/Models/get_vehicle_Details_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
@@ -55,6 +57,14 @@ class AddVehicleMainController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    final ProfileController profileController = Get.find<ProfileController>();
+    fullNameTextEditingController.text =
+        profileController.userDetails.value.user?.name ?? '';
+    mobileNoTextEditingController.text =
+        profileController.userDetails.value.user?.phone ?? '';
+    // licenseNoTextEditingController.text = vehicleData.licenseNumber ?? '';
+    addressTextEditingController.text =
+        profileController.userDetails.value.user?.address ?? '';
     // Check if we're in update mode and get vehicle data
     if (Get.arguments != null && Get.arguments is Map<String, dynamic>) {
       final args = Get.arguments as Map<String, dynamic>;
@@ -71,15 +81,36 @@ class AddVehicleMainController extends GetxController {
     existingVehicleData.value = vehicleData;
 
     // Populate form fields with existing data
-    fullNameTextEditingController.text = vehicleData.fullName ?? '';
-    mobileNoTextEditingController.text = vehicleData.mobileNumber ?? '';
-    licenseNoTextEditingController.text = vehicleData.licenseNumber ?? '';
-    addressTextEditingController.text = vehicleData.address ?? '';
     vehicleModelTextEditingController.text = vehicleData.vehicleModel ?? '';
     vehicleNoTextEditingController.text = vehicleData.vehicleNumber ?? '';
-    selectedVehicleTitle.value = vehicleData.vehicleType ?? '';
-    pinCodeTextEditingController.text =
-        vehicleData.deliveryPincodes?.join(', ') ?? '';
+    selectedVehicleTitle.value = vehicleData.vehicleType?.name ?? '';
+    selectedVehicleIcon.value = vehicleData.vehicleType?.logo ?? '';
+    selectedVehicleColor.value = Color(
+      _parseColorCode(vehicleData.vehicleType?.colorCode),
+    );
+    pinCodeTextEditingController.text = vehicleData.zipCode?.join(', ') ?? '';
+    rcBookFrontImg.value =
+        vehicleData.rcBookFront != null ? File(vehicleData.rcBookFront!) : null;
+    rcBookBackImg.value =
+        vehicleData.rcBookBack != null ? File(vehicleData.rcBookBack!) : null;
+  }
+
+  int _parseColorCode(dynamic colorCode) {
+    if (colorCode == null) return 0xFFFFFFFF;
+    if (colorCode is int) return colorCode;
+    if (colorCode is String) {
+      var s = colorCode.trim();
+      if (s.startsWith('#')) s = s.substring(1);
+      if (s.startsWith('0x')) s = s.substring(2);
+      // If 6 hex digits (RRGGBB), prepend 'ff' for full alpha.
+      if (s.length == 6) s = 'ff$s';
+      try {
+        return int.parse(s, radix: 16);
+      } catch (_) {
+        return 0xFFFFFFFF;
+      }
+    }
+    return 0xFFFFFFFF;
   }
 
   void pickVehicleType(String title, String icon, int color) {
@@ -111,26 +142,26 @@ class AddVehicleMainController extends GetxController {
 
     // For create mode, validate all required images
     if (!isUpdateMode.value) {
-      if (licenceImg.value == null) {
-        hideLoading();
-        declineDialog("Error", "Please upload licence image");
-        onCompleteHandler(false);
-        return;
-      }
+      // if (licenceImg.value == null) {
+      //   hideLoading();
+      //   declineDialog("Error", "Please upload licence image");
+      //   onCompleteHandler(false);
+      //   return;
+      // }
 
-      if (aadharFrontImg.value == null) {
-        hideLoading();
-        declineDialog("Error", "Please upload Aadhar front image");
-        onCompleteHandler(false);
-        return;
-      }
+      // if (aadharFrontImg.value == null) {
+      //   hideLoading();
+      //   declineDialog("Error", "Please upload Aadhar front image");
+      //   onCompleteHandler(false);
+      //   return;
+      // }
 
-      if (aadharBackImg.value == null) {
-        hideLoading();
-        declineDialog("Error", "Please upload Aadhar back image");
-        onCompleteHandler(false);
-        return;
-      }
+      // if (aadharBackImg.value == null) {
+      //   hideLoading();
+      //   declineDialog("Error", "Please upload Aadhar back image");
+      //   onCompleteHandler(false);
+      //   return;
+      // }
 
       if (rcBookFrontImg.value == null) {
         hideLoading();
@@ -156,58 +187,68 @@ class AddVehicleMainController extends GetxController {
     try {
       // Create form data
       var formData = formdata.FormData.fromMap({
-        "user_id": GetStorage().read(userId).toString(),
-        "full_name": fullNameTextEditingController.text.trim(),
-        "mobile_number": mobileNoTextEditingController.text.trim(),
-        "license_number": licenseNoTextEditingController.text.trim(),
-        "address": addressTextEditingController.text.trim(),
+        // "user_id": GetStorage().read(userId).toString(),
+        // "full_name": fullNameTextEditingController.text.trim(),
+        // "mobile_number": mobileNoTextEditingController.text.trim(),
+        // "license_number": licenseNoTextEditingController.text.trim(),
+        // "address": addressTextEditingController.text.trim(),
         "vehicle_model": vehicleModelTextEditingController.text.trim(),
         "vehicle_number": vehicleNoTextEditingController.text.trim(),
-        "vehicle_type": selectedVehicleTitle.value,
-        "delivery_pincodes": [pinCodeTextEditingController.text.trim()],
+        "vehicle_type":
+            Get.find<DriverHomeController>().vehicleTypeList.value.data
+                ?.firstWhere((type) => type.name == selectedVehicleTitle.value)
+                .id
+                .toString(),
+        "zip_code": jsonEncode(
+          pinCodeTextEditingController.text
+              .split(',')
+              .map((e) => e.trim())
+              .where((e) => e.isNotEmpty)
+              .toList(),
+        ),
       });
 
       // Add files only if they are selected (for update) or required (for create)
-      if (licenceImg.value != null) {
-        formData.files.add(
-          MapEntry(
-            "license_image",
-            multipart_file.MultipartFile.fromFileSync(
-              licenceImg.value!.path,
-              filename: licenceImg.value!.path.split('/').last,
-            ),
-          ),
-        );
-      }
+      // if (licenceImg.value != null) {
+      //   formData.files.add(
+      //     MapEntry(
+      //       "license_image",
+      //       multipart_file.MultipartFile.fromFileSync(
+      //         licenceImg.value!.path,
+      //         filename: licenceImg.value!.path.split('/').last,
+      //       ),
+      //     ),
+      //   );
+      // }
 
-      if (aadharFrontImg.value != null) {
-        formData.files.add(
-          MapEntry(
-            "adhar_front_image",
-            multipart_file.MultipartFile.fromFileSync(
-              aadharFrontImg.value!.path,
-              filename: aadharFrontImg.value!.path.split('/').last,
-            ),
-          ),
-        );
-      }
+      // if (aadharFrontImg.value != null) {
+      //   formData.files.add(
+      //     MapEntry(
+      //       "adhar_front_image",
+      //       multipart_file.MultipartFile.fromFileSync(
+      //         aadharFrontImg.value!.path,
+      //         filename: aadharFrontImg.value!.path.split('/').last,
+      //       ),
+      //     ),
+      //   );
+      // }
 
-      if (aadharBackImg.value != null) {
-        formData.files.add(
-          MapEntry(
-            "adhar_back_image",
-            multipart_file.MultipartFile.fromFileSync(
-              aadharBackImg.value!.path,
-              filename: aadharBackImg.value!.path.split('/').last,
-            ),
-          ),
-        );
-      }
+      // if (aadharBackImg.value != null) {
+      //   formData.files.add(
+      //     MapEntry(
+      //       "adhar_back_image",
+      //       multipart_file.MultipartFile.fromFileSync(
+      //         aadharBackImg.value!.path,
+      //         filename: aadharBackImg.value!.path.split('/').last,
+      //       ),
+      //     ),
+      //   );
+      // }
 
       if (rcBookFrontImg.value != null) {
         formData.files.add(
           MapEntry(
-            "rc_front_image",
+            "rc_book_front",
             multipart_file.MultipartFile.fromFileSync(
               rcBookFrontImg.value!.path,
               filename: rcBookFrontImg.value!.path.split('/').last,
@@ -219,7 +260,7 @@ class AddVehicleMainController extends GetxController {
       if (rcBookBackImg.value != null) {
         formData.files.add(
           MapEntry(
-            "rc_back_image",
+            "rc_book_back",
             multipart_file.MultipartFile.fromFileSync(
               rcBookBackImg.value!.path,
               filename: rcBookBackImg.value!.path.split('/').last,
@@ -237,9 +278,9 @@ class AddVehicleMainController extends GetxController {
 
       if (isUpdateMode.value) {
         // Use PUT request for update
-        response = await ServiceCall().putMultipart(
+        response = await ServiceCall().patchMultipart(
           ApiConstant.baseUrl,
-          "${ApiConstant.vehiclesDetails}/${vehicleId.value}",
+          "${ApiConstant.updateVehicles}${vehicleId.value}/",
           formData,
           headers,
         );
@@ -247,7 +288,7 @@ class AddVehicleMainController extends GetxController {
         // Use POST request for create
         response = await ServiceCall().postMultipart(
           ApiConstant.baseUrl,
-          ApiConstant.vehiclesDetails,
+          ApiConstant.createVehicles,
           formData,
           headers,
         );
@@ -275,19 +316,19 @@ class AddVehicleMainController extends GetxController {
         // The response appears to be in a Map-like format but not proper JSON
         if (response is String) {
           // Try to manually parse the response
-          if (response.contains("success: true") &&
-              response.contains("message:")) {
-            // This is a successful response in non-JSON format
-            hideLoading();
-            onCompleteHandler(true);
-            approvedDialog("Success", "Vehicle updated successfully");
+          // if (response.contains("success: true") &&
+          //     response.contains("message:")) {
+          // This is a successful response in non-JSON format
+          hideLoading();
+          onCompleteHandler(true);
+          approvedDialog("Success", "Vehicle updated successfully");
 
-            // Don't clear form in update mode
-            if (!isUpdateMode.value) {
-              clearForm();
-            }
-            return;
+          // Don't clear form in update mode
+          if (!isUpdateMode.value) {
+            clearForm();
           }
+          return;
+          // }
         }
 
         // If we can't parse it, show error

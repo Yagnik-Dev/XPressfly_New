@@ -39,7 +39,7 @@ class VehicleDetailsController extends GetxController {
 
       var response = await ServiceCall().get(
         ApiConstant.baseUrl,
-        "${ApiConstant.vehiclesDetails}/$vehicleId",
+        "${ApiConstant.vehicleList}$vehicleId/",
         headers,
       );
 
@@ -51,16 +51,16 @@ class VehicleDetailsController extends GetxController {
         jsonDecode(response),
       );
 
-      if (parsedResponse.success ?? false) {
-        vehicleDetails.value = parsedResponse;
-        hideLoading();
-      } else {
-        throw Exception(parsedResponse.message ?? 'Failed to load vehicles');
-      }
+      // if (parsedResponse.success ?? false) {
+      vehicleDetails.value = parsedResponse;
+      hideLoading();
+      // } else {
+      //   throw Exception(parsedResponse.message ?? 'Failed to load vehicles');
+      // }
     } catch (error) {
       hideLoading();
 
-      debugPrint('Error loading vehicles: $error');
+      debugPrint('Error loading vehicle Details: $error');
     } finally {
       // isVehicleLoading.value = false;
       hideLoading();
@@ -78,7 +78,7 @@ class VehicleDetailsController extends GetxController {
 
       var response = await ServiceCall().delete(
         ApiConstant.baseUrl,
-        "${ApiConstant.vehiclesDetails}/$vehicleId",
+        "${ApiConstant.deleteVehicles}$vehicleId",
         headers,
       );
 

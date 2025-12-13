@@ -100,7 +100,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 borderRadius: BorderRadius.circular(34.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     spreadRadius: 1,
                     blurRadius: 8,
                     offset: Offset(0, 2),
@@ -181,7 +181,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                               value: true,
                               activeColor: ColorConstant.clrSecondary,
                               activeTrackColor: ColorConstant.clrSecondary
-                                  .withOpacity(0.3),
+                                  .withValues(alpha: 0.3),
                               inactiveTrackColor: ColorConstant.clrWhite,
                               inactiveThumbColor: ColorConstant.clrSecondary,
                               trackOutlineColor: WidgetStatePropertyAll(

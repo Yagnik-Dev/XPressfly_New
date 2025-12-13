@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+// ignore: implementation_imports
 import 'package:dio/src/form_data.dart' as formdata;
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -8,13 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/create_customer_model.dart';
-import 'package:xpressfly_git/Models/otp_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import 'package:xpressfly_git/Utility/common_imports.dart';
-
-import '../Constants/storage_constant.dart';
 
 class VerificationController extends GetxController {
   Rx<File?> aadharFrontImg = Rx<File?>(null);
@@ -63,7 +61,7 @@ class VerificationController extends GetxController {
       GetStorage().write(userPhone, objLogin.user?.phone);
       GetStorage().write(userAddress, objLogin.user?.city);
       GetStorage().write(userPincode, objLogin.user?.pincode);
-      GetStorage().write(refreshToken, objLogin.refreshToken);
+      GetStorage().write(refreshTokenVal, objLogin.refreshToken);
       hideLoading();
       onCompleteHandler(true);
       approvedDialog('Success', objLogin.message.toString());

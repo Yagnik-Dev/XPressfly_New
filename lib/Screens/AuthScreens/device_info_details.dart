@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
 
@@ -44,5 +46,5 @@ Future<Map<String, dynamic>> getFullDeviceData() async {
 
 void loadDeviceData() async {
   final data = await getFullDeviceData();
-  print("Device Info: $data");
+  log("Device Info: $data");
 }

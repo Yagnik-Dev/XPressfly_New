@@ -11,7 +11,9 @@ import 'package:xpressfly_git/Controller/verification_controller.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/bank_details_screen.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/device_info_details.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
+// ignore: implementation_imports
 import 'package:dio/src/form_data.dart' as formdata;
+// ignore: implementation_imports
 import 'package:dio/src/multipart_file.dart' as multipart_file;
 
 class VerificationScreen extends StatelessWidget {
@@ -20,6 +22,7 @@ class VerificationScreen extends StatelessWidget {
   final String? otp;
   final String? name;
   final String? city;
+  final String? email;
   final String? pincode;
 
   VerificationScreen({
@@ -29,6 +32,7 @@ class VerificationScreen extends StatelessWidget {
     this.otp,
     this.name,
     this.city,
+    this.email,
     this.pincode,
   });
 
@@ -204,6 +208,7 @@ class VerificationScreen extends StatelessWidget {
                                       mobileNo: mobileNo,
                                       otp: otp,
                                       name: name,
+                                      email: email,
                                       city: city,
                                       pincode: pincode,
                                       aadharFrontImg:
@@ -248,7 +253,7 @@ class VerificationScreen extends StatelessWidget {
                                   "device_type": deviceInfo["deviceType"],
                                   "is_duty_on": "",
                                   "profile_image": "",
-                                  "email": "user@gmail.com",
+                                  "email": email,
                                   "address": "surat",
                                   // "adhar_card_front": aadharFrontImg.path,
                                   // "adhar_card_back": aadharBackImg.path,

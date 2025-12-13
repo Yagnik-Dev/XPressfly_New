@@ -1,12 +1,10 @@
 class GetUserWiseVehicleResponseModel {
-  bool? success;
   String? message;
   List<GetUserVehicleData>? data;
 
-  GetUserWiseVehicleResponseModel({this.success, this.message, this.data});
+  GetUserWiseVehicleResponseModel({this.message, this.data});
 
   GetUserWiseVehicleResponseModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
     message = json['message'];
     if (json['data'] != null) {
       data = <GetUserVehicleData>[];
@@ -18,7 +16,6 @@ class GetUserWiseVehicleResponseModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
     data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
@@ -29,59 +26,41 @@ class GetUserWiseVehicleResponseModel {
 
 class GetUserVehicleData {
   int? id;
-  int? userId;
-  String? fullName;
-  String? mobileNumber;
-  String? licenseNumber;
-  String? licenseImage;
-  String? address;
   String? vehicleModel;
   String? vehicleNumber;
-  String? vehicleType;
-  List<String>? deliveryPincodes;
-  String? adharFrontImage;
-  String? adharBackImage;
-  String? rcFrontImage;
-  String? rcBackImage;
+  List<String>? zipCode;
+  String? rcBookFront;
+  String? rcBookBack;
+  VehicleType? vehicleType;
+  int? vehicleOwner;
   String? createdAt;
   String? updatedAt;
 
   GetUserVehicleData({
     this.id,
-    this.userId,
-    this.fullName,
-    this.mobileNumber,
-    this.licenseNumber,
-    this.licenseImage,
-    this.address,
     this.vehicleModel,
     this.vehicleNumber,
+    this.zipCode,
+    this.rcBookFront,
+    this.rcBookBack,
     this.vehicleType,
-    this.deliveryPincodes,
-    this.adharFrontImage,
-    this.adharBackImage,
-    this.rcFrontImage,
-    this.rcBackImage,
+    this.vehicleOwner,
     this.createdAt,
     this.updatedAt,
   });
 
   GetUserVehicleData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userId = json['user_id'];
-    fullName = json['full_name'];
-    mobileNumber = json['mobile_number'];
-    licenseNumber = json['license_number'];
-    licenseImage = json['license_image'];
-    address = json['address'];
     vehicleModel = json['vehicle_model'];
     vehicleNumber = json['vehicle_number'];
-    vehicleType = json['vehicle_type'];
-    deliveryPincodes = json['delivery_pincodes'].cast<String>();
-    adharFrontImage = json['adhar_front_image'];
-    adharBackImage = json['adhar_back_image'];
-    rcFrontImage = json['rc_front_image'];
-    rcBackImage = json['rc_back_image'];
+    zipCode = json['zip_code'].cast<String>();
+    rcBookFront = json['rc_book_front'];
+    rcBookBack = json['rc_book_back'];
+    vehicleType =
+        json['vehicle_type'] != null
+            ? VehicleType.fromJson(json['vehicle_type'])
+            : null;
+    vehicleOwner = json['vehicle_owner'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -89,22 +68,71 @@ class GetUserVehicleData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['user_id'] = userId;
-    data['full_name'] = fullName;
-    data['mobile_number'] = mobileNumber;
-    data['license_number'] = licenseNumber;
-    data['license_image'] = licenseImage;
-    data['address'] = address;
     data['vehicle_model'] = vehicleModel;
     data['vehicle_number'] = vehicleNumber;
-    data['vehicle_type'] = vehicleType;
-    data['delivery_pincodes'] = deliveryPincodes;
-    data['adhar_front_image'] = adharFrontImage;
-    data['adhar_back_image'] = adharBackImage;
-    data['rc_front_image'] = rcFrontImage;
-    data['rc_back_image'] = rcBackImage;
+    data['zip_code'] = zipCode;
+    data['rc_book_front'] = rcBookFront;
+    data['rc_book_back'] = rcBookBack;
+    if (vehicleType != null) {
+      data['vehicle_type'] = vehicleType!.toJson();
+    }
+    data['vehicle_owner'] = vehicleOwner;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class VehicleType {
+  int? id;
+  String? createdAt;
+  String? updatedAt;
+  bool? isActive;
+  String? name;
+  String? logo;
+  String? image;
+  String? colorCode;
+  String? pricePerKm;
+  String? description;
+
+  VehicleType({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.isActive,
+    this.name,
+    this.logo,
+    this.image,
+    this.colorCode,
+    this.pricePerKm,
+    this.description,
+  });
+
+  VehicleType.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    isActive = json['is_active'];
+    name = json['name'];
+    logo = json['logo'];
+    image = json['image'];
+    colorCode = json['color_code'];
+    pricePerKm = json['price_per_km'];
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['is_active'] = isActive;
+    data['name'] = name;
+    data['logo'] = logo;
+    data['image'] = image;
+    data['color_code'] = colorCode;
+    data['price_per_km'] = pricePerKm;
+    data['description'] = description;
     return data;
   }
 }

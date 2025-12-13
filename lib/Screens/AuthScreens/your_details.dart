@@ -16,6 +16,7 @@ class YourDetailsScreen extends StatelessWidget {
   YourDetailsScreen({super.key, required this.type, this.mobileNo, this.otp});
 
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController pincodeController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -77,6 +78,7 @@ class YourDetailsScreen extends StatelessWidget {
                       type: type,
                       mobileNo: mobileNo,
                       otp: otp,
+                      email: emailController.text.trim(),
                       name: nameController.text.trim(),
                       city: cityController.text.trim(),
                       pincode: pincodeController.text.trim(),
@@ -126,6 +128,22 @@ class YourDetailsScreen extends StatelessWidget {
                                     (p0) =>
                                         p0 == null || p0.isEmpty
                                             ? "Please enter your name"
+                                            : null,
+                              ),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "Your Email",
+                                style:
+                                    TextStyleConstant()
+                                        .subTitleTextStyle16w500ClrSubText,
+                              ),
+                              SizedBox(height: 6.h),
+                              CommonTextFormFieldWithoutBorder(
+                                controller: emailController,
+                                validator:
+                                    (p0) =>
+                                        p0 == null || p0.isEmpty
+                                            ? "Please enter your email"
                                             : null,
                               ),
                               SizedBox(height: 16.h),

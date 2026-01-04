@@ -16,7 +16,7 @@ class VehicleDetailsScreen extends StatelessWidget {
   final VehicleDetailsController vehicleDetailsController = Get.put(
     VehicleDetailsController(),
   );
-  DriverHomeController driverHomeController = Get.find<DriverHomeController>();
+  final DriverHomeController driverHomeController = Get.find<DriverHomeController>();
 
   @override
   Widget build(BuildContext context) {

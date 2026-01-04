@@ -558,29 +558,29 @@ class DriverHomeScreen extends StatelessWidget {
     );
   }
 
-  Color _getVehicleColor(String? vehicleType) {
-    switch (vehicleType?.toLowerCase()) {
-      case 'truck':
-      case 'mahindra jeeto':
-        return Color(0xffFEE3BA);
-      case 'car':
-      case 'suzuki dzire':
-        return Color(0xffD5E8FF);
-      default:
-        return Color(0xffFEE3BA);
-    }
-  }
+  // Color _getVehicleColor(String? vehicleType) {
+  //   switch (vehicleType?.toLowerCase()) {
+  //     case 'truck':
+  //     case 'mahindra jeeto':
+  //       return Color(0xffFEE3BA);
+  //     case 'car':
+  //     case 'suzuki dzire':
+  //       return Color(0xffD5E8FF);
+  //     default:
+  //       return Color(0xffFEE3BA);
+  //   }
+  // }
 
-  String _getVehicleImage(String? vehicleType) {
-    switch (vehicleType?.toLowerCase()) {
-      case 'truck':
-      case 'mahindra jeeto':
-        return ImageConstant.imgSmallTruck;
-      case 'car':
-      case 'suzuki dzire':
-        return ImageConstant.imgMotorCar;
-      default:
-        return ImageConstant.imgSmallTruck;
-    }
-  }
+  // String _getVehicleImage(String? vehicleType) {
+  //   switch (vehicleType?.toLowerCase()) {
+  //     case 'truck':
+  //     case 'mahindra jeeto':
+  //       return ImageConstant.imgSmallTruck;
+  //     case 'car':
+  //     case 'suzuki dzire':
+  //       return ImageConstant.imgMotorCar;
+  //     default:
+  //       return ImageConstant.imgSmallTruck;
+  //   }
+  // }
 }

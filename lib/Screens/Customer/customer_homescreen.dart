@@ -7,30 +7,16 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
-import 'package:xpressfly_git/Screens/Customer/select_delivery_area_dialog.dart';
-import 'package:xpressfly_git/Screens/Driver/vehicle_type_dialog.dart';
+import 'package:xpressfly_git/Controller/customer_home_controller.dart';
+import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../../Routes/app_routes.dart';
 
-class CustomerHomeScreen extends StatefulWidget {
-  const CustomerHomeScreen({super.key});
+class CustomerHomeScreen extends StatelessWidget {
+  CustomerHomeScreen({super.key});
 
-  @override
-  State<CustomerHomeScreen> createState() => _CustomerHomeScreenState();
-}
-
-class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
-  @override
-  void initState() {
-    Future.delayed(Duration(seconds: 1), () {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const SelectDeliveryAreaDialog();
-        },
-      );
-    });
-    super.initState();
-  }
+  final CustomerHomeController customerHomeController = Get.put(
+    CustomerHomeController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -254,94 +240,110 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             TextStyleConstant()
                                 .subTitleTextStyle20w600Clr242424,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.bookAOrderMainScreen);
-                        },
-                        child: Text(
-                          'Book a Order',
-                          style:
-                              TextStyleConstant()
-                                  .subTitleTextStyle14w500Clr9D9D9D,
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Get.toNamed(AppRoutes.bookAOrderMainScreen);
+                      //   },
+                      //   child: Text(
+                      //     'Book a Order',
+                      //     style:
+                      //         TextStyleConstant()
+                      //             .subTitleTextStyle14w500Clr9D9D9D,
+                      //   ),
+                      // ),
                     ],
                   ),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: vehicleTypes.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(top: 14.h, bottom: 60.h),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.05,
-                      crossAxisSpacing: 12.w,
-                      mainAxisSpacing: 12.h,
+                  Obx(
+                    () => GridView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          customerHomeController
+                              .vehicleTypeList
+                              .value
+                              .data
+                              ?.length ??
+                          0,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(top: 14.h, bottom: 60.h),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.05,
+                        crossAxisSpacing: 12.w,
+                        mainAxisSpacing: 12.h,
+                      ),
+                      itemBuilder: (context, index) {
+                        final item =
+                            customerHomeController
+                                .vehicleTypeList
+                                .value
+                                .data?[index];
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Color(parseColorCode(item?.colorCode)),
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          padding: EdgeInsets.fromLTRB(11.w, 12.h, 0.w, 0.h),
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Image.network(
+                                  item!.logo!,
+                                  fit: BoxFit.contain,
+                                  height:
+                                      80.h, // <-- give fixed size instead of Expanded
+                                  width: 80.w,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.name ?? '',
+                                    style:
+                                        TextStyleConstant()
+                                            .subTitleTextStyle18w400Clr242424,
+                                  ),
+                                  Text(
+                                    item.description ?? "",
+                                    style:
+                                        TextStyleConstant()
+                                            .subTitleTextStyle12w400clr666666,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8.h),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(
+                                    AppRoutes.bookAOrderMainScreen,
+                                    arguments: {'vehicleType': item.id ?? 0},
+                                  );
+                                  // Get.toNamed(AppRoutes.vehicleDetailsScreen);
+                                },
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Container(
+                                    padding: EdgeInsets.all(6.sp),
+                                    margin: EdgeInsets.only(bottom: 7.h),
+                                    decoration: BoxDecoration(
+                                      color: ColorConstant.clrFFFAFA,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.arrow_outward_rounded,
+                                      color: ColorConstant.clrSecondary,
+                                      size: 18.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                    itemBuilder: (context, index) {
-                      final item = vehicleTypes[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: item["color"],
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        padding: EdgeInsets.fromLTRB(11.w, 12.h, 0.w, 0.h),
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Image.asset(
-                                item["icon"],
-                                fit: BoxFit.contain,
-                                height:
-                                    80.h, // <-- give fixed size instead of Expanded
-                                width: 80.w,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item["title"],
-                                  style:
-                                      TextStyleConstant()
-                                          .subTitleTextStyle18w400Clr242424,
-                                ),
-                                Text(
-                                  item["description"] ?? "",
-                                  style:
-                                      TextStyleConstant()
-                                          .subTitleTextStyle12w400clr666666,
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.h),
-                            InkWell(
-                              onTap: () {
-                                // Get.toNamed(AppRoutes.vehicleDetailsScreen);
-                              },
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Container(
-                                  padding: EdgeInsets.all(6.sp),
-                                  margin: EdgeInsets.only(bottom: 7.h),
-                                  decoration: BoxDecoration(
-                                    color: ColorConstant.clrFFFAFA,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.arrow_outward_rounded,
-                                    color: ColorConstant.clrSecondary,
-                                    size: 18.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
                   ),
                 ],
               ),

@@ -86,31 +86,13 @@ class AddVehicleMainController extends GetxController {
     selectedVehicleTitle.value = vehicleData.vehicleType?.name ?? '';
     selectedVehicleIcon.value = vehicleData.vehicleType?.logo ?? '';
     selectedVehicleColor.value = Color(
-      _parseColorCode(vehicleData.vehicleType?.colorCode),
+      parseColorCode(vehicleData.vehicleType?.colorCode),
     );
     pinCodeTextEditingController.text = vehicleData.zipCode?.join(', ') ?? '';
     rcBookFrontImg.value =
         vehicleData.rcBookFront != null ? File(vehicleData.rcBookFront!) : null;
     rcBookBackImg.value =
         vehicleData.rcBookBack != null ? File(vehicleData.rcBookBack!) : null;
-  }
-
-  int _parseColorCode(dynamic colorCode) {
-    if (colorCode == null) return 0xFFFFFFFF;
-    if (colorCode is int) return colorCode;
-    if (colorCode is String) {
-      var s = colorCode.trim();
-      if (s.startsWith('#')) s = s.substring(1);
-      if (s.startsWith('0x')) s = s.substring(2);
-      // If 6 hex digits (RRGGBB), prepend 'ff' for full alpha.
-      if (s.length == 6) s = 'ff$s';
-      try {
-        return int.parse(s, radix: 16);
-      } catch (_) {
-        return 0xFFFFFFFF;
-      }
-    }
-    return 0xFFFFFFFF;
   }
 
   void pickVehicleType(String title, String icon, int color) {

@@ -11,9 +11,9 @@ import '../../Common Components/common_button.dart';
 import '../../Common Components/common_textfield.dart';
 
 class OtpScreen extends StatelessWidget {
-  String? mobileNo;
-  int? loginType;
-  String? otp;
+  final String? mobileNo;
+  final int? loginType;
+  final String? otp;
   OtpScreen({super.key, this.mobileNo, this.loginType, this.otp});
 
   final OtpController otpController = Get.put(OtpController());

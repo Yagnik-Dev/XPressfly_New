@@ -1,13 +1,15 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Screens/Driver/swipe_to_accept_button.dart';
 
 class OrderRequestScreen extends StatelessWidget {
-  OrderRequestScreen({super.key});
+  const OrderRequestScreen({super.key});
 
-  bool isOrderAvailable = false;
+  final bool isOrderAvailable = false;
 
   @override
   Widget build(BuildContext context) {
@@ -308,52 +310,60 @@ class OrderRequestScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              // Expanded(
+                              //   child: Container(
+                              //     margin: EdgeInsets.only(right: 12.w),
+                              //     decoration: BoxDecoration(
+                              //       color: ColorConstant.clrF7FCFF,
+                              //       borderRadius: BorderRadius.circular(50),
+                              //     ),
+                              //     child: Row(
+                              //       mainAxisSize: MainAxisSize.min,
+                              //       children: [
+                              //         Container(
+                              //           decoration: BoxDecoration(
+                              //             shape: BoxShape.circle,
+                              //             color: ColorConstant.clrSecondary,
+                              //           ),
+                              //           alignment: Alignment.centerLeft,
+                              //           padding: EdgeInsets.fromLTRB(
+                              //             6.w,
+                              //             2.h,
+                              //             2.w,
+                              //             2.h,
+                              //           ),
+                              //           child: Container(
+                              //             padding: EdgeInsets.all(11.sp),
+                              //             decoration: BoxDecoration(
+                              //               shape: BoxShape.circle,
+                              //               color: Colors.white,
+                              //             ),
+                              //             child: Image.asset(
+                              //               ImageConstant.imgSwipeToAccept,
+                              //               height: 16.h,
+                              //               width: 16.w,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         SizedBox(width: 8),
+                              //         Text(
+                              //           "Swipe to Accept",
+                              //           style:
+                              //               TextStyleConstant()
+                              //                   .subTitleTextStyle14w600Clr008000,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
                               Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 12.w),
-                                  decoration: BoxDecoration(
-                                    color: ColorConstant.clrF7FCFF,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: ColorConstant.clrSecondary,
-                                        ),
-                                        alignment: Alignment.centerLeft,
-                                        padding: EdgeInsets.fromLTRB(
-                                          6.w,
-                                          2.h,
-                                          2.w,
-                                          2.h,
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(11.sp),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: Image.asset(
-                                            ImageConstant.imgSwipeToAccept,
-                                            height: 16.h,
-                                            width: 16.w,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        "Swipe to Accept",
-                                        style:
-                                            TextStyleConstant()
-                                                .subTitleTextStyle14w600Clr008000,
-                                      ),
-                                    ],
-                                  ),
+                                child: SwipeToAcceptButton(
+                                  onAccept: () async {
+                                    log("Order Accepted");
+                                  },
                                 ),
                               ),
+                              SizedBox(width: 20.h),
                               Container(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 20.w,

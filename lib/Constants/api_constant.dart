@@ -20,6 +20,7 @@ class ApiConstant {
   static const String vehiclesDetails = "vehicles";
   static const String privacyPolicy = "metadata/privacy-policy/";
   static const String termsAndConditions = "metadata/term-and-condition/";
+  static const String createOrder = "delivery/orders/create/";
   static const String commonErrorMessage = "Something went wrong";
 
   // ================ Forgot Password ====================

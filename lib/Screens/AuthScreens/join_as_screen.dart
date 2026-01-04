@@ -7,8 +7,8 @@ import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/your_details.dart';
 
 class JoinAsScreen extends StatelessWidget {
-  String? mobileNo, otp;
-  JoinAsScreen({super.key, this.mobileNo, this.otp});
+  final String? mobileNo, otp;
+  const JoinAsScreen({super.key, this.mobileNo, this.otp});
 
   @override
   Widget build(BuildContext context) {

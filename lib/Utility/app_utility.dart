@@ -155,3 +155,21 @@ Future<dynamic> declineDialog(
     // },
   );
 }
+
+int parseColorCode(dynamic colorCode) {
+  if (colorCode == null) return 0xFFFFFFFF;
+  if (colorCode is int) return colorCode;
+  if (colorCode is String) {
+    var s = colorCode.trim();
+    if (s.startsWith('#')) s = s.substring(1);
+    if (s.startsWith('0x')) s = s.substring(2);
+    // If 6 hex digits (RRGGBB), prepend 'ff' for full alpha.
+    if (s.length == 6) s = 'ff$s';
+    try {
+      return int.parse(s, radix: 16);
+    } catch (_) {
+      return 0xFFFFFFFF;
+    }
+  }
+  return 0xFFFFFFFF;
+}

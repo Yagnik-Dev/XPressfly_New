@@ -12,6 +12,7 @@ import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_one.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_three.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_two.dart';
+import 'package:xpressfly_git/Screens/Customer/timer_service.dart';
 
 // ignore: must_be_immutable
 class BookAOrderMainScreen extends StatefulWidget {
@@ -95,16 +96,24 @@ class _BookAOrderMainScreenState extends State<BookAOrderMainScreen> {
                                   .bookAOrderThreeFormKey
                                   .currentState!
                                   .validate()) {
-                                await bookAOrderController.createOrder((p0) {
-                                  log('Order Created Callback: $p0');
-                                });
+                                await bookAOrderController.createOrder((
+                                  orderId,
+                                ) {
+                                  log(
+                                    'Order Created Successfully with ID: $orderId',
+                                  );
 
-                                Get.toNamed(
-                                  AppRoutes.waitForResponseTimerScreen,
-                                );
+                                  // Start timer with the order ID
+                                  TimerService().startTimer(
+                                    600,
+                                    orderId: orderId,
+                                  );
 
-                                Future.delayed(const Duration(seconds: 3), () {
-                                  Get.back();
+                                  // Navigate ONLY when success callback is called
+                                  Get.toNamed(
+                                    AppRoutes.waitForResponseTimerScreen,
+                                    arguments: {'orderId': orderId},
+                                  );
                                 });
                               }
                             },

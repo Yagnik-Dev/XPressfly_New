@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
@@ -15,6 +14,8 @@ import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import 'package:xpressfly_git/Utility/common_imports.dart';
 import 'package:xpressfly_git/Utility/place_service.dart';
+import 'package:dio/src/multipart_file.dart' as multipart_file;
+import 'package:dio/src/form_data.dart' as formdata;
 
 class BookAOrderController extends GetxController {
   var intCurrentStep = 0.obs;
@@ -22,8 +23,8 @@ class BookAOrderController extends GetxController {
   RxInt selectedIndex = 0.obs;
   var imgPicker = ImagePicker();
 
-  var pickUpPinCodeController = TextEditingController(text: "355356");
-  var dropOffPinCodeController = TextEditingController(text: "354654");
+  var pickUpPinCodeController = TextEditingController(text: "394101");
+  var dropOffPinCodeController = TextEditingController(text: "364002");
   var receiverNameController = TextEditingController(text: "John Doe");
   var receiverMobileNoController = TextEditingController(text: "+919601605752");
   var orderWeightController = TextEditingController(text: "10");
@@ -162,7 +163,7 @@ class BookAOrderController extends GetxController {
   RxList<Map<String, String>> timeSlots =
       <Map<String, String>>[
         {"from_time": "", "to_time": ""},
-        {"from_time": "", "to_time": ""},
+        // {"from_time": "", "to_time": ""},
       ].obs;
 
   void addTimeSlot() {
@@ -212,157 +213,147 @@ class BookAOrderController extends GetxController {
     }
   }
 
-  Future createOrder(Function(bool) onCompleteHandler) async {
-    showLoading();
-
-    // For create mode, validate all required images
-    // if (!isUpdateMode.value) {}
+  Future<void> createOrder(Function(String) onSuccess) async {
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
 
     var headers = {
-      'Content-Type': 'application/json',
       'accept': 'application/json',
       'Authorization': GetStorage().read(accessToken),
     };
 
     try {
-      // Create form data
-      var reqData = {
+      // Validate images before making API call
+      if (pickedImages.isEmpty) {
+        hideLoading();
+        await declineDialog(
+          "Error",
+          "Please add at least one image of the order",
+        );
+        return; // Stop execution
+      }
+
+      // Create FormData for multipart upload
+      var formData = formdata.FormData.fromMap({
         "title": orderTitleController.text.trim(),
         "receiver_name": receiverNameController.text.trim(),
-        "receiver_phone_number": "919601605752",
-        // "receiver_phone_number": receiverMobileNoController.text.trim(),
+        "receiver_phone_number": receiverMobileNoController.text.trim(),
         "from_address": "Kuber Nager",
         "to_address": "Nandini Row house",
         "from_zip_code": pickUpPinCodeController.text.trim(),
         "to_zip_code": dropOffPinCodeController.text.trim(),
         "pickup_date": orderPickUpDateController.text.trim(),
-        "vehicle_type": vehicleType,
+        "vehicle_type": vehicleType.toString(),
         "weight_in_kg": orderWeightController.text.trim(),
-        "available_times": timeSlots.toList(),
-      };
+        "available_times": jsonEncode(timeSlots.toList()),
+      });
 
-      dynamic response;
+      // Add images
+      for (int i = 0; i < pickedImages.length; i++) {
+        formData.files.add(
+          MapEntry(
+            'images',
+            await multipart_file.MultipartFile.fromFile(
+              pickedImages[i].path,
+              filename: pickedImages[i].path.split('/').last,
+            ),
+          ),
+        );
+      }
 
-      // if (isUpdateMode.value) {
-      //   // Use PUT request for update
-      //   response = await ServiceCall().patchMultipart(
-      //     ApiConstant.baseUrl,
-      //     "${ApiConstant.updateVehicles}${vehicleId.value}/",
-      //     formData,
-      //     headers,
-      //   );
-      // } else {
-      // Use POST request for create
-      response = await ServiceCall().post(
+      dynamic response = await ServiceCall().postMultipart(
         ApiConstant.baseUrl,
         ApiConstant.createOrder,
-        reqData,
+        formData,
         headers,
       );
-      // }
-
-      if (response == null) {
-        hideLoading();
-        onCompleteHandler(false);
-        return;
-      }
 
       debugPrint('Raw Response: $response');
 
-      // Handle the response - it might not be valid JSON
-      dynamic parsedResponse;
-      try {
-        // First try to parse as regular JSON
-        parsedResponse = jsonDecode(response);
-      } catch (e) {
-        debugPrint(
-          'JSON decode failed, trying to handle non-standard format: $e',
-        );
-        if (response is String) {
-          // Try to manually parse the response
-          // if (response.contains("success: true") &&
-          //     response.contains("message:")) {
-          hideLoading();
-          onCompleteHandler(true);
-          approvedDialog("Success", "Vehicle updated successfully");
+      final decodedResponse = jsonDecode(response);
 
-          // Don't clear form in update mode
-          // if (!isUpdateMode.value) {
-          //   clearForm();
-          // }
-          return;
-          // }
+      if (decodedResponse['success'] == true) {
+        // Extract order ID from response
+        final orderId =
+            decodedResponse['data']['id']?.toString() ??
+            decodedResponse['id']?.toString() ??
+            '';
+
+        if (orderId.isEmpty) {
+          hideLoading();
+          await declineDialog("Error", "Order created but ID not found");
+          return; // Don't call onSuccess
         }
 
-        // If we can't parse it, show error
         hideLoading();
-        declineDialog("Error", "Failed to process server response");
-        onCompleteHandler(false);
-        return;
+
+        // ONLY call onSuccess when API succeeds
+        onSuccess(orderId);
+      } else {
+        hideLoading();
+        await declineDialog(
+          "Error",
+          decodedResponse['message']?.toString() ?? "Order creation failed",
+        );
+        // Don't call onSuccess - just return
       }
-
-      // If we successfully parsed JSON, process normally
-      var objAddProduct = CreateVehicleResponseModel.fromJson(parsedResponse);
-
-      hideLoading();
-      onCompleteHandler(true);
-      approvedDialog("Success", objAddProduct.message.toString());
-
-      // Clear form after successful submission only in create mode
-      // if (!isUpdateMode.value) {
-      //   clearForm();
-      // }
-
-      return objAddProduct;
     } catch (error) {
       hideLoading();
+      debugPrint('Error occurred: $error');
+
       if (error is DioException) {
         final responseData = error.response?.data;
         debugPrint('DioError Response Data: $responseData');
+        debugPrint('Status Code: ${error.response?.statusCode}');
 
-        // Handle Dio errors
         String errorMessage = 'An error occurred';
 
-        if (responseData is String) {
-          // Try to extract error message from non-JSON response
-          if (responseData.contains("message:")) {
-            // Extract message from the non-JSON format
-            final messageMatch = RegExp(
-              r"message:\s*([^,]+)",
-            ).firstMatch(responseData);
-            if (messageMatch != null) {
-              errorMessage = messageMatch.group(1)?.trim() ?? errorMessage;
+        if (responseData is Map) {
+          // Handle specific field errors
+          if (responseData.containsKey('images')) {
+            final imageErrors = responseData['images'];
+            if (imageErrors is List && imageErrors.isNotEmpty) {
+              errorMessage = 'Image Error: ${imageErrors[0]}';
+            } else {
+              errorMessage = 'Please add at least one image';
             }
+          } else if (responseData.containsKey('message')) {
+            errorMessage = responseData['message']?.toString() ?? errorMessage;
+          } else if (responseData.containsKey('error')) {
+            errorMessage = responseData['error']?.toString() ?? errorMessage;
           } else {
-            errorMessage = responseData;
+            // Show first error found
+            errorMessage =
+                responseData.values.first?.toString() ?? errorMessage;
           }
-        } else if (responseData is Map) {
-          errorMessage = responseData['message']?.toString() ?? errorMessage;
+        } else if (responseData is String) {
+          errorMessage = responseData;
         }
 
         await declineDialog("Error", errorMessage);
       } else {
         debugPrint('Non-Dio Error: $error');
 
-        // Check if this is the successful but malformed response case
         if (error is FormatException &&
             error.toString().contains("success: true")) {
-          // This is actually a success case with malformed JSON
-          hideLoading();
-          onCompleteHandler(true);
-          approvedDialog("Success", "Vehicle updated successfully");
+          final errorString = error.toString();
+          final idMatch = RegExp(r"id:\s*(\d+)").firstMatch(errorString);
 
-          // if (!isUpdateMode.value) {
-          //   clearForm();
-          // }
-          return;
+          if (idMatch != null) {
+            final orderId = idMatch.group(1)!;
+            hideLoading();
+            onSuccess(orderId); // Only call on actual success
+            return;
+          }
         }
 
         handleError(error);
         await declineDialog("Error", "An unexpected error occurred");
       }
-      onCompleteHandler(false);
-      return false;
+
+      // Don't call onSuccess on error - just return
+      return;
     }
   }
 

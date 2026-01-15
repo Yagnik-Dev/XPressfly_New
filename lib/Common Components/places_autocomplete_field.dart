@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:xpressfly_git/Utility/common_imports.dart';
 import 'package:xpressfly_git/Utility/place_service.dart';
@@ -186,13 +187,13 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
       builder:
           (context) => Positioned(
             left: offset.dx,
-            top: offset.dy + size.height + 4,
+            top: offset.dy + size.height + 5,
             width: size.width,
             child: Material(
               elevation: 4,
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                constraints: const BoxConstraints(maxHeight: 250),
+                constraints: BoxConstraints(maxHeight: 250.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -291,19 +292,19 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
+          // borderSide: BorderSide(color: Colors.red),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
+          // borderSide: BorderSide(color: Colors.red),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
+          // borderSide: BorderSide(color: Colors.red),
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         suffixIcon:
             _isLoading
                 ? const Padding(

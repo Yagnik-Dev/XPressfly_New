@@ -20,7 +20,7 @@ class _DriverBottomBarScreenState extends State<DriverBottomBarScreen> {
   final List<Widget> _screens = [
     DriverHomeScreen(),
     OrderRequestScreen(),
-    const OrderHistoryScreen(),
+    OrderHistoryScreen(),
     ProfileScreen(),
   ];
 

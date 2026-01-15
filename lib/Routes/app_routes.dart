@@ -8,6 +8,8 @@ import 'package:xpressfly_git/Screens/AuthScreens/splash_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_main.dart';
 import 'package:xpressfly_git/Screens/Customer/customer_bottombar_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/customer_homescreen.dart';
+import 'package:xpressfly_git/Screens/Customer/orderfailure_screen.dart';
+import 'package:xpressfly_git/Screens/Customer/ordersuccess_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/timer_screen.dart';
 import 'package:xpressfly_git/Screens/Customer/verification_screen.dart';
 import 'package:xpressfly_git/Screens/DrawerScreens/metadata_screen.dart';
@@ -42,6 +44,8 @@ class AppRoutes {
   static const String waitForResponseTimerScreen =
       '/wait_for_response_timer_screen';
   static const String metaDataScreen = '/metadata_screen';
+  static const String orderSuccessScreen = '/order_success_screen';
+  static const String orderFailureScreen = '/order_failure_screen';
 
   static List<GetPage> pages = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -73,5 +77,7 @@ class AppRoutes {
       page: () => EditVehicleDetailsScreen(),
     ),
     GetPage(name: metaDataScreen, page: () => MetadataScreen()),
+    GetPage(name: orderSuccessScreen, page: () => OrderSuccessScreen()),
+    GetPage(name: orderFailureScreen, page: () => OrderFailureScreen()),
   ];
 }

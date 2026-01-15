@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
+import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/profile_controller.dart';
 import '../../Routes/app_routes.dart';
@@ -41,21 +43,20 @@ class ProfileScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 50.r,
                   backgroundImage: NetworkImage(
-                    "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                    profileController.userDetails.value.user?.profileImage ??
+                        "https://cdn-icons-png.flaticon.com/512/149/149071.png",
                   ),
-                  // replace with NetworkImage if dynamic
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  // GetStorage().read(userName) ?? "Jagdish Sain",
                   profileController.userDetails.value.user?.name ??
-                      "Jagdish Sain",
+                      GetStorage().read(userName) ??
+                      "User",
                   style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
                 ),
               ],
             ),
             SizedBox(height: 18.h),
-            // Details Card
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -105,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 20.h),
                       // Phone Field
                       Text(
-                        "Number",
+                        "Phone Number",
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -117,57 +118,56 @@ class ProfileScreen extends StatelessWidget {
                         maxLength: 10,
                         readOnly: true,
                         controller: TextEditingController(
-                          text: profileController.userDetails.value.user?.phone,
+                          text:
+                              profileController.userDetails.value.user?.phone ??
+                              GetStorage().read(userPhone) ??
+                              '',
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your number';
-                          }
-                          return null;
-                        },
                       ),
                       SizedBox(height: 16.h),
-                      // Email Field + Verify
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Pincode",
-                            style:
-                                TextStyleConstant()
-                                    .subTitleTextStyle16w500Clr242424,
-                          ),
-                          // Text(
-                          //   "Verify",
-                          //   style: TextStyle(
-                          //     color: ColorConstant.clrPrimary,
-                          //     fontWeight: FontWeight.w500,
-                          //   ),
-                          // ),
-                        ],
+                      // Email Field
+                      Text(
+                        "Email",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
                       ),
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
                         controller: TextEditingController(
                           text:
-                              profileController.userDetails.value.user?.pincode,
+                              profileController.userDetails.value.user?.email ??
+                              GetStorage().read(userEmail) ??
+                              '',
                         ),
-                        // hintText: "jagdishsain25@gmail.com",
                         keyboardType: TextInputType.emailAddress,
                         readOnly: true,
-                        // suffixIcon: Padding(
-                        //   padding: EdgeInsets.fromLTRB(0, 12.sp, 20.sp, 12.sp),
-                        //   child: Text(
-                        //     "Verify",
-                        //     style: TextStyle(
-                        //       color: ColorConstant.clrPrimary,
-                        //       fontWeight: FontWeight.w500,
-                        //     ),
-                        //   ),
-                        // ),
                       ),
                       SizedBox(height: 16.h),
-                      // Address Field
+                      // Pincode Field
+                      Text(
+                        "Pincode",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller: TextEditingController(
+                          text:
+                              profileController
+                                  .userDetails
+                                  .value
+                                  .user
+                                  ?.pincode ??
+                              GetStorage().read(userPincode) ??
+                              '',
+                        ),
+                        keyboardType: TextInputType.number,
+                        readOnly: true,
+                      ),
+                      SizedBox(height: 16.h),
+                      // City Field
                       Text(
                         "City",
                         style:
@@ -176,13 +176,38 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
-                        hintText: "90, Houses, Surat, Gujarat - 395010",
+                        controller: TextEditingController(
+                          text:
+                              profileController.userDetails.value.user?.city ??
+                              GetStorage().read(userCity) ??
+                              '',
+                        ),
+                        readOnly: true,
+                      ),
+                      SizedBox(height: 16.h),
+                      // Address Field
+                      Text(
+                        "Address",
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller: TextEditingController(
+                          text:
+                              profileController
+                                  .userDetails
+                                  .value
+                                  .user
+                                  ?.address ??
+                              GetStorage().read(userAddress) ??
+                              '',
+                        ),
                         maxLines: 2,
                         readOnly: true,
-                        controller: TextEditingController(
-                          text: profileController.userDetails.value.user?.city,
-                        ),
                       ),
+                      SizedBox(height: 80.h),
                     ],
                   ),
                 ),

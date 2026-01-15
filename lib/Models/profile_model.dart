@@ -22,7 +22,7 @@ class GetUserProfileDataModel {
 class UserProfileData {
   int? id;
   String? phone;
-  Null profileImage;
+  String? profileImage;
   String? name;
   String? email;
   String? address;
@@ -43,29 +43,30 @@ class UserProfileData {
   String? driverLicenseBack;
   bool? isDutyOn;
 
-  UserProfileData(
-      {this.id,
-      this.phone,
-      this.profileImage,
-      this.name,
-      this.email,
-      this.address,
-      this.pincode,
-      this.city,
-      this.role,
-      this.adharCardFront,
-      this.adharCardBack,
-      this.isActive,
-      this.isPhoneVerified,
-      this.isVerified,
-      this.createdAt,
-      this.updatedAt,
-      this.bankAccountHolderName,
-      this.bankAccountNumber,
-      this.bankIfsc,
-      this.driverLicenseFront,
-      this.driverLicenseBack,
-      this.isDutyOn});
+  UserProfileData({
+    this.id,
+    this.phone,
+    this.profileImage,
+    this.name,
+    this.email,
+    this.address,
+    this.pincode,
+    this.city,
+    this.role,
+    this.adharCardFront,
+    this.adharCardBack,
+    this.isActive,
+    this.isPhoneVerified,
+    this.isVerified,
+    this.createdAt,
+    this.updatedAt,
+    this.bankAccountHolderName,
+    this.bankAccountNumber,
+    this.bankIfsc,
+    this.driverLicenseFront,
+    this.driverLicenseBack,
+    this.isDutyOn,
+  });
 
   UserProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

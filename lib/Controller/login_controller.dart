@@ -38,7 +38,9 @@ class LoginController extends GetxController {
     Function(bool) onCompleteHandler, {
     LoginRequestModel? details,
   }) async {
-    showLoading();
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
     var headers = {
       'Content-Type': 'application/json',
       // 'Authorization': GetStorage().read(accessToken),
@@ -141,7 +143,9 @@ class LoginController extends GetxController {
     Function(bool) onCompleteHandler, {
     LoginRequestModel? details,
   }) async {
-    showLoading();
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
     var headers = {
       'Content-Type': 'application/json',
       // 'Authorization': GetStorage().read(accessToken),
@@ -267,7 +271,9 @@ class LoginController extends GetxController {
     Function(bool) onCompleteHandler, {
     LoginRequestModel? details,
   }) async {
-    showLoading();
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
     var headers = {
       'Content-Type': 'application/json',
       // 'Authorization': GetStorage().read(accessToken),

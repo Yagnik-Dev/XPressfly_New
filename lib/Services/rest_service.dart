@@ -214,6 +214,29 @@ class ServiceCall {
     }
   }
 
+  // ...existing code...
+
+  // PATCH
+  Future<dynamic> patch(
+    String baseUrl,
+    String api,
+    dynamic params, [
+    dynamic requestHeader,
+  ]) async {
+    var response = await _dio.patch(
+      baseUrl + api,
+      data: params,
+      options: Options(
+        headers: requestHeader,
+        responseType: ResponseType.plain,
+      ),
+    );
+    debugPrint(response.data);
+    return response.data;
+  }
+
+  // ...existing code...
+
   // DELETE
   Future<dynamic> delete(
     String baseUrl,

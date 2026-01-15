@@ -187,8 +187,8 @@ class BookAOrderThree extends StatelessWidget {
                                               bookAOrderController
                                                   .updateTimeSlot(
                                                     index,
-                                                    formattedTime,
                                                     fromTimeController.text,
+                                                    formattedTime,
                                                   );
                                             }
                                           }),

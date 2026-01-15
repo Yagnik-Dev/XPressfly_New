@@ -20,7 +20,7 @@ class _CustomerBottomBarScreenState extends State<CustomerBottomBarScreen> {
   final List<Widget> _screens = [
     CustomerHomeScreen(),
     CustomerHistoryScreen(),
-    const OrderHistoryScreen(),
+    OrderHistoryScreen(),
     ProfileScreen(),
   ];
 

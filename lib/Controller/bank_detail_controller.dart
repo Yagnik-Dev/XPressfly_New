@@ -23,7 +23,9 @@ class BankDetailController extends GetxController {
     Function(bool) onCompleteHandler, {
     formdata.FormData? details,
   }) async {
-    showLoading();
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
     var headers = {
       'Content-Type': 'application/json',
       // 'Authorization': GetStorage().read(accessToken),

@@ -11,6 +11,8 @@ class ApiConstant {
   static const String updateVehicles = "delivery/vehicles/update/";
   static const String deleteVehicles = "delivery/vehicles/delete/";
   static const String profile = "user/";
+  static const String updateDriverProfile = "user/update-driver/";
+  static const String updateCustomerProfile = "user/update-customer/";
   static const String toggleDuty = "duty/toggle";
   // static const String userWiseVehicle = "vehicles/user";
   static const String userWiseVehicle = "delivery/vehicles/";
@@ -18,6 +20,9 @@ class ApiConstant {
   static const String refreshToken = "user/refresh-token/";
   static const String vehicleTypes = "metadata/vehicle-type/";
   static const String vehiclesDetails = "vehicles";
+  static const String updateOrderStatus = "delivery/orders/status/";
+  static const String retryOrder = "delivery/orders/retry/";
+  static const String orderList = "delivery/orders/";
   static const String privacyPolicy = "metadata/privacy-policy/";
   static const String termsAndConditions = "metadata/term-and-condition/";
   static const String createOrder = "delivery/orders/create/";

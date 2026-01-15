@@ -69,8 +69,9 @@ class VehicleDetailsController extends GetxController {
 
   Future<bool> deleteVehicleCall() async {
     try {
-      showLoading();
-
+      Future.delayed(Duration.zero, () {
+        showLoading();
+      });
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': GetStorage().read(accessToken),

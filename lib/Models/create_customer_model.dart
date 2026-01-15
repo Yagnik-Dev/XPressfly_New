@@ -33,7 +33,7 @@ class CreateCustomerResponseModel {
 class User {
   int? id;
   String? phone;
-  Null profileImage;
+  String? profileImage;
   String? name;
   String? email;
   String? address;

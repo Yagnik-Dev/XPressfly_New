@@ -1,15 +1,19 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/order_history_controller.dart';
+import 'package:xpressfly_git/Models/orderlist_model.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
-  const OrderHistoryScreen({super.key});
+  final OrderHistoryController controller = Get.put(OrderHistoryController());
+
+  OrderHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // If you use ScreenUtil, ensure it's initialized in your app (ScreenUtilInit).
     ScreenUtil.init(context);
 
     return Scaffold(
@@ -30,44 +34,93 @@ class OrderHistoryScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Active Orders",
-                style: TextStyleConstant().subTitleTextStyle18w500Clr242424,
-              ),
-              SizedBox(height: 12.h),
-              OrderCard(),
-              SizedBox(height: 22.h),
-              Text(
-                "Past Orders",
-                style: TextStyleConstant().subTitleTextStyle18w500Clr242424,
-              ),
-              SizedBox(height: 12.h),
-              Column(
-                children: List.generate(
-                  4,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(bottom: 12.h),
-                    child: OrderCard(),
+      body: Obx(
+        () =>
+            controller.isLoading.value
+                ? const Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                  onRefresh: () => controller.refreshOrders(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 18.h,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Active Orders",
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle18w500Clr242424,
+                          ),
+                          SizedBox(height: 12.h),
+                          controller.activeOrders.isEmpty
+                              ? Center(
+                                child: Text(
+                                  "No active orders",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle14w500Clr9D9D9D,
+                                ),
+                              )
+                              : Column(
+                                children: List.generate(
+                                  controller.activeOrders.length,
+                                  (index) => Padding(
+                                    padding: EdgeInsets.only(bottom: 12.h),
+                                    child: OrderCard(
+                                      order: controller.activeOrders[index],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          SizedBox(height: 22.h),
+                          Text(
+                            "Past Orders",
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle18w500Clr242424,
+                          ),
+                          SizedBox(height: 12.h),
+                          controller.pastOrders.isEmpty
+                              ? Center(
+                                child: Text(
+                                  "No past orders",
+                                  style:
+                                      TextStyleConstant()
+                                          .subTitleTextStyle14w500Clr9D9D9D,
+                                ),
+                              )
+                              : Column(
+                                children: List.generate(
+                                  controller.pastOrders.length,
+                                  (index) => Padding(
+                                    padding: EdgeInsets.only(bottom: 12.h),
+                                    child: OrderCard(
+                                      order: controller.pastOrders[index],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-            ],
-          ),
-        ),
       ),
     );
   }
 }
 
 class OrderCard extends StatelessWidget {
-  const OrderCard({super.key});
+  final Data order;
+
+  const OrderCard({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -76,21 +129,12 @@ class OrderCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black12,
-        //     blurRadius: 12,
-        //     offset: Offset(0, 6),
-        //   ),
-        // ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // icons column
           Column(
             children: [
-              // pickup icon circle
               Container(
                 padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
@@ -105,8 +149,6 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 6.h),
-
-              // dashed vertical line
               DashedLineVertical(
                 height: 30.h,
                 dashHeight: 3.h,
@@ -114,9 +156,7 @@ class OrderCard extends StatelessWidget {
                 color: ColorConstant.clrSubText,
                 strokeWidth: 1.w,
               ),
-
               SizedBox(height: 6.h),
-              // destination icon circle
               Container(
                 padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
@@ -132,16 +172,13 @@ class OrderCard extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(width: 14.w),
-
-          // middle texts (pickup/destination)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "456 Shreeman Street, Su...",
+                  order.fromAddress ?? "Unknown",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyleConstant().subTitleTextStyle16w600Clr242424,
@@ -153,7 +190,9 @@ class OrderCard extends StatelessWidget {
                 ),
                 SizedBox(height: 30.h),
                 Text(
-                  "739 Honey Park, Surat",
+                  order.toAddress ?? "Unknown",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyleConstant().subTitleTextStyle16w600Clr242424,
                 ),
                 SizedBox(height: 4.h),
@@ -164,10 +203,7 @@ class OrderCard extends StatelessWidget {
               ],
             ),
           ),
-
           SizedBox(width: 12.w),
-
-          // right info (payment/distance)
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -179,11 +215,11 @@ class OrderCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: ColorConstant.clrF7FCFF, // very light green
+                  color: ColorConstant.clrF7FCFF,
                   borderRadius: BorderRadius.circular(50.r),
                 ),
                 child: Text(
-                  "₹ 105",
+                  "₹ ${order.distance ?? '0'}",
                   style: TextStyleConstant().subTitleTextStyle16w600Clr008000,
                 ),
               ),
@@ -194,7 +230,7 @@ class OrderCard extends StatelessWidget {
               ),
               SizedBox(height: 2.h),
               Text(
-                "12Km",
+                "${order.distance ?? '0'} Km",
                 style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
               ),
             ],

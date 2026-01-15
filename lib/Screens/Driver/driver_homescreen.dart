@@ -179,21 +179,18 @@ class DriverHomeScreen extends StatelessWidget {
           child: Image.asset(ImageConstant.imgUser),
         ),
         Expanded(
-          child: InkWell(
-            onTap: () {
-              log(
-                "refresh token ${GetStorage().read(refreshTokenVal).toString()}",
-              );
-            },
-            child: Column(
+          child: Obx(
+            () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hello ${GetStorage().read(userName) ?? 'Driver'}",
+                  "Hello ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? 'Driver'}",
                   style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
                 ),
                 Text(
-                  GetStorage().read(userAddress) ?? 'address',
+                  Get.find<ProfileController>().userDetails.value.user?.city ??
+                      GetStorage().read(userAddress) ??
+                      'address',
                   style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
                 ),
               ],

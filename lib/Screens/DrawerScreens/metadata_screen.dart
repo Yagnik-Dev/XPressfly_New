@@ -14,6 +14,7 @@ class MetadataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: Get.find<MetadataController>().selectedTabIndex.value,
       child: Scaffold(
         backgroundColor: ColorConstant.clrF7FCFF,
         appBar: AppBar(

@@ -10,7 +10,9 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
+import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
 
 class CommonDrawer extends StatefulWidget {
   const CommonDrawer({super.key});
@@ -91,27 +93,36 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       const SizedBox(width: 12),
 
                       // Name + City
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hello ${GetStorage().read(userName) ?? 'User'}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      Expanded(
+                        child: Obx(
+                          () => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Hello ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                // "${GetStorage().read(userAddress) ?? 'City Name'}",
+                                "${Get.find<ProfileController>().userDetails.value.user?.address ?? GetStorage().read(userAddress)}",
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "${GetStorage().read(userAddress) ?? 'City Name'}",
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                       InkWell(
                         onTap: () {
                           Get.toNamed(AppRoutes.editProfileScreen);
@@ -155,8 +166,24 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       () => setState(() {
                         log(index.toString());
                         selectedIndex = index;
-                        if (index == 4) {
-                          Get.toNamed(AppRoutes.metaDataScreen);
+                        if (index == 2) {
+                          Get.to(OrderHistoryScreen());
+                        } else if (index == 3) {
+                          Get.toNamed(AppRoutes.editProfileScreen);
+                        } else if (index == 4) {
+                          Get.toNamed(
+                            AppRoutes.metaDataScreen,
+                            arguments: {
+                              'tabIndex': 0,
+                            }, // Pass Privacy Policy tab
+                          );
+                        } else if (index == 5) {
+                          Get.toNamed(
+                            AppRoutes.metaDataScreen,
+                            arguments: {
+                              'tabIndex': 1,
+                            }, // Pass Terms & Conditions tab
+                          );
                         } else if (index == 7) {
                           // Logout action
                           showLogoutDialog(context);

@@ -8,6 +8,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/customer_home_controller.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../../Routes/app_routes.dart';
 
@@ -38,18 +39,20 @@ class CustomerHomeScreen extends StatelessWidget {
             ),
             child: Image.asset(ImageConstant.imgUser),
           ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Hello ${GetStorage().read(userName) ?? ''}",
-                style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
-              ),
-              Text(
-                '${GetStorage().read(userAddress)} - ${GetStorage().read(userPincode) ?? '395010'}',
-                style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
-              ),
-            ],
+          title: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Hello ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
+                  style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
+                ),
+                Text(
+                  '${Get.find<ProfileController>().userDetails.value.user?.city ?? GetStorage().read(userAddress)} - ${Get.find<ProfileController>().userDetails.value.user?.pincode ?? GetStorage().read(userPincode) ?? '395010'}',
+                  style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                ),
+              ],
+            ),
           ),
           actions: [
             Builder(

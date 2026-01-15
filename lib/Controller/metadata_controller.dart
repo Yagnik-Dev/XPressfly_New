@@ -29,6 +29,13 @@ class MetadataController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    // Check if tabIndex was passed via arguments
+    if (Get.arguments != null && Get.arguments is Map) {
+      final tabIndex = Get.arguments['tabIndex'] ?? 0;
+      selectedTabIndex.value = tabIndex;
+    }
+
     getdata();
   }
 

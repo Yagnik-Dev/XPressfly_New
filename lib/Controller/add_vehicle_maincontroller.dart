@@ -112,8 +112,9 @@ class AddVehicleMainController extends GetxController {
   }
 
   Future createVehicle(Function(bool) onCompleteHandler) async {
-    showLoading();
-
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
     // Validate vehicle type is selected
     if (selectedVehicleTitle.value.isEmpty) {
       hideLoading();

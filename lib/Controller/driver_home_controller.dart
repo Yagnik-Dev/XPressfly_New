@@ -41,8 +41,9 @@ class DriverHomeController extends GetxController {
   }
 
   Future<bool> toggleDutyApiCall({Map<String, dynamic>? details}) async {
-    showLoading();
-
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
     try {
       var headers = {
         'Content-Type': 'application/json',

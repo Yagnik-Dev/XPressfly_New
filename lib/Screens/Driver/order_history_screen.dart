@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/order_history_controller.dart';
 import 'package:xpressfly_git/Models/orderlist_model.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
   final OrderHistoryController controller = Get.put(OrderHistoryController());
@@ -24,7 +25,7 @@ class OrderHistoryScreen extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Text(
-          "Order History",
+          LocalizationKeys.orderHistory.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
         shape: const RoundedRectangleBorder(
@@ -50,7 +51,7 @@ class OrderHistoryScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Active Orders",
+                            LocalizationKeys.activeOrders.tr,
                             style:
                                 TextStyleConstant()
                                     .subTitleTextStyle18w500Clr242424,
@@ -59,7 +60,7 @@ class OrderHistoryScreen extends StatelessWidget {
                           controller.activeOrders.isEmpty
                               ? Center(
                                 child: Text(
-                                  "No active orders",
+                                  LocalizationKeys.noActiveOrders.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle14w500Clr9D9D9D,
@@ -78,7 +79,7 @@ class OrderHistoryScreen extends StatelessWidget {
                               ),
                           SizedBox(height: 22.h),
                           Text(
-                            "Past Orders",
+                            LocalizationKeys.pastOrders.tr,
                             style:
                                 TextStyleConstant()
                                     .subTitleTextStyle18w500Clr242424,
@@ -87,7 +88,7 @@ class OrderHistoryScreen extends StatelessWidget {
                           controller.pastOrders.isEmpty
                               ? Center(
                                 child: Text(
-                                  "No past orders",
+                                  LocalizationKeys.noPastOrders.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle14w500Clr9D9D9D,
@@ -185,7 +186,7 @@ class OrderCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  "Pickup Point",
+                  LocalizationKeys.pickupPoint.tr,
                   style: TextStyleConstant().subTitleTextStyle14w500Clr9D9D9D,
                 ),
                 SizedBox(height: 30.h),
@@ -197,7 +198,7 @@ class OrderCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  "Destination",
+                  LocalizationKeys.destination.tr,
                   style: TextStyleConstant().subTitleTextStyle14w500Clr9D9D9D,
                 ),
               ],
@@ -208,7 +209,7 @@ class OrderCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Payment",
+                LocalizationKeys.payment.tr,
                 style: TextStyleConstant().subTitleTextStyle14w500ClrSubText,
               ),
               SizedBox(height: 6.h),
@@ -225,7 +226,7 @@ class OrderCard extends StatelessWidget {
               ),
               SizedBox(height: 18.h),
               Text(
-                "Distance",
+                LocalizationKeys.distance.tr,
                 style: TextStyleConstant().subTitleTextStyle14w500ClrSubText,
               ),
               SizedBox(height: 2.h),

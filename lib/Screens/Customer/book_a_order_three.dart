@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/book_a_order_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class BookAOrderThree extends StatelessWidget {
   BookAOrderThree({super.key});
@@ -40,18 +41,18 @@ class BookAOrderThree extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Choose the pickup date & time",
+                        LocalizationKeys.choosePickupDateTime.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle22w600Clr242424,
                       ),
                       SizedBox(height: 10.h),
                       CommonTextFormFieldWithoutBorder(
-                        hintText: "Select date",
+                        hintText: LocalizationKeys.selectDate.tr,
                         validator:
                             (p0) =>
                                 p0 == null || p0.isEmpty
-                                    ? 'Please select pickup date'
+                                    ? LocalizationKeys.pleaseSelectPickupDate.tr
                                     : null,
                         controller:
                             bookAOrderController.orderPickUpDateController,
@@ -70,7 +71,7 @@ class BookAOrderThree extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Time",
+                          LocalizationKeys.time.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle18w500Clr242424,
@@ -95,7 +96,7 @@ class BookAOrderThree extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: CommonTextFormFieldWithoutBorder(
-                                      hintText: "From time (09:00)",
+                                      hintText: LocalizationKeys.fromTime.tr,
                                       controller: fromTimeController,
                                       maxLines: 1,
                                       readOnly: true,
@@ -135,7 +136,9 @@ class BookAOrderThree extends StatelessWidget {
                                       validator:
                                           (p0) =>
                                               p0 == null || p0.isEmpty
-                                                  ? 'Please enter from time'
+                                                  ? LocalizationKeys
+                                                      .pleaseEnterFromTime
+                                                      .tr
                                                   : null,
                                       onChanged: (value) {
                                         bookAOrderController.updateTimeSlot(
@@ -152,13 +155,15 @@ class BookAOrderThree extends StatelessWidget {
                                   Expanded(
                                     child: CommonTextFormFieldWithoutBorder(
                                       controller: toTimeController,
-                                      hintText: "To time (02:00 PM)",
+                                      hintText: LocalizationKeys.toTime.tr,
                                       maxLines: 1,
                                       readOnly: true,
                                       validator:
                                           (p0) =>
                                               p0 == null || p0.isEmpty
-                                                  ? 'Please enter to time'
+                                                  ? LocalizationKeys
+                                                      .pleaseEnterToTime
+                                                      .tr
                                                   : null,
                                       fillColor: ColorConstant.clrF7FCFF,
                                       onTap:
@@ -272,7 +277,7 @@ class BookAOrderThree extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Text(
-                    "Select Payment Type",
+                    LocalizationKeys.selectPaymentType.tr,
                     style: TextStyleConstant().subTitleTextStyle18w500Clr242424,
                   ),
                 ),
@@ -311,7 +316,7 @@ class BookAOrderThree extends StatelessWidget {
                                   ),
                                   SizedBox(width: 8.w),
                                   Text(
-                                    "Pay With UPI",
+                                    LocalizationKeys.payWithUpi.tr,
                                     style:
                                         TextStyleConstant()
                                             .subTitleTextStyle14w500Clr242424,
@@ -320,7 +325,7 @@ class BookAOrderThree extends StatelessWidget {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                "Fast & secure payment\nwith no extra charges.",
+                                LocalizationKeys.fastSecurePayment.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle12w400ClrSubText,

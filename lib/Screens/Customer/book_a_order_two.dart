@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/book_a_order_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class BookAOrderTwo extends StatelessWidget {
   BookAOrderTwo({super.key});
@@ -44,7 +45,7 @@ class BookAOrderTwo extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Gallery',
+                          LocalizationKeys.gallery.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -71,7 +72,7 @@ class BookAOrderTwo extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Camera',
+                          LocalizationKeys.camera.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -111,25 +112,25 @@ class BookAOrderTwo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "What would you like to send?",
+                        LocalizationKeys.whatWouldYouLikeToSend.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle22w600Clr242424,
                       ),
                       SizedBox(height: 10.h),
                       CommonTextFormFieldWithoutBorder(
-                        hintText: "Title of the item",
+                        hintText: LocalizationKeys.titleOfItem.tr,
                         controller: bookAOrderController.orderTitleController,
                         fillColor: ColorConstant.clrF7FCFF,
                         validator:
                             (p0) =>
                                 p0 == null || p0.isEmpty
-                                    ? 'Please enter order title'
+                                    ? LocalizationKeys.pleaseEnterOrderTitle.tr
                                     : null,
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        "Ex. Brown Sofa and Computer Table",
+                        LocalizationKeys.exampleItemDescription.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle12w400ClrSubText,
@@ -140,12 +141,12 @@ class BookAOrderTwo extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                "Select or upload image",
+                LocalizationKeys.selectOrUploadImage.tr,
                 style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
               ),
               SizedBox(height: 5.h),
               Text(
-                "Don't forget to pack your items before shipping",
+                LocalizationKeys.dontForgetToPackYourItemsBeforeShipping.tr,
                 style: TextStyleConstant().subTitleTextStyle12w400ClrSubText,
               ),
               Obx(
@@ -188,7 +189,7 @@ class BookAOrderTwo extends StatelessWidget {
                               ),
                               SizedBox(height: 8.h),
                               Text(
-                                "Select Image",
+                                LocalizationKeys.selectImage.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle16w600clrSecondary,

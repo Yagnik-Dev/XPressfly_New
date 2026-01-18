@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class PlacesService {
@@ -28,7 +30,7 @@ class PlacesService {
       }
       return [];
     } catch (e) {
-      print('Error fetching predictions: $e');
+      log('Error fetching predictions: $e');
       return [];
     }
   }
@@ -53,7 +55,7 @@ class PlacesService {
       }
       return null;
     } catch (e) {
-      print('Error fetching place details: $e');
+      debugPrint('Error fetching place details: $e');
       return null;
     }
   }

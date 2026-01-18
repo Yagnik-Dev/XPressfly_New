@@ -10,6 +10,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/profile_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
@@ -50,7 +51,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Gallery',
+                          LocalizationKeys.gallery.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle14w400clr666666,
@@ -77,7 +78,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Camera',
+                          LocalizationKeys.camera.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle14w400clr666666,
@@ -127,7 +128,7 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 8.h),
                           Text(
-                            'Tap to upload',
+                            LocalizationKeys.tapToUpload.tr,
                             style:
                                 TextStyleConstant()
                                     .subTitleTextStyle14w400ClrSubText,
@@ -159,7 +160,7 @@ class EditProfileScreen extends StatelessWidget {
           elevation: 0,
           automaticallyImplyLeading: false,
           title: Text(
-            "Edit Profile",
+            LocalizationKeys.editProfile.tr,
             style: TextStyleConstant().titleTextStyle26w600Clr242424,
           ),
           shape: const RoundedRectangleBorder(
@@ -189,7 +190,7 @@ class EditProfileScreen extends StatelessWidget {
                         width: 100.w,
                         alignment: Alignment.center,
                         child: Text(
-                          "Back",
+                          LocalizationKeys.back.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle18w600Clr242424,
@@ -205,11 +206,17 @@ class EditProfileScreen extends StatelessWidget {
                             .validate()) {
                           profileController.updateUserProfile((success) async {
                             if (success) {
-                              // Refresh user details from API
+                              // Clear the local profile image cache
+                              // profileController.profileImage.value = null;
+
+                              // Refresh user details from API to get updated image URL
                               await profileController.getUserDetails((p0) {});
 
-                              // Force refresh home screen data
+                              // Force refresh
                               await Future.delayed(Duration(milliseconds: 500));
+
+                              // Refresh the observable to trigger UI update
+                              profileController.userDetails.refresh();
 
                               Get.back(result: true);
                             }
@@ -222,7 +229,7 @@ class EditProfileScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 12.h),
                       ),
                       child: Text(
-                        "Save",
+                        LocalizationKeys.save.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle18w500clrFFFAFA,
@@ -312,7 +319,7 @@ class EditProfileScreen extends StatelessWidget {
                               ? CommonTextFormFieldWithoutBorder(
                                 controller:
                                     profileController.nameTextEditingController,
-                                hintText: "Enter your name",
+                                hintText: LocalizationKeys.enterYourName.tr,
                                 suffixIcon: Padding(
                                   padding: EdgeInsets.only(right: 8.w),
                                   child: InkWell(
@@ -330,7 +337,9 @@ class EditProfileScreen extends StatelessWidget {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your name';
+                                    return LocalizationKeys
+                                        .pleaseEnterYourName
+                                        .tr;
                                   }
                                   return null;
                                 },
@@ -382,7 +391,7 @@ class EditProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Your Details",
+                        LocalizationKeys.yourDetails.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle20w500Clr242424,
@@ -390,14 +399,14 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(height: 20.h),
                       // Phone Field
                       Text(
-                        "Phone Number",
+                        LocalizationKeys.phoneNumber.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
                       ),
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
-                        hintText: "+91 98765 43210",
+                        hintText: LocalizationKeys.examplePhone.tr,
                         keyboardType: TextInputType.phone,
                         maxLength: 10,
                         readOnly: true,
@@ -410,9 +419,11 @@ class EditProfileScreen extends StatelessWidget {
                         // ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter mobile number';
+                            return LocalizationKeys.pleaseEnterMobileNumber.tr;
                           } else if (value.length < 10) {
-                            return 'Mobile number must be 10 digits';
+                            return LocalizationKeys
+                                .mobileNumberMustBe10Digits
+                                .tr;
                           }
                           return null;
                         },
@@ -420,7 +431,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Email Field
                       Text(
-                        "Email",
+                        LocalizationKeys.email.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -430,7 +441,7 @@ class EditProfileScreen extends StatelessWidget {
                         controller:
                             profileController.emailTextEditingController,
                         keyboardType: TextInputType.emailAddress,
-                        hintText: "user@example.com",
+                        hintText: LocalizationKeys.userEmailExample.tr,
                         suffixIcon: Icon(
                           Icons.edit,
                           color: ColorConstant.clrPrimary,
@@ -438,7 +449,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter email';
+                            return LocalizationKeys.pleaseEnterEmail.tr;
                           }
                           return null;
                         },
@@ -446,7 +457,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Pincode Field
                       Text(
-                        "Pincode",
+                        LocalizationKeys.pincode.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -464,9 +475,9 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your pincode';
+                            return LocalizationKeys.pleaseEnterPincode.tr;
                           } else if (value.length != 6) {
-                            return 'Pincode must be 6 digits';
+                            return LocalizationKeys.pincodeMustBe6Digits.tr;
                           }
                           return null;
                         },
@@ -474,14 +485,14 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // City Field
                       Text(
-                        "City",
+                        LocalizationKeys.city.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
                       ),
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
-                        hintText: "Enter your city",
+                        hintText: LocalizationKeys.enterYourCity.tr,
                         controller: profileController.cityTextEditingController,
                         suffixIcon: Icon(
                           Icons.edit,
@@ -490,7 +501,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter city';
+                            return LocalizationKeys.pleaseEnterCity.tr;
                           }
                           return null;
                         },
@@ -498,14 +509,14 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Address Field
                       Text(
-                        "Address",
+                        LocalizationKeys.address.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
                       ),
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
-                        hintText: "90, Houses, Surat, Gujarat - 395010",
+                        hintText: LocalizationKeys.addressExample.tr,
                         controller:
                             profileController.addressTextEditingController,
                         maxLines: 2,
@@ -516,7 +527,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter address';
+                            return LocalizationKeys.pleaseEnterAddress.tr;
                           }
                           return null;
                         },
@@ -552,7 +563,7 @@ class EditProfileScreen extends StatelessWidget {
                       if (isDriver) ...[
                         SizedBox(height: 20.h),
                         Text(
-                          "Bank Details",
+                          LocalizationKeys.bankDetails.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle20w500Clr242424,
@@ -560,7 +571,7 @@ class EditProfileScreen extends StatelessWidget {
                         SizedBox(height: 16.h),
                         // Bank Account Holder Name
                         Text(
-                          "Account Holder Name",
+                          LocalizationKeys.accountHolderName.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500ClrSubText,
@@ -569,11 +580,13 @@ class EditProfileScreen extends StatelessWidget {
                         CommonTextFormFieldWithoutBorder(
                           controller:
                               profileController.bankAccountHolderNameController,
-                          hintText: "Enter account holder name",
+                          hintText: LocalizationKeys.enterAccountHolderName.tr,
                           readOnly: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter account holder name';
+                              return LocalizationKeys
+                                  .pleaseEnterAccountHolderName
+                                  .tr;
                             }
                             return null;
                           },
@@ -581,7 +594,7 @@ class EditProfileScreen extends StatelessWidget {
                         SizedBox(height: 16.h),
                         // Bank Account Number
                         Text(
-                          "Account Number",
+                          LocalizationKeys.accountNumber.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500ClrSubText,
@@ -594,7 +607,9 @@ class EditProfileScreen extends StatelessWidget {
                           readOnly: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter account number';
+                              return LocalizationKeys
+                                  .pleaseEnterAccountNumber
+                                  .tr;
                             }
                             return null;
                           },
@@ -602,7 +617,7 @@ class EditProfileScreen extends StatelessWidget {
                         SizedBox(height: 16.h),
                         // IFSC Code
                         Text(
-                          "IFSC Code",
+                          LocalizationKeys.ifscCode.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500ClrSubText,
@@ -614,9 +629,11 @@ class EditProfileScreen extends StatelessWidget {
                           readOnly: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter IFSC code';
+                              return LocalizationKeys.pleaseEnterIfscCode.tr;
                             } else if (value.length != 11) {
-                              return 'IFSC Code must be 11 characters';
+                              return LocalizationKeys
+                                  .ifscCodeMustBe11Characters
+                                  .tr;
                             }
                             return null;
                           },

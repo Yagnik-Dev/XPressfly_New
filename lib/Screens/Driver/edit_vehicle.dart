@@ -5,6 +5,7 @@ import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class EditVehicleDetailsScreen extends StatelessWidget {
   const EditVehicleDetailsScreen({super.key});
@@ -38,7 +39,7 @@ class EditVehicleDetailsScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Edit Details",
+          LocalizationKeys.editDetails.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
       ),
@@ -71,7 +72,7 @@ class EditVehicleDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Vehicle Model",
+                                LocalizationKeys.vehicleModel.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle18w500Clr242424,
@@ -87,7 +88,7 @@ class EditVehicleDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Vehicle Number",
+                                LocalizationKeys.vehicleNumber.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle18w500Clr242424,
@@ -101,7 +102,7 @@ class EditVehicleDetailsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      "Where You Can Deliver",
+                      LocalizationKeys.whereYouCanDeliver.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w500Clr242424,
                     ),
@@ -119,7 +120,7 @@ class EditVehicleDetailsScreen extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 12.h),
                             ),
                             child: Text(
-                              "Save",
+                              LocalizationKeys.save.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle18w500clrFFFAFA,

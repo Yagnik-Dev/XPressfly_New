@@ -7,6 +7,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
 import 'package:xpressfly_git/Screens/Driver/vehicle_type_dialog.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class AddVehicleTwo extends StatelessWidget {
   AddVehicleTwo({super.key});
@@ -42,7 +43,7 @@ class AddVehicleTwo extends StatelessWidget {
                       child: Image.asset(ImageConstant.imgAddVehicleTwo),
                     ),
                     Text(
-                      "Vehicle Details",
+                      LocalizationKeys.vehicleDetails.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w600Clr242424,
                     ),
@@ -64,7 +65,7 @@ class AddVehicleTwo extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Vehicle Model",
+                                  LocalizationKeys.vehicleModel.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle16w500Clr242424,
@@ -76,7 +77,9 @@ class AddVehicleTwo extends StatelessWidget {
                                           .vehicleModelTextEditingController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter vehicle model';
+                                      return LocalizationKeys
+                                          .pleaseEnterVehicleModel
+                                          .tr;
                                     }
                                     return null;
                                   },
@@ -90,7 +93,7 @@ class AddVehicleTwo extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Vehicle Number",
+                                  LocalizationKeys.vehicleNumber.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle16w500Clr242424,
@@ -102,7 +105,9 @@ class AddVehicleTwo extends StatelessWidget {
                                           .vehicleNoTextEditingController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter vehicle number';
+                                      return LocalizationKeys
+                                          .pleaseEnterVehicleNumber
+                                          .tr;
                                     }
                                     return null;
                                   },
@@ -114,7 +119,7 @@ class AddVehicleTwo extends StatelessWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        "Vehicle Type",
+                        LocalizationKeys.vehicleType.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500Clr242424,
@@ -206,7 +211,7 @@ class AddVehicleTwo extends StatelessWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        "Where You Can Deliver",
+                        LocalizationKeys.whereYouCanDeliver.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500Clr242424,
@@ -256,7 +261,9 @@ class AddVehicleTwo extends StatelessWidget {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter delivery pincodes';
+                            return LocalizationKeys
+                                .pleaseEnterDeliveryPincodes
+                                .tr;
                           }
                           // Validate that all pincodes are 6 digits
                           List<String> pincodes =
@@ -264,7 +271,9 @@ class AddVehicleTwo extends StatelessWidget {
                           for (String pincode in pincodes) {
                             if (pincode.length != 6 ||
                                 !RegExp(r'^[0-9]+$').hasMatch(pincode)) {
-                              return 'All pincodes must be 6 digits';
+                              return LocalizationKeys
+                                  .allPincodesMustBe6Digits
+                                  .tr;
                             }
                           }
                           return null;

@@ -1,8 +1,9 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Utility/common_imports.dart';
-
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import '../../Constants/text_style_constant.dart';
 
 class SwipeToAcceptButton extends StatefulWidget {
@@ -36,9 +37,7 @@ class _SwipeToAcceptButtonState extends State<SwipeToAcceptButton> {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 120),
                 width:
-                    isAccepted
-                        ? maxWidth
-                        : (dragX + 46.h).clamp(0, maxWidth),
+                    isAccepted ? maxWidth : (dragX + 46.h).clamp(0, maxWidth),
                 decoration: BoxDecoration(
                   color:
                       (dragX > 0 || isAccepted)
@@ -63,7 +62,7 @@ class _SwipeToAcceptButtonState extends State<SwipeToAcceptButton> {
                               ),
                               SizedBox(width: 8.w),
                               Text(
-                                "Accepted",
+                                LocalizationKeys.accepted.tr,
                                 style: TextStyleConstant()
                                     .subTitleTextStyle14w400Clr242424
                                     .copyWith(color: Colors.white),
@@ -76,7 +75,7 @@ class _SwipeToAcceptButtonState extends State<SwipeToAcceptButton> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Swipe to Accept",
+                                LocalizationKeys.swipeToAccept.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle14w600Clr008000,

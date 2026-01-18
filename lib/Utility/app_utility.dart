@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 Future<void> showErrorDialog(String title, String content) async {
   await Get.dialog(
@@ -19,7 +20,7 @@ Future<void> showErrorDialog(String title, String content) async {
         content: Text(content),
         actions: [
           MaterialButton(
-            child: const Text("OK"),
+            child: Text(LocalizationKeys.ok.tr),
             onPressed: () {
               Get.back();
               Get.focusScope?.unfocus();

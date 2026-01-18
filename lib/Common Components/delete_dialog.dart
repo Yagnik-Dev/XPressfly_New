@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Controller/vehicle_details_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class DeleteVehicleDialog extends StatelessWidget {
   DeleteVehicleDialog({super.key});
@@ -37,14 +38,14 @@ class DeleteVehicleDialog extends StatelessWidget {
 
             // Title
             Text(
-              "Are you sure?",
+              LocalizationKeys.areYouSure.tr,
               style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
             ),
             SizedBox(height: 8.h),
 
             // Subtitle
             Text(
-              "Do you want to delete this vehicle?\nThis action cannot be undone.",
+              LocalizationKeys.doYouWantToDeleteThisVehicle.tr,
               textAlign: TextAlign.center,
               style: TextStyleConstant().subTitleTextStyle14w500ClrSubText,
             ),
@@ -68,7 +69,7 @@ class DeleteVehicleDialog extends StatelessWidget {
                       Navigator.pop(context, false);
                     },
                     child: Text(
-                      "Cancel",
+                      LocalizationKeys.cancel.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w500Clr242424,
                     ),
@@ -120,7 +121,7 @@ class DeleteVehicleDialog extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      "Sure",
+                      LocalizationKeys.sure.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w500clrFFFAFA,
                     ),
@@ -154,7 +155,7 @@ class DeleteSuccess extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Successfully Delete",
+              LocalizationKeys.successfullyDeleted.tr,
               style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
             ),
             SizedBox(height: 20.h),

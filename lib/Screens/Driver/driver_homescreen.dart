@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,6 +9,7 @@ import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Controller/profile_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
@@ -22,6 +22,9 @@ class DriverHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<ProfileController>()) {
+      Get.put(ProfileController());
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       endDrawer: const CommonDrawer(),
@@ -135,12 +138,12 @@ class DriverHomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Verification Required',
+                  LocalizationKeys.verificationRequired.tr,
                   style: TextStyleConstant().subTitleTextStyle16w600clrWhite,
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Verify Your Account With Your Details',
+                  LocalizationKeys.verifyAccountWithDetails.tr,
                   style: TextStyleConstant().subTitleTextStyle10w400clrD5D5D5,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -168,15 +171,38 @@ class DriverHomeScreen extends StatelessWidget {
   Widget _buildAppBar() {
     return Row(
       children: [
+        // In _buildAppBar() method, replace the first Container:
         Container(
-          height: 46.h,
-          width: 46.w,
           margin: EdgeInsets.only(right: 10.w, left: 16.w),
           decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
           ),
-          child: Image.asset(ImageConstant.imgUser),
+          child: CircleAvatar(
+            radius: 24.r,
+            backgroundColor: Colors.white,
+            child: ClipOval(
+              child: Obx(() {
+                final profileImage =
+                    Get.find<ProfileController>()
+                        .userDetails
+                        .value
+                        .user
+                        ?.profileImage;
+                return profileImage != null && profileImage.isNotEmpty
+                    ? Image.network(
+                      profileImage,
+                      fit: BoxFit.cover,
+                      width: 48.w,
+                      height: 48.h,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(ImageConstant.imgUser);
+                      },
+                    )
+                    : Image.asset(ImageConstant.imgUser);
+              }),
+            ),
+          ),
         ),
         Expanded(
           child: Obx(
@@ -184,13 +210,13 @@ class DriverHomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hello ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? 'Driver'}",
+                  "${LocalizationKeys.hello.tr} ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? 'Driver'}",
                   style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
                 ),
                 Text(
                   Get.find<ProfileController>().userDetails.value.user?.city ??
                       GetStorage().read(userAddress) ??
-                      'address',
+                      LocalizationKeys.address.tr,
                   style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
                 ),
               ],
@@ -247,7 +273,7 @@ class DriverHomeScreen extends StatelessWidget {
             children: [
               SizedBox(height: 16.h),
               Text(
-                'Today Earning',
+                LocalizationKeys.todayEarning.tr,
                 style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
               ),
               Text(
@@ -262,7 +288,7 @@ class DriverHomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Trips',
+                          LocalizationKeys.totalTrips.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle14w500ClrSubText,
@@ -282,7 +308,7 @@ class DriverHomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Distance',
+                          LocalizationKeys.totalDistance.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle14w500ClrSubText,
@@ -349,7 +375,7 @@ class DriverHomeScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Vehicle List',
+          LocalizationKeys.vehicleList.tr,
           style: TextStyleConstant().subTitleTextStyle20w500Clr242424,
         ),
         InkWell(
@@ -360,7 +386,7 @@ class DriverHomeScreen extends StatelessWidget {
             });
           },
           child: Text(
-            'Add Vehicle',
+            LocalizationKeys.addVehicle.tr,
             style: TextStyleConstant().subTitleTextStyle14w500ClrSubText,
           ),
         ),
@@ -371,7 +397,7 @@ class DriverHomeScreen extends StatelessWidget {
   Widget _buildSearchField() {
     return TextField(
       decoration: InputDecoration(
-        hintText: 'Search Vehicle',
+        hintText: LocalizationKeys.searchVehicle.tr,
         hintStyle: TextStyleConstant().subTitleTextStyle14w500ClrCCCCCC,
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
@@ -419,12 +445,12 @@ class DriverHomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                'No vehicles found',
+                LocalizationKeys.noVehiclesFound.tr,
                 style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
               ),
               SizedBox(height: 8.h),
               Text(
-                'Add your first vehicle to get started',
+                LocalizationKeys.addYourFirstVehicle.tr,
                 style: TextStyleConstant().subTitleTextStyle14w500ClrCCCCCC,
                 textAlign: TextAlign.center,
               ),
@@ -443,7 +469,7 @@ class DriverHomeScreen extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'Add Vehicle',
+                  LocalizationKeys.addVehicle.tr,
                   style: TextStyleConstant().subTitleTextStyle14w700clrWhite,
                 ),
               ),
@@ -497,7 +523,8 @@ class DriverHomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          vehicle.vehicleModel ?? 'Unknown Vehicle',
+                          vehicle.vehicleModel ??
+                              LocalizationKeys.unknownVehicle.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500Clr242424,
@@ -505,7 +532,7 @@ class DriverHomeScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          vehicle.vehicleNumber ?? 'No Number',
+                          vehicle.vehicleNumber ?? LocalizationKeys.noNumber.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500Clr242424,

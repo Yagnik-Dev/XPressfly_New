@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
@@ -28,8 +29,8 @@ class _OrderFailureScreenState extends State<OrderFailureScreen> {
           children: [
             const Icon(Icons.cancel_outlined, size: 80, color: Colors.red),
             const SizedBox(height: 24),
-            const Text(
-              'Order Not Confirmed',
+            Text(
+              LocalizationKeys.orderNotConfirmed.tr,
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -37,8 +38,8 @@ class _OrderFailureScreenState extends State<OrderFailureScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'No driver accepted your request.',
+            Text(
+              LocalizationKeys.noDriverAcceptedYourRequest.tr,
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 48),
@@ -55,8 +56,8 @@ class _OrderFailureScreenState extends State<OrderFailureScreen> {
                           vertical: 14,
                         ),
                       ),
-                      child: const Text(
-                        'Try Again',
+                      child: Text(
+                        LocalizationKeys.tryAgain.tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -69,8 +70,8 @@ class _OrderFailureScreenState extends State<OrderFailureScreen> {
                       onPressed: () {
                         Get.offAllNamed(AppRoutes.customerBottomBarScreen);
                       },
-                      child: const Text(
-                        'Back to Home',
+                      child: Text(
+                        LocalizationKeys.backToHome.tr,
                         style: TextStyle(color: Colors.grey, fontSize: 16),
                       ),
                     ),

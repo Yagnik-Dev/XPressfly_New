@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class SelectDeliveryAreaDialog extends StatelessWidget {
   const SelectDeliveryAreaDialog({super.key});
@@ -19,7 +21,7 @@ class SelectDeliveryAreaDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Select Delivery Area',
+              LocalizationKeys.selectDeliveryArea.tr,
               style: TextStyleConstant().subTitleTextStyle20w600Clr242424,
             ),
             const SizedBox(height: 20),
@@ -39,7 +41,7 @@ class SelectDeliveryAreaDialog extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Same City',
+                      LocalizationKeys.sameCity.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),
@@ -59,7 +61,7 @@ class SelectDeliveryAreaDialog extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Other City',
+                      LocalizationKeys.otherCity.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),

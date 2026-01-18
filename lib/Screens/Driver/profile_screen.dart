@@ -7,6 +7,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/profile_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import '../../Routes/app_routes.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -24,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Text(
-          "Your Profile",
+          LocalizationKeys.yourProfile.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
         shape: const RoundedRectangleBorder(
@@ -77,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Your Details",
+                            LocalizationKeys.yourDetails.tr,
                             style:
                                 TextStyleConstant()
                                     .subTitleTextStyle20w500Clr242424,
@@ -95,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                               });
                             },
                             child: Text(
-                              "Edit Profile",
+                              LocalizationKeys.editProfile.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle14w500ClrSubText,
@@ -106,7 +107,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 20.h),
                       // Phone Field
                       Text(
-                        "Phone Number",
+                        LocalizationKeys.phoneNumber.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -127,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Email Field
                       Text(
-                        "Email",
+                        LocalizationKeys.email.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -146,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Pincode Field
                       Text(
-                        "Pincode",
+                        LocalizationKeys.pincode.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -169,7 +170,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // City Field
                       Text(
-                        "City",
+                        LocalizationKeys.city.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,
@@ -187,7 +188,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       // Address Field
                       Text(
-                        "Address",
+                        LocalizationKeys.address.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500ClrSubText,

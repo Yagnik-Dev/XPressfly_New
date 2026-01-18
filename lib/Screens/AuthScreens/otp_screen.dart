@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
 import 'package:xpressfly_git/Controller/otp_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Models/login_model.dart';
 import '../../Common Components/common_button.dart';
 import '../../Common Components/common_textfield.dart';
@@ -74,7 +75,7 @@ class OtpScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        "Verify your\nNumber with OTP",
+                        LocalizationKeys.verifyYourNumberWithOtp.tr,
                         textAlign: TextAlign.center,
                         style:
                             TextStyleConstant().titleTextStyle34w600Clr242424,
@@ -82,7 +83,7 @@ class OtpScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      "Enter OTP",
+                      LocalizationKeys.enterOtp.tr,
                       style: TextStyleConstant().subTitleTextStyle16w500,
                     ),
                     SizedBox(height: 8.h),
@@ -94,22 +95,28 @@ class OtpScreen extends StatelessWidget {
                       maxLength: 6,
                       letterSpacing: 30,
                       textAlign: TextAlign.center,
-                      hintText: "Enter OTP",
+                      hintText: LocalizationKeys.enterOtp.tr,
                       validator:
                           (p0) =>
                               (p0 == null || p0.isEmpty)
-                                  ? 'Please enter OTP'
+                                  ? LocalizationKeys.pleaseEnterOtp.tr
                                   : (p0.length < 6)
-                                  ? 'Please enter valid OTP'
+                                  ? LocalizationKeys.pleaseEnterValidOtp.tr
                                   : null,
                     ),
                     SizedBox(height: 18.h),
                     CommonButton(
-                      btnText: "CONFIRM",
+                      btnText: LocalizationKeys.confirm.tr,
                       onPressed: () {
+                        final LoginController loginController;
+                        if (Get.isRegistered<LoginController>()) {
+                          loginController = Get.find<LoginController>();
+                        } else {
+                          loginController = Get.put(LoginController());
+                        }
                         if (otpController.formKey.currentState!.validate()) {
                           if (loginType == 1) {
-                            Get.find<LoginController>().verifyOtpApiCall(
+                            loginController.verifyOtpApiCall(
                               (p0) {},
                               details: LoginRequestModel(
                                 phone: mobileNo.toString(),
@@ -120,7 +127,7 @@ class OtpScreen extends StatelessWidget {
                               ),
                             );
                           } else {
-                            Get.find<LoginController>().verifyOtpApiCall(
+                            loginController.verifyOtpApiCall(
                               (p0) {},
                               details: LoginRequestModel(
                                 phone: mobileNo.toString(),
@@ -148,12 +155,12 @@ class OtpScreen extends StatelessWidget {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "Didn’t receive OTP? ",
+                              text: LocalizationKeys.didntReceiveOtp.tr,
                               style:
                                   TextStyleConstant().subTitleTextStyle16w500,
                             ),
                             TextSpan(
-                              text: "Resend",
+                              text: LocalizationKeys.resend.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle16w500Clr242424,

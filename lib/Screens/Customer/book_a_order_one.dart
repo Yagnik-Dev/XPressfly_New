@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/book_a_order_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
 
 class BookAOrderOne extends StatelessWidget {
@@ -67,16 +68,16 @@ class BookAOrderOne extends StatelessWidget {
               children: [
                 GooglePlacesTextField(
                   controller: bookAOrderController.pickUpPinCodeController,
-                  hintText: "Enter Pickup Location with Pin-code",
+                  hintText: LocalizationKeys.enterPickupLocation.tr,
                   fillColor: ColorConstant.clrF7FCFF,
                   onPlaceSelected: (placeDetails) {
                     bookAOrderController.onPickupLocationSelected(placeDetails);
                   },
                   validator: (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Please enter pickup location';
+                      return LocalizationKeys.pleaseEnterPickupLocation.tr;
                     } else if (p0.length < 6 || p0.length > 9) {
-                      return 'ZIP code must be 6 to 9 characters';
+                      return LocalizationKeys.zipCodeMustBe6To9Characters.tr;
                     }
                     return null;
                   },
@@ -84,7 +85,7 @@ class BookAOrderOne extends StatelessWidget {
                 SizedBox(height: 12.h),
                 GooglePlacesTextField(
                   controller: bookAOrderController.dropOffPinCodeController,
-                  hintText: "Enter Drop Location with Pin-code",
+                  hintText: LocalizationKeys.enterDropLocation.tr,
                   fillColor: ColorConstant.clrF7FCFF,
                   onPlaceSelected: (placeDetails) {
                     bookAOrderController.onDropoffLocationSelected(
@@ -93,9 +94,9 @@ class BookAOrderOne extends StatelessWidget {
                   },
                   validator: (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Please enter drop location';
+                      return LocalizationKeys.pleaseEnterDropLocation.tr;
                     } else if (p0.length < 6 || p0.length > 9) {
-                      return 'ZIP code must be 6 to 9 characters';
+                      return LocalizationKeys.zipCodeMustBe6To9Characters.tr;
                     }
                     return null;
                   },
@@ -170,7 +171,7 @@ class BookAOrderOne extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Order Details",
+                  LocalizationKeys.orderDetails.tr,
                   style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
                 ),
                 SizedBox(height: 20.h),
@@ -209,7 +210,7 @@ class BookAOrderOne extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Receiver Name & Mobile no.",
+          LocalizationKeys.receiverNameMobile.tr,
           style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
         ),
         SizedBox(height: 8.h),
@@ -218,12 +219,12 @@ class BookAOrderOne extends StatelessWidget {
             Expanded(
               child: CommonTextFormFieldWithoutBorder(
                 controller: bookAOrderController.receiverNameController,
-                hintText: "ex. Rohit Shah",
+                hintText: LocalizationKeys.exampleName.tr,
                 fillColor: ColorConstant.clrF7FCFF,
                 validator:
                     (p0) =>
                         p0 == null || p0.isEmpty
-                            ? 'Please enter receiver name'
+                            ? LocalizationKeys.pleaseEnterReceiverName.tr
                             : null,
               ),
             ),
@@ -231,7 +232,7 @@ class BookAOrderOne extends StatelessWidget {
             Expanded(
               child: CommonTextFormFieldWithoutBorder(
                 controller: bookAOrderController.receiverMobileNoController,
-                hintText: "ex. 98765 43210",
+                hintText: LocalizationKeys.examplePhone.tr,
                 maxLines: 1,
                 maxLength: 10,
                 keyboardType: TextInputType.phone,
@@ -239,7 +240,7 @@ class BookAOrderOne extends StatelessWidget {
                 validator:
                     (p0) =>
                         p0 == null || p0.isEmpty
-                            ? 'Please enter receiver mobile no.'
+                            ? LocalizationKeys.pleaseEnterReceiverMobile.tr
                             : null,
               ),
             ),
@@ -254,7 +255,7 @@ class BookAOrderOne extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Sender Name & Mobile no.",
+          LocalizationKeys.senderNameMobile.tr,
           style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
         ),
         SizedBox(height: 8.h),
@@ -266,7 +267,7 @@ class BookAOrderOne extends StatelessWidget {
                   text: GetStorage().read(userName) ?? '',
                 ),
                 readOnly: true,
-                hintText: "ex. Mohit Shah",
+                hintText: LocalizationKeys.exampleOtherName.tr,
                 fillColor: ColorConstant.clrF7FCFF,
               ),
             ),
@@ -277,7 +278,7 @@ class BookAOrderOne extends StatelessWidget {
                   text: GetStorage().read(userPhone) ?? '',
                 ),
                 readOnly: true,
-                hintText: "ex. 98765 43210",
+                hintText: LocalizationKeys.examplePhone.tr,
                 fillColor: ColorConstant.clrF7FCFF,
                 maxLines: 1,
               ),
@@ -293,18 +294,20 @@ class BookAOrderOne extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Approx Weight of Your Items",
+          LocalizationKeys.approxWeight.tr,
           style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
         ),
         SizedBox(height: 8.h),
         CommonTextFormFieldWithoutBorder(
-          hintText: "ex. 15-20 kg Simple table",
+          hintText: LocalizationKeys.exampleItemDescription.tr,
           controller: bookAOrderController.orderWeightController,
           fillColor: ColorConstant.clrF7FCFF,
           keyboardType: TextInputType.number,
           validator:
               (p0) =>
-                  p0 == null || p0.isEmpty ? 'Please enter order weight' : null,
+                  p0 == null || p0.isEmpty
+                      ? LocalizationKeys.pleaseEnterOrderWeight.tr
+                      : null,
         ),
       ],
     );

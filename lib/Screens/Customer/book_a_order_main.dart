@@ -8,6 +8,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/book_a_order_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_one.dart';
 import 'package:xpressfly_git/Screens/Customer/book_a_order_three.dart';
@@ -56,7 +57,7 @@ class _BookAOrderMainScreenState extends State<BookAOrderMainScreen> {
                       width: 100.w,
                       alignment: Alignment.center,
                       child: Text(
-                        "Back",
+                        LocalizationKeys.back.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle18w600Clr242424,
@@ -84,7 +85,7 @@ class _BookAOrderMainScreenState extends State<BookAOrderMainScreen> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Slide to Confirm",
+                                  LocalizationKeys.slideToConfirm.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle18w500clrFFFAFA,
@@ -173,8 +174,8 @@ class _BookAOrderMainScreenState extends State<BookAOrderMainScreen> {
                           : CommonButtonRounded(
                             btnText:
                                 bookAOrderController.intCurrentStep.value == 2
-                                    ? "Submit"
-                                    : "Next",
+                                    ? LocalizationKeys.submit.tr
+                                    : LocalizationKeys.next.tr,
                             color: ColorConstant.clrSecondary,
                             onPressed: () async {
                               if (bookAOrderController.intCurrentStep.value ==
@@ -232,7 +233,7 @@ class _BookAOrderMainScreenState extends State<BookAOrderMainScreen> {
             child: Column(
               children: [
                 Text(
-                  'Book a Order',
+                  LocalizationKeys.bookAOrder.tr,
                   style: TextStyleConstant().subTitleTextStyle26w600Clr242424,
                 ),
                 // SizedBox(height: 10.h),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:xpressfly_git/Utility/common_imports.dart';
@@ -38,7 +39,7 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
   String _sessionToken = '';
   final FocusNode _focusNode = FocusNode();
   OverlayEntry? _overlayEntry;
-  final LayerLink _layerLink = LayerLink();
+  // final LayerLink _layerLink = LayerLink();
 
   @override
   void initState() {
@@ -97,8 +98,8 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-        print('API Response Status: ${data['status']}');
-        print('Predictions count: ${data['predictions']?.length ?? 0}');
+        log('API Response Status: ${data['status']}');
+        log('Predictions count: ${data['predictions']?.length ?? 0}');
 
         if (data['status'] == 'OK') {
           final predictions =
@@ -119,7 +120,7 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
             }
           }
         } else {
-          print('API Error: ${data['status']}');
+          log('API Error: ${data['status']}');
           if (mounted) {
             setState(() {
               _predictions = [];
@@ -128,10 +129,10 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
           }
         }
       } else {
-        print('HTTP Error: ${response.statusCode}');
+        log('HTTP Error: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching places: $e');
+      log('Error fetching places: $e');
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -169,7 +170,7 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
         }
       }
     } catch (e) {
-      print('Error fetching place details: $e');
+      log('Error fetching place details: $e');
     }
   }
 

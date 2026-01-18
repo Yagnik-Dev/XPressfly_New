@@ -106,7 +106,7 @@ class LoginController extends GetxController {
 
         if (parsedData != null && parsedData['errors'] != null) {
           final errors = parsedData['errors'] as Map<String, dynamic>;
-          final errorMessages = errors.entries
+          errors.entries
               .map((entry) {
                 // final key = entry.key;
                 final value = entry.value;
@@ -232,7 +232,7 @@ class LoginController extends GetxController {
 
         if (parsedData != null && parsedData['errors'] != null) {
           final errors = parsedData['errors'] as Map<String, dynamic>;
-          final errorMessages = errors.entries
+          errors.entries
               .map((entry) {
                 // final key = entry.key;
                 final value = entry.value;
@@ -347,7 +347,7 @@ class LoginController extends GetxController {
 
         if (parsedData != null && parsedData['errors'] != null) {
           final errors = parsedData['errors'] as Map<String, dynamic>;
-          final errorMessages = errors.entries
+          errors.entries
               .map((entry) {
                 // final key = entry.key;
                 final value = entry.value;

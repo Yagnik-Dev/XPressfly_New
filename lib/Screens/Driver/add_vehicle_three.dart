@@ -8,6 +8,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class AddVehicleThree extends StatelessWidget {
   AddVehicleThree({super.key});
@@ -72,7 +73,7 @@ class AddVehicleThree extends StatelessWidget {
           Icon(Icons.upload, size: 20.sp, color: Colors.grey.shade500),
           SizedBox(width: 8.w),
           Text(
-            placeHolder ?? "Upload",
+            placeHolder ?? LocalizationKeys.upload.tr,
             style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade600),
           ),
         ],
@@ -110,7 +111,7 @@ class AddVehicleThree extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Gallery',
+                          LocalizationKeys.gallery.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -137,7 +138,7 @@ class AddVehicleThree extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Camera',
+                          LocalizationKeys.camera.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -180,7 +181,7 @@ class AddVehicleThree extends StatelessWidget {
                       child: Image.asset(ImageConstant.imgAddVehicleThree),
                     ),
                     Text(
-                      "Verification",
+                      LocalizationKeys.verification.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w600Clr242424,
                     ),
@@ -194,7 +195,7 @@ class AddVehicleThree extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Upload Aadhar Front & Back",
+                      LocalizationKeys.uploadAadharFrontBack.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),
@@ -205,7 +206,7 @@ class AddVehicleThree extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _buildImageField(
-                            title: "Front Image",
+                            title: LocalizationKeys.frontImage.tr,
                             imageFile: addVehicleMainController.aadharFrontImg,
                             onTap:
                                 () => _showImageSourceDialog(
@@ -216,7 +217,7 @@ class AddVehicleThree extends StatelessWidget {
                         SizedBox(width: 10.w),
                         Expanded(
                           child: _buildImageField(
-                            title: "Back Image",
+                            title: LocalizationKeys.backImage.tr,
                             imageFile: addVehicleMainController.aadharBackImg,
                             onTap:
                                 () => _showImageSourceDialog(
@@ -228,7 +229,7 @@ class AddVehicleThree extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      "Upload RC Book Front & Back",
+                      LocalizationKeys.uploadRcBookFrontBack.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle16w500Clr242424,
                     ),
@@ -239,7 +240,7 @@ class AddVehicleThree extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _buildImageField(
-                            title: "Front Image",
+                            title: LocalizationKeys.frontImage.tr,
                             imageFile: addVehicleMainController.rcBookFrontImg,
                             onTap:
                                 () => _showImageSourceDialog(
@@ -250,7 +251,7 @@ class AddVehicleThree extends StatelessWidget {
                         SizedBox(width: 10.w),
                         Expanded(
                           child: _buildImageField(
-                            title: "Back Image",
+                            title: LocalizationKeys.backImage.tr,
                             imageFile: addVehicleMainController.rcBookBackImg,
                             onTap:
                                 () => _showImageSourceDialog(

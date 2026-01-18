@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/login_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Models/login_model.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -72,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        "Welcome to\nXPRESSFLY",
+                        LocalizationKeys.welcomeTo.tr,
                         textAlign: TextAlign.center,
                         style:
                             TextStyleConstant().titleTextStyle34w600Clr242424,
@@ -80,28 +81,27 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      "Number",
+                      LocalizationKeys.number.tr,
                       style: TextStyleConstant().subTitleTextStyle16w500,
                     ),
                     SizedBox(height: 8.h),
                     CommonTextFormField(
                       controller: loginController.phoneTextEditingController,
-                      hintText: "Enter your number",
+                      hintText: LocalizationKeys.enterYourNumber.tr,
                       keyboardType: TextInputType.phone,
                       maxLength: 10,
-
                       validator: (p0) {
                         if (p0 == null || p0.isEmpty) {
-                          return 'Please enter your phone number';
+                          return LocalizationKeys.pleaseEnterPhoneNumber.tr;
                         } else if (p0.length != 10) {
-                          return 'Phone number must be 10 digits';
+                          return LocalizationKeys.phoneNumberMustBe10Digits.tr;
                         }
                         return null;
                       },
                     ),
                     SizedBox(height: 18.h),
                     CommonButton(
-                      btnText: "GET OTP",
+                      btnText: LocalizationKeys.getOtp.tr,
                       onPressed: () {
                         if (loginController.formKey.currentState!.validate()) {
                           if (loginController.loginType == 1) {
@@ -149,7 +149,7 @@ class LoginScreen extends StatelessWidget {
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsScreen()));
                         },
                         child: Text(
-                          "Terms & Conditions",
+                          LocalizationKeys.termsConditions.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w500clrSecondary,

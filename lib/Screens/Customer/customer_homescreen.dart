@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/customer_home_controller.dart';
 import 'package:xpressfly_git/Controller/profile_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../../Routes/app_routes.dart';
 
@@ -25,61 +26,94 @@ class CustomerHomeScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       endDrawer: const CommonDrawer(),
       backgroundColor: ColorConstant.clrF2FAFF,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50.h),
-        child: AppBar(
-          backgroundColor: ColorConstant.clrF2FAFF,
-          leading: Container(
-            // height: 46.h,
-            // width: 44.w,
-            margin: EdgeInsets.only(left: 8.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: Image.asset(ImageConstant.imgUser),
-          ),
-          title: Obx(
-            () => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hello ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
-                  style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
-                ),
-                Text(
-                  '${Get.find<ProfileController>().userDetails.value.user?.city ?? GetStorage().read(userAddress)} - ${Get.find<ProfileController>().userDetails.value.user?.pincode ?? GetStorage().read(userPincode) ?? '395010'}',
-                  style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            Builder(
-              builder:
-                  (context) => InkWell(
-                    onTap: () {
-                      Scaffold.of(context).openEndDrawer();
-                    },
-                    child: Container(
-                      height: 46.h,
-                      width: 46.w,
-                      margin: EdgeInsets.only(right: 16.w),
-                      padding: EdgeInsets.all(10.sp),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.asset(ImageConstant.imgInformation),
-                    ),
-                  ),
-            ),
-          ],
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(50.h),
+      //   child: AppBar(
+      //     // leadingWidth: 100.w,
+      //     backgroundColor: ColorConstant.clrF2FAFF,
+      //     // leading: Container(
+      //     //   // height: 46.h,
+      //     //   // width: 44.w,
+      //     //   margin: EdgeInsets.only(left: 8.w),
+      //     //   decoration: BoxDecoration(
+      //     //     color: Colors.white,
+      //     //     shape: BoxShape.circle,
+      //     //   ),
+      //     //   child: Image.asset(ImageConstant.imgUser),
+      //     // ),
+      //     leading: Container(
+      //       height: 46.h,
+      //       width: 46.w,
+      //       margin: EdgeInsets.only(right: 10.w, left: 16.w),
+      //       decoration: BoxDecoration(
+      //         color: Colors.white,
+      //         shape: BoxShape.circle,
+      //       ),
+      //       child: ClipOval(
+      //         child: Obx(() {
+      //           final profileImage =
+      //               Get.find<ProfileController>()
+      //                   .userDetails
+      //                   .value
+      //                   .user
+      //                   ?.profileImage;
+      //           return profileImage != null && profileImage.isNotEmpty
+      //               ? Image.network(
+      //                 profileImage,
+      //                 fit: BoxFit.cover,
+      //                 width: 46.w,
+      //                 height: 46.h,
+      //                 errorBuilder: (context, error, stackTrace) {
+      //                   return Image.asset(ImageConstant.imgUser);
+      //                 },
+      //               )
+      //               : Image.asset(ImageConstant.imgUser);
+      //         }),
+      //       ),
+      //     ),
+      //     title: Obx(
+      //       () => Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           Text(
+      //             "${LocalizationKeys.hello.tr} ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
+      //             style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
+      //           ),
+      //           Text(
+      //             '${Get.find<ProfileController>().userDetails.value.user?.city ?? GetStorage().read(userAddress)} - ${Get.find<ProfileController>().userDetails.value.user?.pincode ?? GetStorage().read(userPincode) ?? '395010'}',
+      //             style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //     actions: [
+      //       Builder(
+      //         builder:
+      //             (context) => InkWell(
+      //               onTap: () {
+      //                 Scaffold.of(context).openEndDrawer();
+      //               },
+      //               child: Container(
+      //                 height: 46.h,
+      //                 width: 46.w,
+      //                 margin: EdgeInsets.only(right: 16.w),
+      //                 padding: EdgeInsets.all(10.sp),
+      //                 decoration: BoxDecoration(
+      //                   color: Colors.white,
+      //                   shape: BoxShape.circle,
+      //                 ),
+      //                 child: Image.asset(ImageConstant.imgInformation),
+      //               ),
+      //             ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 30.h),
+            _buildAppBar(),
             Container(
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(19.w, 0, 0, 19.h),
@@ -110,14 +144,14 @@ class CustomerHomeScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        'Verification Required',
+                        LocalizationKeys.verificationRequired.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle18w600Clr242424,
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        'Verify Your Account With Your Aadhar Card',
+                        LocalizationKeys.verifyAccountWithAadhar.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle14w400clr666666,
@@ -136,7 +170,7 @@ class CustomerHomeScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  'Safe Delivery',
+                                  LocalizationKeys.safeDelivery.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle14w500ClrSubText,
@@ -155,7 +189,7 @@ class CustomerHomeScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  'Fast Delivery',
+                                  LocalizationKeys.fastDelivery.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle14w500ClrSubText,
@@ -238,7 +272,7 @@ class CustomerHomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Select Vehicle',
+                        LocalizationKeys.selectVehicle.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle20w600Clr242424,
@@ -248,7 +282,7 @@ class CustomerHomeScreen extends StatelessWidget {
                       //     Get.toNamed(AppRoutes.bookAOrderMainScreen);
                       //   },
                       //   child: Text(
-                      //     'Book a Order',
+                      //     LocalizationKeys.bookAOrder.tr,
                       //     style:
                       //         TextStyleConstant()
                       //             .subTitleTextStyle14w500Clr9D9D9D,
@@ -354,6 +388,85 @@ class CustomerHomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return Row(
+      children: [
+        // In _buildAppBar() method, replace the first Container:
+        Container(
+          margin: EdgeInsets.only(right: 10.w, left: 16.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+          child: CircleAvatar(
+            radius: 24.r,
+            backgroundColor: Colors.white,
+            child: ClipOval(
+              child: Obx(() {
+                final profileImage =
+                    Get.find<ProfileController>()
+                        .userDetails
+                        .value
+                        .user
+                        ?.profileImage;
+                return profileImage != null && profileImage.isNotEmpty
+                    ? Image.network(
+                      profileImage,
+                      fit: BoxFit.cover,
+                      width: 48.w,
+                      height: 48.h,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(ImageConstant.imgUser);
+                      },
+                    )
+                    : Image.asset(ImageConstant.imgUser);
+              }),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${LocalizationKeys.hello.tr} ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? 'Driver'}",
+                  style: TextStyleConstant().subTitleTextStyle18w600Clr242424,
+                ),
+                Text(
+                  Get.find<ProfileController>().userDetails.value.user?.city ??
+                      GetStorage().read(userAddress) ??
+                      LocalizationKeys.address.tr,
+                  style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                ),
+              ],
+            ),
+          ),
+        ),
+        Builder(
+          builder:
+              (context) => InkWell(
+                onTap: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child: Container(
+                  height: 46.h,
+                  width: 46.w,
+                  margin: EdgeInsets.only(right: 16.w),
+                  padding: EdgeInsets.all(10.sp),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(ImageConstant.imgInformation),
+                ),
+              ),
+        ),
+        SizedBox(height: 4.w),
+      ],
     );
   }
 }

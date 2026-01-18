@@ -12,6 +12,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/bank_detail_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/device_info_details.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
 
@@ -81,7 +82,7 @@ class BankDetailsScreen extends StatelessWidget {
           ),
           automaticallyImplyLeading: false,
           title: Text(
-            "Your Bank Details",
+            LocalizationKeys.yourBankDetails.tr,
             style: TextStyleConstant().titleTextStyle26w600Clr242424,
           ),
           shape: const RoundedRectangleBorder(
@@ -97,7 +98,7 @@ class BankDetailsScreen extends StatelessWidget {
             child: CommonButton(
               color: ColorConstant.clrSecondary,
               radius: 50.sp,
-              btnText: "Save Details",
+              btnText: LocalizationKeys.saveDetails.tr,
               onPressed: () async {
                 // if (bankDetailController.bankDetailFormKey.currentState!
                 //     .validate()) {
@@ -222,7 +223,7 @@ class BankDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Bank Account Number",
+                              LocalizationKeys.bankAccountNumber.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle16w500ClrSubText,
@@ -236,7 +237,7 @@ class BankDetailsScreen extends StatelessWidget {
                             SizedBox(height: 16.h),
 
                             Text(
-                              "Bank Account Name",
+                              LocalizationKeys.bankAccountName.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle16w500ClrSubText,
@@ -250,7 +251,7 @@ class BankDetailsScreen extends StatelessWidget {
                             SizedBox(height: 16.h),
 
                             Text(
-                              "IFSC Code",
+                              LocalizationKeys.ifscCode.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle16w500ClrSubText,
@@ -262,10 +263,14 @@ class BankDetailsScreen extends StatelessWidget {
                               maxLength: 11,
                               validator: (p0) {
                                 if (p0 == null || p0.isEmpty) {
-                                  return 'Please enter IFSC Code';
+                                  return LocalizationKeys
+                                      .pleaseEnterIfscCode
+                                      .tr;
                                 }
                                 if (p0.length != 11) {
-                                  return 'IFSC Code must be 11 characters';
+                                  return LocalizationKeys
+                                      .ifscCodeMustBe11Characters
+                                      .tr;
                                 }
                                 return null;
                               },

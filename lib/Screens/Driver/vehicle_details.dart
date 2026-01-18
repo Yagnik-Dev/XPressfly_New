@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Controller/vehicle_details_controller.dart';
 import 'package:xpressfly_git/Models/get_vehicle_Details_model.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class VehicleDetailsScreen extends StatelessWidget {
   VehicleDetailsScreen({super.key});
@@ -16,7 +17,8 @@ class VehicleDetailsScreen extends StatelessWidget {
   final VehicleDetailsController vehicleDetailsController = Get.put(
     VehicleDetailsController(),
   );
-  final DriverHomeController driverHomeController = Get.find<DriverHomeController>();
+  final DriverHomeController driverHomeController =
+      Get.find<DriverHomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class VehicleDetailsScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Vehicle Details",
+          LocalizationKeys.vehicleDetails.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
       ),
@@ -102,6 +104,7 @@ class VehicleDetailsScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 20.h),
                       Text(
+                        // vehicleDetailsController.vehicleDetails.value.data.
                         "The perfect mini truck with ample space to carry TVs, tables, chairs and all your household essentials with ease.",
                         style:
                             TextStyleConstant()
@@ -111,13 +114,15 @@ class VehicleDetailsScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Pin code",
+                          LocalizationKeys.pinCode.tr,
                           style:
                               TextStyleConstant().titleTextStyle20w600Clr242424,
                         ),
                       ),
                       Text(
-                        "Serviceable pin codes as selected by the driver",
+                        LocalizationKeys
+                            .serviceablePinCodesAsSelectedByDriver
+                            .tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle14w400ClrSubText,
@@ -195,7 +200,7 @@ class VehicleDetailsScreen extends StatelessWidget {
                                 height: 24.h,
                               ),
                               label: Text(
-                                "Delete",
+                                LocalizationKeys.delete.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle18w600Clr242424,
@@ -238,7 +243,7 @@ class VehicleDetailsScreen extends StatelessWidget {
                                 height: 24.h,
                               ),
                               label: Text(
-                                "Edit",
+                                LocalizationKeys.edit.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle18w500clrFFFAFA,

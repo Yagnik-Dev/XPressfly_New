@@ -6,6 +6,7 @@ import 'package:xpressfly_git/Common%20Components/common_textfield.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/verification_screen.dart';
 
 class YourDetailsScreen extends StatelessWidget {
@@ -55,7 +56,7 @@ class YourDetailsScreen extends StatelessWidget {
           ),
           automaticallyImplyLeading: false,
           title: Text(
-            "Your Details",
+            LocalizationKeys.yourDetails.tr,
             style: TextStyleConstant().titleTextStyle26w600Clr242424,
           ),
           shape: const RoundedRectangleBorder(
@@ -70,7 +71,7 @@ class YourDetailsScreen extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(11.w, 4.h, 11.w, 13.h),
             child: CommonButtonRounded(
               color: ColorConstant.clrSecondary,
-              btnText: "Next",
+              btnText: LocalizationKeys.next.tr,
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   Get.to(
@@ -116,7 +117,7 @@ class YourDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Your name",
+                                LocalizationKeys.yourName.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle16w500ClrSubText,
@@ -127,12 +128,14 @@ class YourDetailsScreen extends StatelessWidget {
                                 validator:
                                     (p0) =>
                                         p0 == null || p0.isEmpty
-                                            ? "Please enter your name"
+                                            ? LocalizationKeys
+                                                .pleaseEnterYourName
+                                                .tr
                                             : null,
                               ),
                               SizedBox(height: 16.h),
                               Text(
-                                "Your Email",
+                                LocalizationKeys.yourEmail.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle16w500ClrSubText,
@@ -143,12 +146,14 @@ class YourDetailsScreen extends StatelessWidget {
                                 validator:
                                     (p0) =>
                                         p0 == null || p0.isEmpty
-                                            ? "Please enter your email"
+                                            ? LocalizationKeys
+                                                .pleaseEnterYourEmail
+                                                .tr
                                             : null,
                               ),
                               SizedBox(height: 16.h),
                               Text(
-                                "Your city",
+                                LocalizationKeys.yourCity.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle16w500ClrSubText,
@@ -159,12 +164,14 @@ class YourDetailsScreen extends StatelessWidget {
                                 validator:
                                     (p0) =>
                                         p0 == null || p0.isEmpty
-                                            ? "Please enter your city"
+                                            ? LocalizationKeys
+                                                .pleaseEnterYourCity
+                                                .tr
                                             : null,
                               ),
                               SizedBox(height: 16.h),
                               Text(
-                                "Your pincode",
+                                LocalizationKeys.yourPincode.tr,
                                 style:
                                     TextStyleConstant()
                                         .subTitleTextStyle16w500ClrSubText,
@@ -177,7 +184,9 @@ class YourDetailsScreen extends StatelessWidget {
                                 validator:
                                     (p0) =>
                                         p0 != null && p0.length < 6
-                                            ? "Please enter valid pincode"
+                                            ? LocalizationKeys
+                                                .pleaseEnterValidPincode
+                                                .tr
                                             : null,
                               ),
                               SizedBox(height: 20.h),

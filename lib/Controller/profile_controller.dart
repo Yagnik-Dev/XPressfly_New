@@ -12,7 +12,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Models/profile_model.dart';
-import 'package:xpressfly_git/Screens/AuthScreens/device_info_details.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
@@ -47,9 +46,19 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _clearAllData();
     getData().then((value) {
       _initializeControllers();
     });
+  }
+
+  void _clearAllData() {
+    profileImage.value = null;
+    aadharCardFront.value = null;
+    aadharCardBack.value = null;
+    driverLicenseFront.value = null;
+    driverLicenseBack.value = null;
+    userDetails.value = GetUserProfileDataModel();
   }
 
   void _initializeControllers() {
@@ -103,41 +112,29 @@ class ProfileController extends GetxController {
   }
 
   // Update Profile Method with all fields
+  // Replace the entire updateUserProfile method with this corrected version:
+
   Future<bool> updateUserProfile(Function(bool) onCompleteHandler) async {
     Future.delayed(Duration.zero, () {
       showLoading();
     });
 
     try {
-      // Get user role to determine which API to call
       final userRoleValue = GetStorage().read(userRole) ?? 'customer';
 
-      // Create form data based on user role
       Map<String, dynamic> formDataMap = {};
 
       if (userRoleValue == 'driver') {
-        // Driver profile data
         formDataMap = {
           'name': nameTextEditingController.text.trim(),
-          // 'phone': mobileTextEditingController.text.trim(),
           'email': emailTextEditingController.text.trim(),
           'address': addressTextEditingController.text.trim(),
           'pincode': pincodeTextEditingController.text.trim(),
           'city': cityTextEditingController.text.trim(),
-          // 'device_fcm_token':
-          //     // GetStorage().read('device_fcm_token') ??
-          //     'c_-jq5UPIwCQilLKVuWtgf:APA91bFG4hy_yuIW2OidJLe7CCWWtM6u5hMolcMcXATwrUDTv9nzq4fd5NnA97vyEtb9VnzS4l7CmEtwDQQRLoBKoUVtceb9OyUb7iWjEbeQs6RKgGV2w74',
-          // "device_id": deviceInfo["deviceId"],
-          // "device_name": deviceInfo["deviceName"],
-          // "device_type": deviceInfo["deviceType"],
-          // 'bank_account_holder_name':
-          //     bankAccountHolderNameController.text.trim(),
-          // 'bank_account_number': bankAccountNumberController.text.trim(),
-          // 'bank_ifsc': bankIFSCController.text.trim(),
           'is_duty_on': GetStorage().read('is_duty_on') ?? '0',
         };
       } else {
-        // Customer profile data - phone is NOT editable for customers
+        // Customer profile data
         formDataMap = {
           'name': nameTextEditingController.text.trim(),
           'email': emailTextEditingController.text.trim(),
@@ -150,124 +147,95 @@ class ProfileController extends GetxController {
 
       var formData = formdata.FormData.fromMap(formDataMap);
 
-      // Add image files based on user role
+      // Add image files for both driver and customer
+      if (profileImage.value != null) {
+        formData.files.add(
+          MapEntry(
+            'profile_image',
+            await multipart_file.MultipartFile.fromFile(
+              profileImage.value!.path,
+              filename: profileImage.value!.path.split('/').last,
+            ),
+          ),
+        );
+      }
+
+      // Driver-specific images
       if (userRoleValue == 'driver') {
-        if (profileImage.value != null) {
+        if (aadharCardFront.value != null) {
           formData.files.add(
             MapEntry(
-              'profile_image',
+              'adhar_card_front',
               await multipart_file.MultipartFile.fromFile(
-                profileImage.value!.path,
-                filename: profileImage.value!.path.split('/').last,
+                aadharCardFront.value!.path,
+                filename: aadharCardFront.value!.path.split('/').last,
               ),
             ),
           );
         }
 
-        // if (aadharCardFront.value != null) {
-        //   formData.files.add(
-        //     MapEntry(
-        //       'adhar_card_front',
-        //       await multipart_file.MultipartFile.fromFile(
-        //         aadharCardFront.value!.path,
-        //         filename: aadharCardFront.value!.path.split('/').last,
-        //       ),
-        //     ),
-        //   );
-        // }
-
-        // if (aadharCardBack.value != null) {
-        //   formData.files.add(
-        //     MapEntry(
-        //       'adhar_card_back',
-        //       await multipart_file.MultipartFile.fromFile(
-        //         aadharCardBack.value!.path,
-        //         filename: aadharCardBack.value!.path.split('/').last,
-        //       ),
-        //     ),
-        //   );
-        // }
-
-        // if (driverLicenseFront.value != null) {
-        //   formData.files.add(
-        //     MapEntry(
-        //       'driver_license_front',
-        //       await multipart_file.MultipartFile.fromFile(
-        //         driverLicenseFront.value!.path,
-        //         filename: driverLicenseFront.value!.path.split('/').last,
-        //       ),
-        //     ),
-        //   );
-        // }
-
-        // if (driverLicenseBack.value != null) {
-        //   formData.files.add(
-        //     MapEntry(
-        //       'driver_license_back',
-        //       await multipart_file.MultipartFile.fromFile(
-        //         driverLicenseBack.value!.path,
-        //         filename: driverLicenseBack.value!.path.split('/').last,
-        //       ),
-        //     ),
-        //   );
-        // }
-        // Replace the entire else block for customers (around lines 175-271)
-        // This is the COMPLETE customer section - remove all the old code
-        else {
-          // For customers - check if there's an existing profile image OR a new one selected
-          final hasExistingImage =
-              userDetails.value.user?.profileImage != null &&
-              userDetails.value.user!.profileImage!.isNotEmpty;
-
-          // Only require image selection if there's no existing image
-          if (profileImage.value == null && !hasExistingImage) {
-            hideLoading();
-            declineDialog("Error", "Please select a profile image first");
-            onCompleteHandler(false);
-            return false;
-          }
-
-          // Only add profile image to form if a new one was selected
-          if (profileImage.value != null) {
-            formData.files.add(
-              MapEntry(
-                'profile_image',
-                await multipart_file.MultipartFile.fromFile(
-                  profileImage.value!.path,
-                  filename: profileImage.value!.path.split('/').last,
-                ),
+        if (aadharCardBack.value != null) {
+          formData.files.add(
+            MapEntry(
+              'adhar_card_back',
+              await multipart_file.MultipartFile.fromFile(
+                aadharCardBack.value!.path,
+                filename: aadharCardBack.value!.path.split('/').last,
               ),
-            );
-          }
+            ),
+          );
+        }
 
-          // Optionally add Aadhar cards if selected
-          if (aadharCardFront.value != null) {
-            formData.files.add(
-              MapEntry(
-                'adhar_card_front',
-                await multipart_file.MultipartFile.fromFile(
-                  aadharCardFront.value!.path,
-                  filename: aadharCardFront.value!.path.split('/').last,
-                ),
+        if (driverLicenseFront.value != null) {
+          formData.files.add(
+            MapEntry(
+              'driver_license_front',
+              await multipart_file.MultipartFile.fromFile(
+                driverLicenseFront.value!.path,
+                filename: driverLicenseFront.value!.path.split('/').last,
               ),
-            );
-          }
+            ),
+          );
+        }
 
-          if (aadharCardBack.value != null) {
-            formData.files.add(
-              MapEntry(
-                'adhar_card_back',
-                await multipart_file.MultipartFile.fromFile(
-                  aadharCardBack.value!.path,
-                  filename: aadharCardBack.value!.path.split('/').last,
-                ),
+        if (driverLicenseBack.value != null) {
+          formData.files.add(
+            MapEntry(
+              'driver_license_back',
+              await multipart_file.MultipartFile.fromFile(
+                driverLicenseBack.value!.path,
+                filename: driverLicenseBack.value!.path.split('/').last,
               ),
-            );
-          }
+            ),
+          );
+        }
+      } else {
+        // Customer - optional Aadhar cards
+        if (aadharCardFront.value != null) {
+          formData.files.add(
+            MapEntry(
+              'adhar_card_front',
+              await multipart_file.MultipartFile.fromFile(
+                aadharCardFront.value!.path,
+                filename: aadharCardFront.value!.path.split('/').last,
+              ),
+            ),
+          );
+        }
+
+        if (aadharCardBack.value != null) {
+          formData.files.add(
+            MapEntry(
+              'adhar_card_back',
+              await multipart_file.MultipartFile.fromFile(
+                aadharCardBack.value!.path,
+                filename: aadharCardBack.value!.path.split('/').last,
+              ),
+            ),
+          );
         }
       }
 
-      // Use Dio directly for better control
       final dio = Dio();
       String apiEndpoint =
           userRoleValue == 'driver'
@@ -292,7 +260,7 @@ class ProfileController extends GetxController {
             'Authorization': GetStorage().read(accessToken),
             'accept': 'application/json',
           },
-          validateStatus: (status) => true, // Accept all status codes
+          validateStatus: (status) => true,
         ),
       );
 
@@ -302,16 +270,12 @@ class ProfileController extends GetxController {
 
       hideLoading();
 
-      // Handle successful response (200 or 201)
       if (response.statusCode == 200 || response.statusCode == 201) {
         var responseData = response.data;
 
-        // API returns {message: "...", user: {...}}
         if (responseData is Map && responseData['user'] != null) {
-          // Extract user data from response
           final userData = responseData['user'];
 
-          // Update GetStorage with data from API response
           GetStorage().write(userName, userData['name'] ?? '');
           GetStorage().write(userPhone, userData['phone'] ?? '');
           GetStorage().write(userEmail, userData['email'] ?? '');
@@ -331,7 +295,10 @@ class ProfileController extends GetxController {
             GetStorage().write('bank_ifsc', userData['bank_ifsc'] ?? '');
           }
 
-          // Refresh user details from API
+          // Clear the local file reference after successful upload
+          profileImage.value = null;
+
+          // Refresh user details from API to get updated profile image URL
           await getUserDetails((p0) {});
 
           onCompleteHandler(true);
@@ -343,7 +310,6 @@ class ProfileController extends GetxController {
         }
       }
 
-      // Handle error responses
       var errorData = response.data;
       String errorMessage = 'Failed to update profile';
 
@@ -361,8 +327,6 @@ class ProfileController extends GetxController {
               .join('\n');
         } else if (errorData['message'] != null) {
           errorMessage = errorData['message'].toString();
-        } else if (errorData is String) {
-          errorMessage = errorData.toString();
         }
       }
 
@@ -378,15 +342,7 @@ class ProfileController extends GetxController {
       if (error is DioException) {
         debugPrint('DioException Type: ${error.type}');
         debugPrint('Response: ${error.response?.data}');
-
-        String errorMessage = 'Failed to update profile';
-        if (error.response?.data is Map) {
-          final data = error.response?.data;
-          if (data['message'] != null) {
-            errorMessage = data['message'];
-          }
-        }
-        declineDialog("Error", errorMessage);
+        declineDialog("Error", "Failed to update profile. Please try again.");
       } else {
         handleError(error);
       }
@@ -440,6 +396,7 @@ class ProfileController extends GetxController {
       }
 
       hideLoading();
+      // _initializeControllers();
       onCompleteHandler(true);
       return userDetails.value != null;
     } catch (error) {
@@ -479,5 +436,20 @@ class ProfileController extends GetxController {
       onCompleteHandler(false);
       return false;
     }
+  }
+
+  @override
+  void onClose() {
+    _clearAllData();
+    nameTextEditingController.dispose();
+    mobileTextEditingController.dispose();
+    emailTextEditingController.dispose();
+    addressTextEditingController.dispose();
+    pincodeTextEditingController.dispose();
+    cityTextEditingController.dispose();
+    bankAccountHolderNameController.dispose();
+    bankAccountNumberController.dispose();
+    bankIFSCController.dispose();
+    super.onClose();
   }
 }

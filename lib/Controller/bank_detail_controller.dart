@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Models/create_driver_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
@@ -32,7 +33,7 @@ class BankDetailController extends GetxController {
     };
 
     try {
-      var response = await ServiceCall().postMultipart(
+      var response = await ServiceCall().postMultipartNoAuth(
         ApiConstant.baseUrl,
         ApiConstant.createDriver,
         details,
@@ -55,12 +56,23 @@ class BankDetailController extends GetxController {
       GetStorage().write(userPhone, objCreateDriver.user?.phone);
       GetStorage().write(userAddress, objCreateDriver.user?.city);
       GetStorage().write(userPincode, objCreateDriver.user?.pincode);
+      // GetStorage().write(
+      //   userProfileImage,
+      //   objCreateDriver.user?.profileImage ?? '',
+      // );
       hideLoading();
       onCompleteHandler(true);
       approvedDialog('Success', objCreateDriver.message.toString());
+      if (Get.isRegistered<ProfileController>()) {
+        Get.delete<ProfileController>();
+      }
+      Get.put(ProfileController());
+
+      // Single navigation call - wait for dialog to close
       Future.delayed(const Duration(seconds: 2)).then((_) {
-        Get.offAllNamed('/driver_home_screen');
+        Get.offAllNamed('/driver_bottom_bar_screen');
       });
+
       return true;
     } catch (error) {
       hideLoading();

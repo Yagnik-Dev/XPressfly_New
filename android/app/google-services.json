@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "293452707394",
+    "project_id": "xpressfly-9efa8",
+    "storage_bucket": "xpressfly-9efa8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293452707394:android:088067c50fdf6164e65fdb",
+        "android_client_info": {
+          "package_name": "com.example.xpressfly_git"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpozbt9Wm8Tn5CSebx68q24ZVGvoDu0Ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293452707394:android:d8fbfa8635f0d303e65fdb",
+        "android_client_info": {
+          "package_name": "com.xpressflyin.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpozbt9Wm8Tn5CSebx68q24ZVGvoDu0Ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

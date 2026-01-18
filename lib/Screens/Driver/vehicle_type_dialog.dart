@@ -5,6 +5,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/driver_home_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class VehicleTypeScreen extends StatelessWidget {
   final Function(String title, String icon, int color)? onSelected;
@@ -39,7 +40,7 @@ class VehicleTypeScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Your Vehicle Type",
+                      LocalizationKeys.yourVehicleType.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w600Clr242424,
                     ),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:xpressfly_git/Models/orderlist_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
@@ -66,7 +67,7 @@ class OrderHistoryController extends GetxController {
       }
     } catch (e) {
       errorMessage('Error: ${e.toString()}');
-      print('Error fetching orders: $e');
+      log('Error fetching orders: $e');
     } finally {
       isLoading(false);
     }

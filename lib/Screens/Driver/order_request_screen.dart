@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/Driver/swipe_to_accept_button.dart';
 
 class OrderRequestScreen extends StatelessWidget {
@@ -28,7 +30,7 @@ class OrderRequestScreen extends StatelessWidget {
             elevation: 0,
             automaticallyImplyLeading: false,
             title: Text(
-              "Order Request",
+              LocalizationKeys.orderRequest.tr,
               style: TextStyleConstant().titleTextStyle26w600Clr242424,
             ),
           ),
@@ -49,14 +51,14 @@ class OrderRequestScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        "Oops!",
+                        LocalizationKeys.oops.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle26w600Clr242424,
                       ),
                       SizedBox(height: 6.h),
                       Text(
-                        "No more order right now",
+                        LocalizationKeys.noMoreOrderRightNow.tr,
                         textAlign: TextAlign.center,
                         style:
                             TextStyleConstant()
@@ -72,7 +74,7 @@ class OrderRequestScreen extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Today",
+                          LocalizationKeys.today.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle18w500Clr242424,
@@ -189,7 +191,7 @@ class OrderRequestScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2.h),
                                         Text(
-                                          "Pick\nPoint",
+                                          LocalizationKeys.pickPoint.tr,
                                           style:
                                               TextStyleConstant()
                                                   .subTitleTextStyle10w400ClrSubText,
@@ -224,7 +226,7 @@ class OrderRequestScreen extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 18.w),
                                 child: Text(
-                                  "DELIVERY DETAILS",
+                                  LocalizationKeys.deliveryDetails.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle12w400Clr9D9D9D,
@@ -287,7 +289,7 @@ class OrderRequestScreen extends StatelessWidget {
                                   ),
                                   SizedBox(height: 2.h),
                                   Text(
-                                    "Drop\nPoint",
+                                    LocalizationKeys.dropPoint.tr,
                                     style:
                                         TextStyleConstant()
                                             .subTitleTextStyle10w400ClrSubText,
@@ -374,7 +376,7 @@ class OrderRequestScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Text(
-                                  "Reject",
+                                  LocalizationKeys.reject.tr,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,

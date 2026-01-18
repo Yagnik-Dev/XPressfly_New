@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/your_details.dart';
 
 class JoinAsScreen extends StatelessWidget {
@@ -40,7 +41,7 @@ class JoinAsScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Join As",
+          LocalizationKeys.joinAs.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
       ),
@@ -64,7 +65,7 @@ class JoinAsScreen extends StatelessWidget {
           // ),
           SizedBox(height: 12.h),
           Text(
-            "Select your type of account",
+            LocalizationKeys.selectYourTypeOfAccount.tr,
             style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
           ),
           SizedBox(height: 18.h),
@@ -120,13 +121,13 @@ class JoinAsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'As Driver',
+                              LocalizationKeys.asDriver.tr,
                               style:
                                   TextStyleConstant()
                                       .titleTextStyle20w600ClrWhite,
                             ),
                             Text(
-                              'A reliable driver for timely\nand efficient parcel deliveries',
+                              LocalizationKeys.asDriverDescription.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle16w500ClrD9C0C0,
@@ -216,13 +217,13 @@ class JoinAsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'As Customer',
+                              LocalizationKeys.asCustomer.tr,
                               style:
                                   TextStyleConstant()
                                       .titleTextStyle20w600ClrWhite,
                             ),
                             Text(
-                              'A customer who can book\na vehicle and send parcels',
+                              LocalizationKeys.asCustomerDescription.tr,
                               style:
                                   TextStyleConstant()
                                       .subTitleTextStyle16w500ClrD9C0C0,

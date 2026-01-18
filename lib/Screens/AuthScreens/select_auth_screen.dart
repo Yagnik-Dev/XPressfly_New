@@ -5,8 +5,8 @@ import 'package:xpressfly_git/Common%20Components/common_button.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
-import 'package:xpressfly_git/Screens/AuthScreens/device_info_details.dart';
 
 class SelectAuthScreen extends StatelessWidget {
   const SelectAuthScreen({super.key});
@@ -61,18 +61,13 @@ class SelectAuthScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      loadDeviceData();
-                    },
-                    child: Text(
-                      'Let’s get started',
-                      style: TextStyleConstant().subTitleTextStyle18w600,
-                    ),
+                  Text(
+                    LocalizationKeys.letsGetStarted.tr,
+                    style: TextStyleConstant().subTitleTextStyle18w600,
                   ),
                   SizedBox(height: 20.h),
                   CommonButton(
-                    btnText: 'LOGIN',
+                    btnText: LocalizationKeys.login.tr,
                     onPressed: () {
                       Get.toNamed(AppRoutes.loginScreen, arguments: 1);
                     },
@@ -80,7 +75,7 @@ class SelectAuthScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10.h),
                   CommonButton(
-                    btnText: 'SIGN UP',
+                    btnText: LocalizationKeys.signUp.tr,
                     onPressed: () {
                       Get.toNamed(AppRoutes.loginScreen, arguments: 0);
                     },

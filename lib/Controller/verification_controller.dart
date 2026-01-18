@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Models/create_customer_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
@@ -42,7 +43,7 @@ class VerificationController extends GetxController {
     };
 
     try {
-      var response = await ServiceCall().postMultipart(
+      var response = await ServiceCall().postMultipartNoAuth(
         ApiConstant.baseUrl,
         ApiConstant.createCustomer,
         details,
@@ -67,8 +68,12 @@ class VerificationController extends GetxController {
       hideLoading();
       onCompleteHandler(true);
       approvedDialog('Success', objLogin.message.toString());
+      if (Get.isRegistered<ProfileController>()) {
+        Get.delete<ProfileController>();
+      }
+      Get.put(ProfileController());
       Future.delayed(const Duration(seconds: 2)).then((_) {
-        Get.offAllNamed('/customer_home_screen');
+        Get.offAllNamed('/customer_bottom_bar_screen');
       });
       return true;
     } catch (error) {
@@ -90,7 +95,7 @@ class VerificationController extends GetxController {
 
         if (parsedData != null && parsedData['errors'] != null) {
           final errors = parsedData['errors'] as Map<String, dynamic>;
-          final errorMessages = errors.entries
+          errors.entries
               .map((entry) {
                 // final key = entry.key;
                 final value = entry.value;

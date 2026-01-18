@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -37,12 +38,12 @@ class OnBoardingScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 40.h),
                 Text(
-                  "Fast, Reliable,\nDelivered Your Way",
+                  LocalizationKeys.fastReliableDeliveredYourWay.tr,
                   style: TextStyleConstant().titleTextStyle34w600,
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  "Track, schedule, and deliver with ease.\nYour delivery, your control.",
+                  LocalizationKeys.trackScheduleAndDeliverWithEase.tr,
                   style: TextStyleConstant().subTitleTextStyle18w400,
                 ),
               ],

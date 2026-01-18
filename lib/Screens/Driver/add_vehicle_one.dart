@@ -9,6 +9,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/add_vehicle_maincontroller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class AddVehicleOne extends StatelessWidget {
   AddVehicleOne({super.key});
@@ -81,7 +82,7 @@ class AddVehicleOne extends StatelessWidget {
             color: ColorConstant.clr999999,
           ),
           Text(
-            placeHolder ?? "Upload",
+            placeHolder ?? LocalizationKeys.upload.tr,
             style: TextStyle(fontSize: 14.sp, color: ColorConstant.clr999999),
           ),
         ],
@@ -121,7 +122,7 @@ class AddVehicleOne extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Gallery',
+                          LocalizationKeys.gallery.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -148,7 +149,7 @@ class AddVehicleOne extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Camera',
+                          LocalizationKeys.camera.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -191,7 +192,7 @@ class AddVehicleOne extends StatelessWidget {
                       child: Image.asset(ImageConstant.imgAddVehicleThree),
                     ),
                     Text(
-                      "Your Details",
+                      LocalizationKeys.yourDetails.tr,
                       style:
                           TextStyleConstant().subTitleTextStyle18w600Clr242424,
                     ),
@@ -213,7 +214,7 @@ class AddVehicleOne extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Full Name",
+                                  LocalizationKeys.fullName.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle16w500Clr242424,
@@ -221,13 +222,16 @@ class AddVehicleOne extends StatelessWidget {
                                 SizedBox(height: 6.h),
                                 CommonTextFormFieldWithoutBorder(
                                   readOnly: true,
+                                  maxLines: 1,
                                   controller:
                                       addvehicleController
                                           .fullNameTextEditingController,
                                   validator:
                                       (p0) =>
                                           p0 == null || p0.isEmpty
-                                              ? 'Please enter full name'
+                                              ? LocalizationKeys
+                                                  .pleaseEnterFullName
+                                                  .tr
                                               : null,
                                 ),
                               ],
@@ -239,7 +243,7 @@ class AddVehicleOne extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Number",
+                                  LocalizationKeys.number.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle16w500Clr242424,
@@ -250,12 +254,15 @@ class AddVehicleOne extends StatelessWidget {
                                   controller:
                                       addvehicleController
                                           .mobileNoTextEditingController,
+                                  maxLines: 1,
                                   keyboardType: TextInputType.phone,
                                   maxLength: 10,
                                   validator:
                                       (p0) =>
                                           p0 == null || p0.isEmpty
-                                              ? 'Please enter mobile number'
+                                              ? LocalizationKeys
+                                                  .pleaseEnterMobileNumber
+                                                  .tr
                                               : null,
                                 ),
                               ],
@@ -265,7 +272,7 @@ class AddVehicleOne extends StatelessWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        "Address",
+                        LocalizationKeys.address.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500Clr242424,
@@ -273,19 +280,18 @@ class AddVehicleOne extends StatelessWidget {
                       SizedBox(height: 6.h),
                       CommonTextFormFieldWithoutBorder(
                         readOnly: true,
-
                         maxLines: 2,
                         controller:
                             addvehicleController.addressTextEditingController,
                         validator:
                             (p0) =>
                                 p0 == null || p0.isEmpty
-                                    ? 'Please enter address'
+                                    ? LocalizationKeys.pleaseEnterAddress.tr
                                     : null,
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        "Upload your RC book images",
+                        LocalizationKeys.uploadYourRcBookImages.tr,
                         style:
                             TextStyleConstant()
                                 .subTitleTextStyle16w500Clr242424,
@@ -297,7 +303,7 @@ class AddVehicleOne extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _buildImageField(
-                              title: "Upload front",
+                              title: LocalizationKeys.uploadFront.tr,
                               imageFile: addvehicleController.rcBookFrontImg,
                               onTap:
                                   () => _showImageSourceDialog(
@@ -308,7 +314,7 @@ class AddVehicleOne extends StatelessWidget {
                           SizedBox(width: 10.w),
                           Expanded(
                             child: _buildImageField(
-                              title: "Upload back",
+                              title: LocalizationKeys.uploadBack.tr,
                               imageFile: addvehicleController.rcBookBackImg,
                               onTap:
                                   () => _showImageSourceDialog(

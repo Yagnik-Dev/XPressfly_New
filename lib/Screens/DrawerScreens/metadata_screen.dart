@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/metadata_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class MetadataScreen extends StatelessWidget {
   MetadataScreen({super.key});
@@ -43,7 +44,7 @@ class MetadataScreen extends StatelessWidget {
           ),
           automaticallyImplyLeading: false,
           title: Text(
-            "Xpressfly",
+            LocalizationKeys.appName.tr,
             style: TextStyleConstant().titleTextStyle26w600Clr242424,
           ),
           shape: const RoundedRectangleBorder(
@@ -64,11 +65,11 @@ class MetadataScreen extends StatelessWidget {
               },
               tabs: [
                 Text(
-                  "Terms & Conditions",
+                  LocalizationKeys.termsConditions.tr,
                   style: TextStyleConstant().subTitleTextStyle16w600Clr242424,
                 ),
                 Text(
-                  "Privacy Policy",
+                  LocalizationKeys.privacyPolicy.tr,
                   style: TextStyleConstant().subTitleTextStyle16w600Clr242424,
                 ),
               ],

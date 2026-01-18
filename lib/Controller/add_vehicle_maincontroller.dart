@@ -19,6 +19,7 @@ import 'package:xpressfly_git/Models/get_vehicle_Details_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class AddVehicleMainController extends GetxController {
   var fullNameTextEditingController = TextEditingController();
@@ -118,7 +119,10 @@ class AddVehicleMainController extends GetxController {
     // Validate vehicle type is selected
     if (selectedVehicleTitle.value.isEmpty) {
       hideLoading();
-      declineDialog("Error", "Please select a vehicle type");
+      declineDialog(
+        LocalizationKeys.error.tr,
+        LocalizationKeys.pleaseSelectVehicleType.tr,
+      );
       onCompleteHandler(false);
       return;
     }
@@ -148,14 +152,21 @@ class AddVehicleMainController extends GetxController {
 
       if (rcBookFrontImg.value == null) {
         hideLoading();
-        declineDialog("Error", "Please upload RC book front image");
+        // declineDialog("Error", "Please upload RC book front image");
+        declineDialog(
+          LocalizationKeys.error.tr,
+          LocalizationKeys.pleaseUploadRCBookFrontImage.tr,
+        );
         onCompleteHandler(false);
         return;
       }
 
       if (rcBookBackImg.value == null) {
         hideLoading();
-        declineDialog("Error", "Please upload RC book back image");
+        declineDialog(
+          LocalizationKeys.error.tr,
+          LocalizationKeys.pleaseUploadRCBookBackImage.tr,
+        );
         onCompleteHandler(false);
         return;
       }

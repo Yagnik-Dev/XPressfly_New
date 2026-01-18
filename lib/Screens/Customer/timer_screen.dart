@@ -49,6 +49,7 @@ import 'dart:math';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Screens/Customer/timer_service.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
@@ -238,8 +239,8 @@ class _WaitForResponseTimerScreenState extends State<WaitForResponseTimerScreen>
               ),
               const SizedBox(height: 40),
               // Title
-              const Text(
-                'Almost there',
+              Text(
+                LocalizationKeys.almostThere.tr,
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
@@ -248,13 +249,13 @@ class _WaitForResponseTimerScreenState extends State<WaitForResponseTimerScreen>
               ),
               const SizedBox(height: 16),
               // Subtitle
-              const Text(
-                'Looking for nearby drivers...',
+              Text(
+                LocalizationKeys.lookingForNearbyDrivers.tr,
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'You\'ll be redirected once your request is accepted.',
+              Text(
+                LocalizationKeys.youllBeRedirectedOnceYourRequestIsAccepted.tr,
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ],

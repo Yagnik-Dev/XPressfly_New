@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
+import 'package:xpressfly_git/Controller/profile_controller.dart';
 import 'package:xpressfly_git/Models/dutystatus_model.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
 import 'package:xpressfly_git/Models/get_vehicle_type.dart';
@@ -25,6 +26,11 @@ class DriverHomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // if (Get.isRegistered<ProfileController>()) {
+    //   Get.find<ProfileController>();
+    // } else {
+    //   Get.put(ProfileController());
+    // }
     getData();
   }
 

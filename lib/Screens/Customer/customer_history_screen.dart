@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
 
 class CustomerHistoryScreen extends StatelessWidget {
@@ -18,7 +20,7 @@ class CustomerHistoryScreen extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Text(
-          "Track Order",
+          LocalizationKeys.trackOrder.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
         shape: const RoundedRectangleBorder(
@@ -57,7 +59,7 @@ class CustomerHistoryScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Your Order',
+                          LocalizationKeys.yourOrder.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle18w500Clr242424,
@@ -116,9 +118,9 @@ class CustomerHistoryScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Row(
-                            children: const [
+                            children: [
                               Text(
-                                'Estimated delivery time',
+                                LocalizationKeys.estimatedDeliveryTime.tr,
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 16,
@@ -143,29 +145,34 @@ class CustomerHistoryScreen extends StatelessWidget {
                           children: [
                             _buildTimelineStep(
                               icon: Icons.arrow_downward_rounded,
-                              title: 'Request Confirmation',
-                              subtitle: 'We will pickup your item soon',
+                              title: LocalizationKeys.requestConfirmation.tr,
+                              subtitle:
+                                  LocalizationKeys.weWillPickupYourItemSoon.tr,
                               isActive: true,
                             ),
                             _buildTimelineDivider(),
                             _buildTimelineStep(
                               icon: Icons.arrow_downward_rounded,
-                              title: 'In Transit',
-                              subtitle: 'Your item was picked up',
+                              title: LocalizationKeys.inTransit.tr,
+                              subtitle: LocalizationKeys.yourItemWasPickedUp.tr,
                               isActive: true,
                             ),
                             _buildTimelineDivider(),
                             _buildTimelineStep(
                               icon: Icons.arrow_downward_rounded,
-                              title: 'Out for Delivery',
-                              subtitle: 'Your parcel is on the way',
+                              title: LocalizationKeys.outForDelivery.tr,
+                              subtitle:
+                                  LocalizationKeys.yourParcelIsOnTheWay.tr,
                               isActive: true,
                             ),
                             _buildTimelineDivider(),
                             _buildTimelineStep(
                               icon: Icons.location_on_rounded,
-                              title: 'Delivered',
-                              subtitle: 'Parcel delivered successfully',
+                              title: LocalizationKeys.delivered.tr,
+                              subtitle:
+                                  LocalizationKeys
+                                      .parcelDeliveredSuccessfully
+                                      .tr,
                               isActive: false,
                             ),
                           ],

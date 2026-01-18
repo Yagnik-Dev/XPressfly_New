@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
-import 'package:xpressfly_git/Models/create_vehicle_model.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
@@ -23,6 +22,13 @@ class BookAOrderController extends GetxController {
   RxInt selectedIndex = 0.obs;
   var imgPicker = ImagePicker();
 
+  // var pickUpPinCodeController = TextEditingController();
+  // var dropOffPinCodeController = TextEditingController();
+  // var receiverNameController = TextEditingController();
+  // var receiverMobileNoController = TextEditingController();
+  // var orderWeightController = TextEditingController();
+  // var orderTitleController = TextEditingController();
+  // var orderPickUpDateController = TextEditingController();
   var pickUpPinCodeController = TextEditingController(text: "394101");
   var dropOffPinCodeController = TextEditingController(text: "364002");
   var receiverNameController = TextEditingController(text: "John Doe");
@@ -76,10 +82,10 @@ class BookAOrderController extends GetxController {
 
     try {
       final response = await http.get(url);
-      print('Status Code: ${response.statusCode}');
-      print('Response: ${response.body}');
+      log('Status Code: ${response.statusCode}');
+      log('Response: ${response.body}');
     } catch (e) {
-      print('Error: $e');
+      log('Error: $e');
     }
   }
 
@@ -273,31 +279,31 @@ class BookAOrderController extends GetxController {
 
       final decodedResponse = jsonDecode(response);
 
-      if (decodedResponse['success'] == true) {
-        // Extract order ID from response
-        final orderId =
-            decodedResponse['data']['id']?.toString() ??
-            decodedResponse['id']?.toString() ??
-            '';
+      // if (decodedResponse['success'] == true) {
+      // Extract order ID from response
+      final orderId =
+          decodedResponse['id']?.toString() ??
+          decodedResponse['id']?.toString() ??
+          '';
 
-        if (orderId.isEmpty) {
-          hideLoading();
-          await declineDialog("Error", "Order created but ID not found");
-          return; // Don't call onSuccess
-        }
-
+      if (orderId.isEmpty) {
         hideLoading();
-
-        // ONLY call onSuccess when API succeeds
-        onSuccess(orderId);
-      } else {
-        hideLoading();
-        await declineDialog(
-          "Error",
-          decodedResponse['message']?.toString() ?? "Order creation failed",
-        );
-        // Don't call onSuccess - just return
+        await declineDialog("Error", "Order created but ID not found");
+        return; // Don't call onSuccess
       }
+
+      hideLoading();
+
+      // ONLY call onSuccess when API succeeds
+      onSuccess(orderId);
+      // } else {
+      //   hideLoading();
+      //   await declineDialog(
+      //     "Error",
+      //     decodedResponse['message']?.toString() ?? "Order creation failed",
+      //   );
+      //   // Don't call onSuccess - just return
+      // }
     } catch (error) {
       hideLoading();
       debugPrint('Error occurred: $error');

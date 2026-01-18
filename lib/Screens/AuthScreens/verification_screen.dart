@@ -8,6 +8,7 @@ import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/verification_controller.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/bank_details_screen.dart';
 import 'package:xpressfly_git/Screens/AuthScreens/device_info_details.dart';
 import 'package:xpressfly_git/Utility/app_utility.dart';
@@ -70,7 +71,7 @@ class VerificationScreen extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
         title: Text(
-          "Verification",
+          LocalizationKeys.verification.tr,
           style: TextStyleConstant().titleTextStyle26w600Clr242424,
         ),
         shape: const RoundedRectangleBorder(
@@ -104,7 +105,7 @@ class VerificationScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 70.h),
                           Text(
-                            "Upload your Aadhaar images",
+                            LocalizationKeys.uploadYourAadhaarImages.tr,
                             style:
                                 TextStyleConstant()
                                     .subTitleTextStyle16w500Clr242424,
@@ -145,7 +146,7 @@ class VerificationScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  "Upload your Licence images",
+                                  LocalizationKeys.uploadYourLicenceImages.tr,
                                   style:
                                       TextStyleConstant()
                                           .subTitleTextStyle16w500Clr242424,
@@ -157,7 +158,7 @@ class VerificationScreen extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: _buildImageField(
-                                        title: "Upload front",
+                                        title: LocalizationKeys.uploadFront.tr,
                                         imageFile:
                                             verificationController
                                                 .licenseFrontImg,
@@ -171,7 +172,7 @@ class VerificationScreen extends StatelessWidget {
                                     SizedBox(width: 10.w),
                                     Expanded(
                                       child: _buildImageField(
-                                        title: "Upload back",
+                                        title: LocalizationKeys.uploadBack.tr,
                                         imageFile:
                                             verificationController
                                                 .licenseBackImg,
@@ -199,7 +200,7 @@ class VerificationScreen extends StatelessWidget {
                         type == 1
                             ? CommonButtonRounded(
                               color: ColorConstant.clrSecondary,
-                              btnText: "Next",
+                              btnText: LocalizationKeys.next.tr,
                               onPressed: () {
                                 if (_validateImages()) {
                                   Get.to(
@@ -235,7 +236,7 @@ class VerificationScreen extends StatelessWidget {
                             : CommonButton(
                               color: ColorConstant.clrSecondary,
                               radius: 50.sp,
-                              btnText: "Save Details",
+                              btnText: LocalizationKeys.saveDetails.tr,
                               onPressed: () async {
                                 // if (bankDetailController.bankDetailFormKey.currentState!
                                 //     .validate()) {
@@ -303,7 +304,7 @@ class VerificationScreen extends StatelessWidget {
                                       if (isSuccess) {
                                         showMessage(
                                           "Success",
-                                          "Bank details saved successfully",
+                                          "Customer created successfully",
                                         );
                                       }
                                     }, details: formData);
@@ -393,7 +394,7 @@ class VerificationScreen extends StatelessWidget {
             color: ColorConstant.clr999999,
           ),
           Text(
-            placeHolder ?? "Upload",
+            placeHolder ?? LocalizationKeys.upload.tr,
             style: TextStyle(fontSize: 14.sp, color: ColorConstant.clr999999),
           ),
         ],
@@ -431,7 +432,7 @@ class VerificationScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Gallery',
+                          LocalizationKeys.gallery.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -458,7 +459,7 @@ class VerificationScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Camera',
+                          LocalizationKeys.camera.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle16w400clrSecondary,
@@ -479,22 +480,34 @@ class VerificationScreen extends StatelessWidget {
 
   bool _validateImages() {
     if (verificationController.aadharFrontImg.value == null) {
-      showMessage("Alert", "Please upload Aadhaar Front image");
+      showMessage(
+        LocalizationKeys.alert.tr,
+        LocalizationKeys.pleaseUploadAadhaarFrontImage.tr,
+      );
       return false;
     }
 
     if (verificationController.aadharBackImg.value == null) {
-      showMessage("Alert", "Please upload Aadhaar Back image");
+      showMessage(
+        LocalizationKeys.alert.tr,
+        LocalizationKeys.pleaseUploadAadhaarBackImage.tr,
+      );
       return false;
     }
 
     if (verificationController.licenseFrontImg.value == null) {
-      showMessage("Alert", "Please upload Licence Front image");
+      showMessage(
+        LocalizationKeys.alert.tr,
+        LocalizationKeys.pleaseUploadLicenseFrontImage.tr,
+      );
       return false;
     }
 
     if (verificationController.licenseBackImg.value == null) {
-      showMessage("Alert", "Please upload Licence Back image");
+      showMessage(
+        LocalizationKeys.alert.tr,
+        LocalizationKeys.pleaseUploadLicenseBackImage.tr,
+      );
       return false;
     }
 

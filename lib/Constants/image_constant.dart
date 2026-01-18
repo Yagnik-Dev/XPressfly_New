@@ -65,6 +65,7 @@ class ImageConstant {
   static String imgTermsAndCondition =
       '${imageSvgBasePath}img_termsandcondition.svg';
   static String imgApproved = '${imageBasePath}approved.png';
+  static String imgLanguage = '${imageSvgBasePath}img_language.svg';
   static String imgDeclined = '${imageBasePath}declined.png';
   static String imgBankDetails = '${imageBasePath}bank_details.png';
   static String imgVerification = '${imageBasePath}verification.png';

@@ -11,6 +11,9 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/profile_controller.dart';
+import 'package:xpressfly_git/Localization/language_selection_dialog.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
+import 'package:xpressfly_git/Models/profile_model.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
 import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
 
@@ -24,27 +27,55 @@ class CommonDrawer extends StatefulWidget {
 class _CommonDrawerState extends State<CommonDrawer> {
   int selectedIndex = 0;
   List<DrawerItem> get drawerItems => [
-    DrawerItem(iconPath: ImageConstant.imgHomeBottom, title: "Home"),
-    DrawerItem(iconPath: ImageConstant.imgParcelBottom, title: "Order Request"),
+    DrawerItem(
+      iconPath: ImageConstant.imgHomeBottom,
+      title: LocalizationKeys.home.tr,
+    ),
+    DrawerItem(
+      iconPath: ImageConstant.imgParcelBottom,
+      title: LocalizationKeys.orderRequest.tr,
+    ),
     DrawerItem(
       iconPath: ImageConstant.imgHistoryBottom,
-      title: "Order History",
+      title: LocalizationKeys.orderHistory.tr,
     ),
-    DrawerItem(iconPath: ImageConstant.imgProfileBottom, title: "Profile"),
+    DrawerItem(
+      iconPath: ImageConstant.imgProfileBottom,
+      title: LocalizationKeys.profile.tr,
+    ),
+    DrawerItem(
+      // iconPath: ImageConstant.imgLanguage,
+      title: LocalizationKeys.language.tr,
+      isIcon: true,
+      iconData: Icons.language,
+    ),
     DrawerItem(
       iconPath: ImageConstant.imgTermsAndCondition,
-      title: "Terms & Condition",
+      title: LocalizationKeys.termsCondition.tr,
     ),
     DrawerItem(
       iconPath: ImageConstant.imgPrivacyPolicy,
-      title: "Privacy Policy",
+      title: LocalizationKeys.privacyPolicy.tr,
     ),
     DrawerItem(
       iconPath: ImageConstant.imgHelpAndSupport,
-      title: "Help & Support",
+      title: LocalizationKeys.helpSupport.tr,
     ),
-    DrawerItem(iconPath: ImageConstant.imgLogout, title: "Logout"),
+    DrawerItem(
+      iconPath: ImageConstant.imgLogout,
+      title: LocalizationKeys.logout.tr,
+    ),
   ];
+  // In _CommonDrawerState, add initState:
+
+  @override
+  void initState() {
+    super.initState();
+    // Refresh profile data when drawer opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<ProfileController>().getData();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +108,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                 SizedBox(height: 26.h),
 
                 // Profile card
+                // Replace the CircleAvatar section with this:
                 Container(
                   decoration: BoxDecoration(
                     color: ColorConstant.clrSecondary,
@@ -86,20 +118,46 @@ class _CommonDrawerState extends State<CommonDrawer> {
                   child: Row(
                     children: [
                       // Avatar
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(ImageConstant.imgUser),
-                      ),
-                      const SizedBox(width: 12),
+                      Obx(() {
+                        final profileController = Get.find<ProfileController>();
+                        final profileImage =
+                            profileController
+                                .userDetails
+                                .value
+                                .user
+                                ?.profileImage;
 
+                        debugPrint('Drawer Profile Image: $profileImage');
+
+                        // Show default image if profileImage is null or empty
+                        if (profileImage == null || profileImage.isEmpty) {
+                          return CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.grey.shade300,
+                            backgroundImage: AssetImage(ImageConstant.imgUser),
+                          );
+                        }
+
+                        return CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.grey.shade300,
+                          backgroundImage: NetworkImage(profileImage),
+                          onBackgroundImageError: (exception, stackTrace) {
+                            debugPrint('Drawer image load error: $exception');
+                          },
+                        );
+                      }),
+                      const SizedBox(width: 12),
                       // Name + City
                       Expanded(
-                        child: Obx(
-                          () => Column(
+                        child: Obx(() {
+                          final profileController =
+                              Get.find<ProfileController>();
+                          return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Hello ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
+                                "${LocalizationKeys.hello.tr} ${profileController.userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -109,8 +167,13 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                 ),
                               ),
                               Text(
-                                // "${GetStorage().read(userAddress) ?? 'City Name'}",
-                                "${Get.find<ProfileController>().userDetails.value.user?.address ?? GetStorage().read(userAddress)}",
+                                profileController
+                                        .userDetails
+                                        .value
+                                        .user
+                                        ?.address ??
+                                    GetStorage().read(userAddress) ??
+                                    '',
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: Colors.white70,
@@ -119,10 +182,9 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                 ),
                               ),
                             ],
-                          ),
-                        ),
+                          );
+                        }),
                       ),
-                      // const Spacer(),
                       InkWell(
                         onTap: () {
                           Get.toNamed(AppRoutes.editProfileScreen);
@@ -135,10 +197,69 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       SizedBox(width: 12.w),
                     ],
                   ),
-                ),
+                ), // Container(
+                //   decoration: BoxDecoration(
+                //     color: ColorConstant.clrSecondary,
+                //     borderRadius: BorderRadius.circular(50),
+                //   ),
+                //   padding: const EdgeInsets.all(12),
+                //   child: Row(
+                //     children: [
+                //       // Avatar
+                //       CircleAvatar(
+                //         radius: 25,
+                //         backgroundImage: AssetImage(ImageConstant.imgUser),
+                //       ),
+                //       const SizedBox(width: 12),
+
+                //       // Name + City
+                //       Expanded(
+                //         child: Obx(
+                //           () => Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Text(
+                //                 "${LocalizationKeys.hello.tr} ${Get.find<ProfileController>().userDetails.value.user?.name ?? GetStorage().read(userName) ?? ''}",
+                //                 maxLines: 1,
+                //                 style: TextStyle(
+                //                   color: Colors.white,
+                //                   fontSize: 16,
+                //                   fontWeight: FontWeight.w600,
+                //                   overflow: TextOverflow.ellipsis,
+                //                 ),
+                //               ),
+                //               Text(
+                //                 // "${GetStorage().read(userAddress) ?? 'City Name'}",
+                //                 "${Get.find<ProfileController>().userDetails.value.user?.address ?? GetStorage().read(userAddress)}",
+                //                 maxLines: 1,
+                //                 style: TextStyle(
+                //                   color: Colors.white70,
+                //                   fontSize: 14,
+                //                   overflow: TextOverflow.ellipsis,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       // const Spacer(),
+                //       InkWell(
+                //         onTap: () {
+                //           Get.toNamed(AppRoutes.editProfileScreen);
+                //         },
+                //         child: Image.asset(
+                //           ImageConstant.imgEditBtn,
+                //           height: 20.h,
+                //         ),
+                //       ),
+                //       SizedBox(width: 12.w),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
+
           SizedBox(height: 20.h),
           Flexible(
             child: ListView.separated(
@@ -171,13 +292,15 @@ class _CommonDrawerState extends State<CommonDrawer> {
                         } else if (index == 3) {
                           Get.toNamed(AppRoutes.editProfileScreen);
                         } else if (index == 4) {
+                          showLanguageSelectionDialog(context);
+                        } else if (index == 5) {
                           Get.toNamed(
                             AppRoutes.metaDataScreen,
                             arguments: {
                               'tabIndex': 0,
                             }, // Pass Privacy Policy tab
                           );
-                        } else if (index == 5) {
+                        } else if (index == 6) {
                           Get.toNamed(
                             AppRoutes.metaDataScreen,
                             arguments: {
@@ -186,7 +309,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                           );
                         } else if (index == 7) {
                           // Logout action
-                          showLogoutDialog(context);
+                          // showLogoutDialog(context);
                         } else if (index == 8) {
                           // Logout action
                           showLogoutDialog(context);
@@ -207,6 +330,8 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     ),
                     child: _drawerItem(
                       icon: drawerItems[index].iconPath,
+                      iconData: drawerItems[index].iconData,
+                      isIcon: drawerItems[index].isIcon,
                       clrIcon:
                           index != 7
                               ? ColorConstant.clr444444
@@ -231,21 +356,31 @@ class _CommonDrawerState extends State<CommonDrawer> {
   }
 
   // Reusable Drawer Item
+  // Reusable Drawer Item
   Widget _drawerItem({
     String? icon,
     String? title,
     TextStyle? style,
     Color? clrIcon,
+    IconData? iconData,
+    bool isIcon = false,
   }) {
     return ListTile(
-      leading: SvgPicture.asset(
-        icon ?? "",
-        height: 17.h,
-        colorFilter: ColorFilter.mode(
-          clrIcon ?? ColorConstant.clr444444,
-          BlendMode.srcIn,
-        ),
-      ),
+      leading:
+          isIcon
+              ? Icon(
+                iconData,
+                color: clrIcon ?? ColorConstant.clr444444,
+                size: 22.sp,
+              )
+              : SvgPicture.asset(
+                icon ?? "",
+                height: 17.h,
+                colorFilter: ColorFilter.mode(
+                  clrIcon ?? ColorConstant.clr444444,
+                  BlendMode.srcIn,
+                ),
+              ),
       title: Text(title ?? "", style: style),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       hoverColor: Colors.grey.shade100,
@@ -254,19 +389,33 @@ class _CommonDrawerState extends State<CommonDrawer> {
 }
 
 class DrawerItem extends StatelessWidget {
-  final String iconPath;
+  final String? iconPath;
   final String title;
+  final bool isIcon;
+  final IconData iconData;
 
-  const DrawerItem({super.key, required this.iconPath, required this.title});
+  const DrawerItem({
+    super.key,
+    this.iconPath,
+    required this.title,
+    this.isIcon = false,
+    this.iconData = Icons.home,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: SvgPicture.asset(
-        iconPath,
-        height: 17.h,
-        colorFilter: ColorFilter.mode(ColorConstant.clr444444, BlendMode.srcIn),
-      ),
+      leading:
+          isIcon
+              ? Icon(iconData, color: ColorConstant.clr444444)
+              : SvgPicture.asset(
+                iconPath ?? "",
+                height: 17.h,
+                colorFilter: ColorFilter.mode(
+                  ColorConstant.clr444444,
+                  BlendMode.srcIn,
+                ),
+              ),
       title: Text(
         title,
         style: TextStyleConstant().subTitleTextStyle18w500Clr242424,
@@ -289,7 +438,7 @@ showLogoutDialog(BuildContext context) {
         // : Colors.white,
         title: Text(
           // LocalizationStrings.logoutConfirmationText.tr,
-          'Are you sure you want to logout?',
+          LocalizationKeys.logoutConfirmation.tr,
           textAlign: TextAlign.center,
           style: TextStyleConstant().subTitleTextStyle20w500Clr242424,
         ),
@@ -302,7 +451,7 @@ showLogoutDialog(BuildContext context) {
             },
             child: Text(
               // LocalizationStrings.cancel.tr,
-              'Cancel',
+              LocalizationKeys.cancel.tr,
               style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
             ),
           ),
@@ -312,7 +461,7 @@ showLogoutDialog(BuildContext context) {
             child: CommonButton(
               color: ColorConstant.clr242424,
               onPressed: () {
-                // GetStorage().remove(userData);
+                // Clear all storage
                 GetStorage().remove(accessToken);
                 GetStorage().remove(userId);
                 GetStorage().remove(userRole);
@@ -321,9 +470,33 @@ showLogoutDialog(BuildContext context) {
                 GetStorage().remove(userAddress);
                 GetStorage().remove(userPincode);
                 GetStorage().remove(userProfileImage);
+                GetStorage().remove(userCity);
+                GetStorage().remove(userEmail);
+
+                // Reset ProfileController
+                final profileController = Get.find<ProfileController>();
+                profileController.userDetails.value = GetUserProfileDataModel();
+                profileController.profileImage.value = null;
+                profileController.aadharCardFront.value = null;
+                profileController.aadharCardBack.value = null;
+                profileController.driverLicenseFront.value = null;
+                profileController.driverLicenseBack.value = null;
+
+                // Clear all text controllers
+                profileController.nameTextEditingController.clear();
+                profileController.mobileTextEditingController.clear();
+                profileController.emailTextEditingController.clear();
+                profileController.addressTextEditingController.clear();
+                profileController.pincodeTextEditingController.clear();
+                profileController.cityTextEditingController.clear();
+                profileController.bankAccountHolderNameController.clear();
+                profileController.bankAccountNumberController.clear();
+                profileController.bankIFSCController.clear();
+
+                // Navigate to login
                 Get.offAllNamed(AppRoutes.selectAuthScreen);
               },
-              btnText: "Logout",
+              btnText: LocalizationKeys.logout.tr,
               // 'Logout',
             ),
           ),

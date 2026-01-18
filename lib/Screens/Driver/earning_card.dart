@@ -131,6 +131,8 @@
 //   }
 // }
 
+import 'package:get/get.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Utility/common_imports.dart';
 
 class TodayEarningCard extends StatelessWidget {
@@ -158,7 +160,7 @@ class TodayEarningCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Today Earning',
+              LocalizationKeys.todayEarning.tr,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black54,
@@ -182,7 +184,7 @@ class TodayEarningCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Total Trips',
+                      LocalizationKeys.totalTrips.tr,
                       style: TextStyle(color: Colors.grey[600]),
                     ),
                     SizedBox(height: 4),
@@ -199,7 +201,7 @@ class TodayEarningCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Total Distance',
+                      LocalizationKeys.totalDistance.tr,
                       style: TextStyle(color: Colors.grey[600]),
                     ),
                     SizedBox(height: 4),

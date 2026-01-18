@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:xpressfly_git/Localization/localization_keys.dart';
 
 class OrderSuccessScreen extends StatelessWidget {
   const OrderSuccessScreen({super.key});
@@ -50,8 +52,8 @@ class OrderSuccessScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               // Title
-              const Text(
-                'Order Successful!',
+              Text(
+                LocalizationKeys.orderSuccessful.tr,
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -61,8 +63,10 @@ class OrderSuccessScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               // Subtitle
-              const Text(
-                'Your order has been placed and processing\nhas started',
+              Text(
+                LocalizationKeys
+                    .yourOrderHasBeenPlacedAndProcessingHasStarted
+                    .tr,
                 style: TextStyle(
                   fontSize: 16,
                   color: Color(0xFF757575),
@@ -88,8 +92,8 @@ class OrderSuccessScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: const Text(
-                        'Close',
+                      child: Text(
+                        LocalizationKeys.close.tr,
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF212121),
@@ -115,8 +119,8 @@ class OrderSuccessScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: const Text(
-                        'Track your order',
+                      child: Text(
+                        LocalizationKeys.trackYourOrder.tr,
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFFF44336),

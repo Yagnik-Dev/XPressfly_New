@@ -10,3 +10,4 @@ const userProfileImage = 'userProfileImage';
 const userAddress = 'userAddress';
 const userPincode = 'userPincode';
 const refreshTokenVal = 'refreshToken';
+const selectedLanguage = 'selectedLanguage';

@@ -27,11 +27,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Load saved language preference
+    final savedLocale = LocalizationService.getSavedLocale();
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        locale: const Locale("en", "EN"),
+        locale: savedLocale,
         fallbackLocale: LocalizationService.fallbackLocale,
         translations: LocalizationService(),
         initialRoute: AppRoutes.splashScreen,

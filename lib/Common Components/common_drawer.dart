@@ -265,7 +265,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
             child: ListView.separated(
               shrinkWrap: true,
               // physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(bottom: 60.h),
+              padding: EdgeInsets.only(bottom: 80.h),
               separatorBuilder: (context, index) {
                 return Visibility(
                   visible: index == 3 || index == 6,

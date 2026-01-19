@@ -268,4 +268,6 @@ const Map<String, String> Hindi = {
   'edit': 'संपादित करें',
   'pleaseUploadRCBookFrontImage': "कृपया RC बुक सामने की छवि अपलोड करें",
   'pleaseUploadRCBookBackImage': "कृपया RC बुक पीछे की छवि अपलोड करें",
+  'Retry': 'पुनः प्रयास करें',
+  'noOrdersFound': 'कोई ऑर्डर नहीं मिला',
 };

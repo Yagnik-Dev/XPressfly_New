@@ -27,6 +27,7 @@ class ApiConstant {
   static const String termsAndConditions = "metadata/term-and-condition/";
   static const String createOrder = "delivery/orders/create/";
   static const String commonErrorMessage = "Something went wrong";
+  static const String orderProfile = "delivery/orders/";
 
   // ================ Forgot Password ====================
   static const String forgotPwd = 'password/email';

@@ -189,7 +189,8 @@ class DriverHomeScreen extends StatelessWidget {
                         .value
                         .user
                         ?.profileImage;
-                return profileImage != null && profileImage.isNotEmpty
+                return profileImage 
+                != null && profileImage.isNotEmpty
                     ? Image.network(
                       profileImage,
                       fit: BoxFit.cover,

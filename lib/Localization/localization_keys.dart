@@ -299,4 +299,6 @@ class LocalizationKeys {
       'pleaseUploadRCBookFrontImage';
   static const String pleaseUploadRCBookBackImage =
       'pleaseUploadRCBookBackImage';
+  static const String retry = 'Retry';
+  static const String noOrdersFound = 'noOrdersFound';
 }

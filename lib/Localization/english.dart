@@ -261,7 +261,8 @@ const Map<String, String> English = {
       'Serviceable pin codes as selected by the driver',
   'delete': 'Delete',
   'edit': 'Edit',
-  'pleaseUploadRCBookFrontImage':"Please upload RC book front image",
-  'pleaseUploadRCBookBackImage':"Please upload RC book back image",
-
+  'pleaseUploadRCBookFrontImage': "Please upload RC book front image",
+  'pleaseUploadRCBookBackImage': "Please upload RC book back image",
+  'Retry': 'Retry',
+  'noOrdersFound': 'No orders found',
 };

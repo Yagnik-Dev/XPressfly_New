@@ -6,12 +6,15 @@ import 'package:xpressfly_git/Constants/image_constant.dart';
 import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
+import 'package:xpressfly_git/Controller/customer_history_controller.dart';
 
 class CustomerHistoryScreen extends StatelessWidget {
   const CustomerHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CustomerHistoryController());
+
     return Scaffold(
       backgroundColor: ColorConstant.clrF7FCFF,
       appBar: AppBar(
@@ -30,175 +33,226 @@ class CustomerHistoryScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 25.h),
-            Expanded(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 85.h),
-                    width: double.infinity,
-                    padding: EdgeInsets.only(
-                      top: 60,
-                      left: 16,
-                      right: 16,
-                      bottom: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: ColorConstant.clrWhite,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(28.r),
-                        topRight: Radius.circular(28.r),
-                      ),
-                    ),
+        child: Obx(
+          () =>
+              controller.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : controller.orderData.value == null
+                  ? Center(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Icon(
+                          Icons.inbox_outlined,
+                          size: 80.sp,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(height: 20.h),
                         Text(
-                          LocalizationKeys.yourOrder.tr,
+                          LocalizationKeys.noOrdersFound.tr,
                           style:
                               TextStyleConstant()
                                   .subTitleTextStyle18w500Clr242424,
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '20kg',
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle14w500Clr9D9D9D,
-                            ),
-                            SizedBox(width: 16),
-                            Text(
-                              '|',
-                              style: TextStyle(
-                                color: ColorConstant.clr9D9D9D,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(width: 16),
-                            Text(
-                              'Mini Truck',
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle14w500Clr9D9D9D,
-                            ),
-                            SizedBox(width: 16),
-                            Text(
-                              '|',
-                              style: TextStyle(
-                                color: ColorConstant.clr9D9D9D,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(width: 16),
-                            Text(
-                              'AHM',
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle14w500Clr9D9D9D,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 16,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorConstant.clrF7FCFF,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                LocalizationKeys.estimatedDeliveryTime.tr,
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Spacer(),
-                              Text(
-                                '1Day 2Hours',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Timeline steps
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildTimelineStep(
-                              icon: Icons.arrow_downward_rounded,
-                              title: LocalizationKeys.requestConfirmation.tr,
-                              subtitle:
-                                  LocalizationKeys.weWillPickupYourItemSoon.tr,
-                              isActive: true,
-                            ),
-                            _buildTimelineDivider(),
-                            _buildTimelineStep(
-                              icon: Icons.arrow_downward_rounded,
-                              title: LocalizationKeys.inTransit.tr,
-                              subtitle: LocalizationKeys.yourItemWasPickedUp.tr,
-                              isActive: true,
-                            ),
-                            _buildTimelineDivider(),
-                            _buildTimelineStep(
-                              icon: Icons.arrow_downward_rounded,
-                              title: LocalizationKeys.outForDelivery.tr,
-                              subtitle:
-                                  LocalizationKeys.yourParcelIsOnTheWay.tr,
-                              isActive: true,
-                            ),
-                            _buildTimelineDivider(),
-                            _buildTimelineStep(
-                              icon: Icons.location_on_rounded,
-                              title: LocalizationKeys.delivered.tr,
-                              subtitle:
-                                  LocalizationKeys
-                                      .parcelDeliveredSuccessfully
-                                      .tr,
-                              isActive: false,
-                            ),
-                          ],
-                        ),
                       ],
                     ),
-                  ),
-                  // Box image above the container
-                  Positioned(
-                    top: 0,
-                    child: Image.asset(
-                      ImageConstant.imgBox,
-                      width: 130.w,
-                      height: 130.h,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Add Spacer if you want to push content to bottom
-            // const Spacer(),
-          ],
+                  )
+                  : _buildOrderDetails(context, controller),
         ),
       ),
     );
+  }
+
+  Widget _buildOrderDetails(
+    BuildContext context,
+    CustomerHistoryController controller,
+  ) {
+    final order = controller.orderData.value!;
+    final timelineStatuses = controller.getTimelineStatuses();
+
+    return Column(
+      children: [
+        SizedBox(height: 25.h),
+        Expanded(
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 85.h),
+                width: double.infinity,
+                padding: EdgeInsets.only(
+                  top: 60,
+                  left: 16,
+                  right: 16,
+                  bottom: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: ColorConstant.clrWhite,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(28.r),
+                    topRight: Radius.circular(28.r),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        LocalizationKeys.yourOrder.tr,
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle18w500Clr242424,
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${order.data?.weightInKg ?? '0'}kg',
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle14w500Clr9D9D9D,
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            '|',
+                            style: TextStyle(
+                              color: ColorConstant.clr9D9D9D,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            order.data?.vehicleType ?? 'N/A',
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle14w500Clr9D9D9D,
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            '|',
+                            style: TextStyle(
+                              color: ColorConstant.clr9D9D9D,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            order.data?.fromZipCode ?? 'N/A',
+                            style:
+                                TextStyleConstant()
+                                    .subTitleTextStyle14w500Clr9D9D9D,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ColorConstant.clrF7FCFF,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              LocalizationKeys.estimatedDeliveryTime.tr,
+                              style: TextStyle(color: Colors.red, fontSize: 16),
+                            ),
+                            Spacer(),
+                            Text(
+                              _calculateEstimatedTime(order.data?.pickupDate),
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // Timeline steps
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildTimelineStep(
+                            icon: Icons.arrow_downward_rounded,
+                            title: LocalizationKeys.requestConfirmation.tr,
+                            subtitle:
+                                LocalizationKeys.weWillPickupYourItemSoon.tr,
+                            isActive:
+                                timelineStatuses['requestConfirmation'] ??
+                                false,
+                          ),
+                          _buildTimelineDivider(),
+                          _buildTimelineStep(
+                            icon: Icons.arrow_downward_rounded,
+                            title: LocalizationKeys.inTransit.tr,
+                            subtitle: LocalizationKeys.yourItemWasPickedUp.tr,
+                            isActive: timelineStatuses['inTransit'] ?? false,
+                          ),
+                          _buildTimelineDivider(),
+                          _buildTimelineStep(
+                            icon: Icons.arrow_downward_rounded,
+                            title: LocalizationKeys.outForDelivery.tr,
+                            subtitle: LocalizationKeys.yourParcelIsOnTheWay.tr,
+                            isActive:
+                                timelineStatuses['outForDelivery'] ?? false,
+                          ),
+                          _buildTimelineDivider(),
+                          _buildTimelineStep(
+                            icon: Icons.location_on_rounded,
+                            title: LocalizationKeys.delivered.tr,
+                            subtitle:
+                                LocalizationKeys.parcelDeliveredSuccessfully.tr,
+                            isActive: timelineStatuses['delivered'] ?? false,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Box image above the container
+              Positioned(
+                top: 0,
+                child: Image.asset(
+                  ImageConstant.imgBox,
+                  width: 130.w,
+                  height: 130.h,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _calculateEstimatedTime(String? pickupDate) {
+    if (pickupDate == null) return 'N/A';
+
+    try {
+      final date = DateTime.parse(pickupDate);
+      final now = DateTime.now();
+      final difference = date.difference(now);
+
+      if (difference.inDays > 0) {
+        return '${difference.inDays} Day${difference.inDays > 1 ? 's' : ''}';
+      } else if (difference.inHours > 0) {
+        return '${difference.inHours} Hour${difference.inHours > 1 ? 's' : ''}';
+      } else {
+        return 'Today';
+      }
+    } catch (e) {
+      return 'N/A';
+    }
   }
 
   Widget _buildTimelineStep({
@@ -228,7 +282,6 @@ class CustomerHistoryScreen extends StatelessWidget {
               title,
               style: TextStyleConstant().subTitleTextStyle16w600Clr242424,
             ),
-            // SizedBox(height: 2.h),
             Text(
               subtitle,
               style: TextStyleConstant().subTitleTextStyle14w500Clr9D9D9D,

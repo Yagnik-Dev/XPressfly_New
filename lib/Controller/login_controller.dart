@@ -381,4 +381,73 @@ class LoginController extends GetxController {
       return false;
     }
   }
+
+  Future<String?> resendOtpApiCall({
+    required String phone,
+    required String type, // "signin" or "signup"
+  }) async {
+    Future.delayed(Duration.zero, () {
+      showLoading();
+    });
+    var headers = {'Content-Type': 'application/json'};
+
+    try {
+      var response = await ServiceCall().post(
+        ApiConstant.baseUrl,
+        ApiConstant.sendOtp,
+        LoginRequestModel(phone: phone, type: type),
+        headers,
+      );
+
+      if (response == null) {
+        hideLoading();
+        return null;
+      }
+
+      var objOtp = OtpResponseModel.fromJson(jsonDecode(response));
+      hideLoading();
+      approvedDialog('Success', objOtp.message.toString());
+      return objOtp.otp;
+    } catch (error) {
+      hideLoading();
+      if (error is DioException) {
+        final responseData = error.response?.data;
+        debugPrint('Response Data: $responseData');
+
+        Map<String, dynamic>? parsedData;
+        if (responseData is String) {
+          try {
+            parsedData = jsonDecode(responseData);
+          } catch (e) {
+            debugPrint('Failed to parse responseData: $e');
+          }
+        } else if (responseData is Map<String, dynamic>) {
+          parsedData = responseData;
+        }
+
+        if (parsedData != null && parsedData['errors'] != null) {
+          final errors = parsedData['errors'] as Map<String, dynamic>;
+          errors.entries
+              .map((entry) {
+                final value = entry.value;
+                if (value is List) {
+                  return value.join(', ');
+                } else {
+                  return '$value';
+                }
+              })
+              .join('\n');
+        } else {
+          declineDialog(
+            "Error",
+            parsedData?['message'] ?? 'An unknown error occurred',
+          );
+        }
+      } else {
+        debugPrint('Error is not a DioException: $error');
+        handleError(error);
+      }
+      return null;
+    }
+  }
 }

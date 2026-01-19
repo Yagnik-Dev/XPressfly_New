@@ -149,23 +149,65 @@ class OtpScreen extends StatelessWidget {
                       },
                       color: ColorConstant.clrSecondary,
                     ),
+                    // SizedBox(height: 18.h),
+                    // Center(
+                    //   child: RichText(
+                    //     text: TextSpan(
+                    //       children: [
+                    //         TextSpan(
+                    //           text: LocalizationKeys.didntReceiveOtp.tr,
+                    //           style:
+                    //               TextStyleConstant().subTitleTextStyle16w500,
+                    //         ),
+                    //         TextSpan(
+                    //           text: LocalizationKeys.resend.tr,
+                    //           style:
+                    //               TextStyleConstant()
+                    //                   .subTitleTextStyle16w500Clr242424,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 18.h),
                     Center(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: LocalizationKeys.didntReceiveOtp.tr,
-                              style:
-                                  TextStyleConstant().subTitleTextStyle16w500,
-                            ),
-                            TextSpan(
-                              text: LocalizationKeys.resend.tr,
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle16w500Clr242424,
-                            ),
-                          ],
+                      child: GestureDetector(
+                        onTap: () async {
+                          final LoginController loginController;
+                          if (Get.isRegistered<LoginController>()) {
+                            loginController = Get.find<LoginController>();
+                          } else {
+                            loginController = Get.put(LoginController());
+                          }
+
+                          String type = loginType == 1 ? "signin" : "signup";
+                          String? newOtp = await loginController
+                              .resendOtpApiCall(
+                                phone: mobileNo.toString(),
+                                type: type,
+                              );
+
+                          if (newOtp != null && newOtp.isNotEmpty) {
+                            otpController.otpTextEditingController.text =
+                                newOtp;
+                          }
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: LocalizationKeys.didntReceiveOtp.tr,
+                                style:
+                                    TextStyleConstant().subTitleTextStyle16w500,
+                              ),
+                              TextSpan(
+                                text: " ${LocalizationKeys.resend.tr}",
+                                style:
+                                    TextStyleConstant()
+                                        .subTitleTextStyle16w500Clr242424,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

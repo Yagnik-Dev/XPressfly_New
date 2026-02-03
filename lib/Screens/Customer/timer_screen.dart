@@ -48,6 +48,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
 import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
@@ -216,49 +217,58 @@ class _WaitForResponseTimerScreenState extends State<WaitForResponseTimerScreen>
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Circular Progress Timer
-              SizedBox(
-                width: 260.w,
-                height: 260.h,
-                child: CustomPaint(
-                  painter: CircularProgressPainter(progress: progress),
-                  child: Center(
-                    child: Text(
-                      _formatTime(),
-                      style: const TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.sp),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Circular Progress Timer
+                SizedBox(
+                  width: 260.w,
+                  height: 260.h,
+                  child: CustomPaint(
+                    painter: CircularProgressPainter(progress: progress),
+                    child: Center(
+                      child: Text(
+                        _formatTime(),
+                        style: const TextStyle(
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              // Title
-              Text(
-                LocalizationKeys.almostThere.tr,
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                const SizedBox(height: 40),
+                // Title
+                Text(
+                  LocalizationKeys.almostThere.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              // Subtitle
-              Text(
-                LocalizationKeys.lookingForNearbyDrivers.tr,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                LocalizationKeys.youllBeRedirectedOnceYourRequestIsAccepted.tr,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            ],
+                const SizedBox(height: 16),
+                // Subtitle
+                Text(
+                  LocalizationKeys.lookingForNearbyDrivers.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  LocalizationKeys
+                      .youllBeRedirectedOnceYourRequestIsAccepted
+                      .tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ],
+            ),
           ),
         ),
       ),

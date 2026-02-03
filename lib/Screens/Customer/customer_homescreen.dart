@@ -197,26 +197,26 @@ class CustomerHomeScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Transform.scale(
-                            scale: 0.9,
-                            child: Switch(
-                              // value: driverHomeController.isSwitched.value,
-                              value: true,
-                              activeColor: ColorConstant.clrSecondary,
-                              activeTrackColor: ColorConstant.clrSecondary
-                                  .withValues(alpha: 0.3),
-                              inactiveTrackColor: ColorConstant.clrWhite,
-                              inactiveThumbColor: ColorConstant.clrSecondary,
-                              trackOutlineColor: WidgetStatePropertyAll(
-                                ColorConstant.clrSecondary,
-                              ),
-                              onChanged: (value) {
-                                // driverHomeController.isSwitched.value =
-                                //     !driverHomeController.isSwitched.value;
-                                // driverHomeController.isSwitched.refresh();
-                              },
-                            ),
-                          ),
+                          // Transform.scale(
+                          //   scale: 0.9,
+                          //   child: Switch(
+                          //     // value: driverHomeController.isSwitched.value,
+                          //     value: true,
+                          //     activeColor: ColorConstant.clrSecondary,
+                          //     activeTrackColor: ColorConstant.clrSecondary
+                          //         .withValues(alpha: 0.3),
+                          //     inactiveTrackColor: ColorConstant.clrWhite,
+                          //     inactiveThumbColor: ColorConstant.clrSecondary,
+                          //     trackOutlineColor: WidgetStatePropertyAll(
+                          //       ColorConstant.clrSecondary,
+                          //     ),
+                          //     onChanged: (value) {
+                          //       // driverHomeController.isSwitched.value =
+                          //       //     !driverHomeController.isSwitched.value;
+                          //       // driverHomeController.isSwitched.refresh();
+                          //     },
+                          //   ),
+                          // ),
                           SizedBox(width: 16.w),
 
                           // InkWell(

@@ -65,8 +65,8 @@ class OrderHistoryController extends GetxController {
       }
     } catch (e) {
       errorMessage('Error: ${e.toString()}');
-      debugPrint('Error fetching orders: $e');
-      log('Error fetching orders: $e');
+      debugPrint('Error fetching orders in customer flow order history: $e');
+      log('Error fetching orders in customer flow order history: $e');
     } finally {
       isLoading(false);
     }

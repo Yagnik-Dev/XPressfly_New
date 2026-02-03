@@ -286,6 +286,7 @@ class _GooglePlacesTextFieldState extends State<GooglePlacesTextField>
       controller: widget.controller,
       focusNode: _focusNode,
       validator: widget.validator,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         hintText: widget.hintText,
         fillColor: widget.fillColor,

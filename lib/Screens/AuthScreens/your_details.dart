@@ -75,7 +75,7 @@ class YourDetailsScreen extends StatelessWidget {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   Get.to(
-                    VerificationScreen(
+                    () => VerificationScreen(
                       type: type,
                       mobileNo: mobileNo,
                       otp: otp,
@@ -90,14 +90,11 @@ class YourDetailsScreen extends StatelessWidget {
             ),
           ),
         ],
-        body: Stack(
-          children: [
-            Positioned(
-              top: 150.h,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 150.h),
                 padding: EdgeInsets.symmetric(horizontal: 18.w),
                 decoration: BoxDecoration(
                   color: ColorConstant.clrWhite,
@@ -109,130 +106,253 @@ class YourDetailsScreen extends StatelessWidget {
                 child: Form(
                   key: formKey,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 70.h),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                LocalizationKeys.yourName.tr,
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500ClrSubText,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(
-                                controller: nameController,
-                                validator:
-                                    (p0) =>
-                                        p0 == null || p0.isEmpty
-                                            ? LocalizationKeys
-                                                .pleaseEnterYourName
-                                                .tr
-                                            : null,
-                              ),
-                              SizedBox(height: 16.h),
-                              Text(
-                                LocalizationKeys.yourEmail.tr,
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500ClrSubText,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(
-                                controller: emailController,
-                                validator:
-                                    (p0) =>
-                                        p0 == null || p0.isEmpty
-                                            ? LocalizationKeys
-                                                .pleaseEnterYourEmail
-                                                .tr
-                                            : null,
-                              ),
-                              SizedBox(height: 16.h),
-                              Text(
-                                LocalizationKeys.yourCity.tr,
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500ClrSubText,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(
-                                controller: cityController,
-                                validator:
-                                    (p0) =>
-                                        p0 == null || p0.isEmpty
-                                            ? LocalizationKeys
-                                                .pleaseEnterYourCity
-                                                .tr
-                                            : null,
-                              ),
-                              SizedBox(height: 16.h),
-                              Text(
-                                LocalizationKeys.yourPincode.tr,
-                                style:
-                                    TextStyleConstant()
-                                        .subTitleTextStyle16w500ClrSubText,
-                              ),
-                              SizedBox(height: 6.h),
-                              CommonTextFormFieldWithoutBorder(
-                                controller: pincodeController,
-                                maxLength: 6,
-                                keyboardType: TextInputType.number,
-                                validator:
-                                    (p0) =>
-                                        p0 != null && p0.length < 6
-                                            ? LocalizationKeys
-                                                .pleaseEnterValidPincode
-                                                .tr
-                                            : null,
-                              ),
-                              SizedBox(height: 20.h),
-                            ],
-                          ),
-                        ),
+
+                      /// Name
+                      Text(
+                        LocalizationKeys.yourName.tr,
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller: nameController,
+                        validator:
+                            (p0) =>
+                                p0 == null || p0.isEmpty
+                                    ? LocalizationKeys.pleaseEnterYourName.tr
+                                    : null,
                       ),
 
-                      // Padding(
-                      //   padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
-                      //   child: CommonButtonRounded(
-                      //     color: ColorConstant.clrSecondary,
-                      //     btnText: "Next",
-                      //     onPressed: () {
-                      //       if (formKey.currentState!.validate()) {
-                      //         Get.to(VerificationScreen(
-                      //           type: type,
-                      //           mobileNo: mobileNo,
-                      //           otp: otp,
-                      //           name: nameController.text.trim(),
-                      //           city: cityController.text.trim(),
-                      //           pincode: pincodeController.text.trim(),
-                      //         ));
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
+                      SizedBox(height: 16.h),
+
+                      /// Email
+                      Text(
+                        LocalizationKeys.yourEmail.tr,
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller: emailController,
+                        validator:
+                            (p0) =>
+                                p0 == null || p0.isEmpty
+                                    ? LocalizationKeys.pleaseEnterYourEmail.tr
+                                    : null,
+                      ),
+
+                      SizedBox(height: 16.h),
+
+                      /// City
+                      Text(
+                        LocalizationKeys.yourCity.tr,
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller: cityController,
+                        validator:
+                            (p0) =>
+                                p0 == null || p0.isEmpty
+                                    ? LocalizationKeys.pleaseEnterYourCity.tr
+                                    : null,
+                      ),
+
+                      SizedBox(height: 16.h),
+
+                      /// Pincode
+                      Text(
+                        LocalizationKeys.yourPincode.tr,
+                        style:
+                            TextStyleConstant()
+                                .subTitleTextStyle16w500ClrSubText,
+                      ),
+                      SizedBox(height: 6.h),
+                      CommonTextFormFieldWithoutBorder(
+                        controller: pincodeController,
+                        maxLength: 6,
+                        keyboardType: TextInputType.number,
+                        validator:
+                            (p0) =>
+                                p0 != null && p0.length < 6
+                                    ? LocalizationKeys
+                                        .pleaseEnterValidPincode
+                                        .tr
+                                    : null,
+                      ),
+                      SizedBox(height: 10.h),
                     ],
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              top: 20.h,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Image.asset(
-                  ImageConstant.imgYourDetails,
-                  height: 180.h,
-                  width: 160.w,
+
+              /// Top Image
+              Positioned(
+                top: 20.h,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    ImageConstant.imgYourDetails,
+                    height: 180.h,
+                    width: 160.w,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+
+        // body: Stack(
+        //   children: [
+        //     Positioned(
+        //       top: 150.h,
+        //       left: 0,
+        //       right: 0,
+        //       bottom: 0,
+        //       child: Container(
+        //         padding: EdgeInsets.symmetric(horizontal: 18.w),
+        //         decoration: BoxDecoration(
+        //           color: ColorConstant.clrWhite,
+        //           borderRadius: BorderRadius.only(
+        //             topLeft: Radius.circular(30.r),
+        //             topRight: Radius.circular(30.r),
+        //           ),
+        //         ),
+        //         child: Form(
+        //           key: formKey,
+        //           child: Column(
+        //             children: [
+        //               SizedBox(height: 70.h),
+        //               Expanded(
+        //                 child: SingleChildScrollView(
+        //                   child: Column(
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: [
+        //                       Text(
+        //                         LocalizationKeys.yourName.tr,
+        //                         style:
+        //                             TextStyleConstant()
+        //                                 .subTitleTextStyle16w500ClrSubText,
+        //                       ),
+        //                       SizedBox(height: 6.h),
+        //                       CommonTextFormFieldWithoutBorder(
+        //                         controller: nameController,
+        //                         validator:
+        //                             (p0) =>
+        //                                 p0 == null || p0.isEmpty
+        //                                     ? LocalizationKeys
+        //                                         .pleaseEnterYourName
+        //                                         .tr
+        //                                     : null,
+        //                       ),
+        //                       SizedBox(height: 16.h),
+        //                       Text(
+        //                         LocalizationKeys.yourEmail.tr,
+        //                         style:
+        //                             TextStyleConstant()
+        //                                 .subTitleTextStyle16w500ClrSubText,
+        //                       ),
+        //                       SizedBox(height: 6.h),
+        //                       CommonTextFormFieldWithoutBorder(
+        //                         controller: emailController,
+        //                         validator:
+        //                             (p0) =>
+        //                                 p0 == null || p0.isEmpty
+        //                                     ? LocalizationKeys
+        //                                         .pleaseEnterYourEmail
+        //                                         .tr
+        //                                     : null,
+        //                       ),
+        //                       SizedBox(height: 16.h),
+        //                       Text(
+        //                         LocalizationKeys.yourCity.tr,
+        //                         style:
+        //                             TextStyleConstant()
+        //                                 .subTitleTextStyle16w500ClrSubText,
+        //                       ),
+        //                       SizedBox(height: 6.h),
+        //                       CommonTextFormFieldWithoutBorder(
+        //                         controller: cityController,
+        //                         validator:
+        //                             (p0) =>
+        //                                 p0 == null || p0.isEmpty
+        //                                     ? LocalizationKeys
+        //                                         .pleaseEnterYourCity
+        //                                         .tr
+        //                                     : null,
+        //                       ),
+        //                       SizedBox(height: 16.h),
+        //                       Text(
+        //                         LocalizationKeys.yourPincode.tr,
+        //                         style:
+        //                             TextStyleConstant()
+        //                                 .subTitleTextStyle16w500ClrSubText,
+        //                       ),
+        //                       SizedBox(height: 6.h),
+        //                       CommonTextFormFieldWithoutBorder(
+        //                         controller: pincodeController,
+        //                         maxLength: 6,
+        //                         keyboardType: TextInputType.number,
+        //                         validator:
+        //                             (p0) =>
+        //                                 p0 != null && p0.length < 6
+        //                                     ? LocalizationKeys
+        //                                         .pleaseEnterValidPincode
+        //                                         .tr
+        //                                     : null,
+        //                       ),
+        //                       SizedBox(height: 20.h),
+        //                     ],
+        //                   ),
+        //                 ),
+        //               ),
+
+        //               // Padding(
+        //               //   padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
+        //               //   child: CommonButtonRounded(
+        //               //     color: ColorConstant.clrSecondary,
+        //               //     btnText: "Next",
+        //               //     onPressed: () {
+        //               //       if (formKey.currentState!.validate()) {
+        //               //         Get.to(VerificationScreen(
+        //               //           type: type,
+        //               //           mobileNo: mobileNo,
+        //               //           otp: otp,
+        //               //           name: nameController.text.trim(),
+        //               //           city: cityController.text.trim(),
+        //               //           pincode: pincodeController.text.trim(),
+        //               //         ));
+        //               //       }
+        //               //     },
+        //               //   ),
+        //               // ),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     Positioned(
+        //       top: 20.h,
+        //       left: 0,
+        //       right: 0,
+        //       child: Center(
+        //         child: Image.asset(
+        //           ImageConstant.imgYourDetails,
+        //           height: 180.h,
+        //           width: 160.w,
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

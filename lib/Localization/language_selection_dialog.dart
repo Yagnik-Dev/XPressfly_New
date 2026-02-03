@@ -86,7 +86,7 @@ void showLanguageSelectionDialog(BuildContext context) {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
             ],
           ),
         ),

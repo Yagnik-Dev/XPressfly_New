@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xpressfly_git/Constants/api_constant.dart';
@@ -45,6 +46,14 @@ class OrderRequestController extends GetxController {
                 .toList();
       } else {
         orderList.value = [];
+      }
+    } on DioException catch (e) {
+      debugPrint('DioException: ${e.response?.statusCode}');
+      if (e.response?.statusCode == 403) {
+        errorMessage.value =
+            'Your account is not verified. Please verify your account to accept orders.';
+      } else {
+        // errorMessage.value = e.message ?? 'Error fetching orders';
       }
     } catch (e) {
       debugPrint('Error fetching orders: $e');

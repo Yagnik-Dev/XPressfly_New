@@ -7,6 +7,7 @@ import 'package:xpressfly_git/Constants/text_style_constant.dart';
 import 'package:xpressfly_git/Controller/driver_home_controller.dart';
 import 'package:xpressfly_git/Controller/vehicle_details_controller.dart';
 import 'package:xpressfly_git/Localization/localization_keys.dart';
+import 'package:xpressfly_git/Utility/app_utility.dart';
 
 class DeleteVehicleDialog extends StatelessWidget {
   DeleteVehicleDialog({super.key});
@@ -99,24 +100,18 @@ class DeleteVehicleDialog extends StatelessWidget {
                             builder:
                                 (context) => DeleteSuccess(
                                   onAnimationComplete: () {
-                                    Future.delayed(
-                                      const Duration(seconds: 2),
-                                      () async {
-                                        Get.back();
-                                        await driverHomeController
-                                            .refreshVehicleList();
-                                      },
-                                    );
+                                    Get.back(); // Close success dialog
+                                    Get.back(); // Close vehicle details screen
+                                    driverHomeController.refreshVehicleList();
                                   },
                                 ),
                           );
                         }
                       } else {
                         Navigator.pop(context, false);
-                        Get.snackbar(
+                        showMessage(
                           'Error',
                           'Failed to delete vehicle. Please try again.',
-                          snackPosition: SnackPosition.BOTTOM,
                         );
                       }
                     },

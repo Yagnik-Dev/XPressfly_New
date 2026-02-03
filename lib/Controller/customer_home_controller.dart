@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Models/get_vehicle_type.dart';
-import 'package:xpressfly_git/Screens/Customer/select_delivery_area_dialog.dart';
 import 'package:xpressfly_git/Services/rest_service.dart';
 import 'package:xpressfly_git/Utility/common_imports.dart';
 import '../Constants/api_constant.dart';
@@ -12,13 +11,13 @@ class CustomerHomeController extends GetxController {
   var isVehicleLoading = false.obs;
   Rx<GetVehicleTypeResponseModel> vehicleTypeList =
       GetVehicleTypeResponseModel().obs;
+
   @override
   void onInit() {
     getData();
-    Future.delayed(Duration(seconds: 1), () {
-      Get.dialog(const SelectDeliveryAreaDialog());
-    });
-
+    // Future.delayed(Duration(seconds: 1), () {
+    //   Get.dialog(const SelectDeliveryAreaDialog());
+    // });
     super.onInit();
   }
 

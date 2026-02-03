@@ -48,6 +48,7 @@ class CommonTextFormField extends StatelessWidget {
       maxLength: maxLength,
       validator: validator,
       textAlign: textAlign,
+      textInputAction: TextInputAction.next,
       // buildCounter: buildCounter,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
@@ -131,6 +132,7 @@ class CommonTextFormFieldWithoutBorder extends StatelessWidget {
       maxLength: maxLength,
       validator: validator,
       maxLines: maxLines,
+      textInputAction: TextInputAction.next,
       readOnly: readOnly ?? false,
       onTap: onTap,
       onChanged: onChanged,

@@ -138,7 +138,7 @@ class JoinAsScreen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Get.to(
-                            YourDetailsScreen(
+                            () => YourDetailsScreen(
                               mobileNo: mobileNo,
                               otp: otp,
                               type: 1,
@@ -234,7 +234,7 @@ class JoinAsScreen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Get.to(
-                            YourDetailsScreen(
+                            () => YourDetailsScreen(
                               mobileNo: mobileNo,
                               otp: otp,
                               type: 0,

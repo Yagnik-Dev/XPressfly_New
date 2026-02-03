@@ -204,7 +204,7 @@ class VerificationScreen extends StatelessWidget {
                               onPressed: () {
                                 if (_validateImages()) {
                                   Get.to(
-                                    BankDetailsScreen(
+                                    () => BankDetailsScreen(
                                       type: type,
                                       mobileNo: mobileNo,
                                       otp: otp,

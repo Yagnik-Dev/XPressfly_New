@@ -74,6 +74,16 @@ hideLoading() {
   }
 }
 
+void showSuccess(String message) {
+  Get.snackbar(
+    'Success',
+    message,
+    backgroundColor: ColorConstant.clrSecondary,
+    colorText: Colors.white,
+    duration: Duration(seconds: 2),
+  );
+}
+
 Future showMessage(String title, String message) async {
   Get.closeAllSnackbars();
   Get.snackbar(

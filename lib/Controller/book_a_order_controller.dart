@@ -22,20 +22,20 @@ class BookAOrderController extends GetxController {
   RxInt selectedIndex = 0.obs;
   var imgPicker = ImagePicker();
 
-  // var pickUpPinCodeController = TextEditingController();
-  // var dropOffPinCodeController = TextEditingController();
-  // var receiverNameController = TextEditingController();
-  // var receiverMobileNoController = TextEditingController();
-  // var orderWeightController = TextEditingController();
-  // var orderTitleController = TextEditingController();
-  // var orderPickUpDateController = TextEditingController();
-  var pickUpPinCodeController = TextEditingController(text: "394101");
-  var dropOffPinCodeController = TextEditingController(text: "364002");
-  var receiverNameController = TextEditingController(text: "John Doe");
-  var receiverMobileNoController = TextEditingController(text: "+919601605752");
-  var orderWeightController = TextEditingController(text: "10");
-  var orderTitleController = TextEditingController(text: "Sample Order");
-  var orderPickUpDateController = TextEditingController(text: "2025-11-21");
+  var pickUpPinCodeController = TextEditingController();
+  var dropOffPinCodeController = TextEditingController();
+  var receiverNameController = TextEditingController();
+  var receiverMobileNoController = TextEditingController();
+  var orderWeightController = TextEditingController();
+  var orderTitleController = TextEditingController();
+  var orderPickUpDateController = TextEditingController();
+  // var pickUpPinCodeController = TextEditingController(text: "394101");
+  // var dropOffPinCodeController = TextEditingController(text: "364002");
+  // var receiverNameController = TextEditingController(text: "John Doe");
+  // var receiverMobileNoController = TextEditingController(text: "+919601605752");
+  // var orderWeightController = TextEditingController(text: "10");
+  // var orderTitleController = TextEditingController(text: "Sample Order");
+  // var orderPickUpDateController = TextEditingController(text: "2025-11-21");
   int vehicleType = 0;
 
   var pickupLatitude = 0.0.obs;
@@ -244,7 +244,8 @@ class BookAOrderController extends GetxController {
       var formData = formdata.FormData.fromMap({
         "title": orderTitleController.text.trim(),
         "receiver_name": receiverNameController.text.trim(),
-        "receiver_phone_number": receiverMobileNoController.text.trim(),
+        // "receiver_phone_number": receiverMobileNoController.text.trim(),
+        "receiver_phone_number": "+91${receiverMobileNoController.text.trim()}",
         "from_address": "Kuber Nager",
         "to_address": "Nandini Row house",
         "from_zip_code": pickUpPinCodeController.text.trim(),
@@ -315,50 +316,71 @@ class BookAOrderController extends GetxController {
 
         String errorMessage = 'An error occurred';
 
-        if (responseData is Map) {
-          // Handle specific field errors
-          if (responseData.containsKey('images')) {
-            final imageErrors = responseData['images'];
-            if (imageErrors is List && imageErrors.isNotEmpty) {
-              errorMessage = 'Image Error: ${imageErrors[0]}';
-            } else {
-              errorMessage = 'Please add at least one image';
-            }
-          } else if (responseData.containsKey('message')) {
-            errorMessage = responseData['message']?.toString() ?? errorMessage;
-          } else if (responseData.containsKey('error')) {
-            errorMessage = responseData['error']?.toString() ?? errorMessage;
-          } else {
-            // Show first error found
-            errorMessage =
-                responseData.values.first?.toString() ?? errorMessage;
+        // Parse response data
+        Map<String, dynamic>? parsedData;
+
+        if (responseData is String) {
+          try {
+            parsedData = jsonDecode(responseData) as Map<String, dynamic>?;
+          } catch (e) {
+            debugPrint('Failed to parse response as JSON: $e');
+            errorMessage = responseData;
           }
-        } else if (responseData is String) {
-          errorMessage = responseData;
+        } else if (responseData is Map) {
+          parsedData = Map<String, dynamic>.from(responseData);
         }
 
+        if (parsedData != null) {
+          // Priority order for checking field-specific errors
+          final errorFields = [
+            'receiver_phone_number',
+            'title',
+            'receiver_name',
+            'from_zip_code',
+            'to_zip_code',
+            'pickup_date',
+            'vehicle_type',
+            'available_times',
+            'images',
+            'weight_in_kg',
+          ];
+
+          // Check each field for errors
+          bool foundError = false;
+          for (String field in errorFields) {
+            if (parsedData.containsKey(field)) {
+              final fieldErrors = parsedData[field];
+              if (fieldErrors is List && fieldErrors.isNotEmpty) {
+                errorMessage = fieldErrors[0].toString();
+                foundError = true;
+                break;
+              } else if (fieldErrors is String) {
+                errorMessage = fieldErrors;
+                foundError = true;
+                break;
+              }
+            }
+          }
+
+          // If no field-specific error found, check for general error messages
+          if (!foundError) {
+            if (parsedData.containsKey('detail')) {
+              errorMessage = parsedData['detail']?.toString() ?? errorMessage;
+            } else if (parsedData.containsKey('message')) {
+              errorMessage = parsedData['message']?.toString() ?? errorMessage;
+            } else if (parsedData.containsKey('error')) {
+              errorMessage = parsedData['error']?.toString() ?? errorMessage;
+            }
+          }
+        }
+
+        debugPrint('Final Error Message: $errorMessage');
         await declineDialog("Error", errorMessage);
       } else {
         debugPrint('Non-Dio Error: $error');
-
-        if (error is FormatException &&
-            error.toString().contains("success: true")) {
-          final errorString = error.toString();
-          final idMatch = RegExp(r"id:\s*(\d+)").firstMatch(errorString);
-
-          if (idMatch != null) {
-            final orderId = idMatch.group(1)!;
-            hideLoading();
-            onSuccess(orderId); // Only call on actual success
-            return;
-          }
-        }
-
-        handleError(error);
         await declineDialog("Error", "An unexpected error occurred");
       }
 
-      // Don't call onSuccess on error - just return
       return;
     }
   }

@@ -15,6 +15,7 @@ import 'package:xpressfly_git/Localization/language_selection_dialog.dart';
 import 'package:xpressfly_git/Localization/localization_keys.dart';
 import 'package:xpressfly_git/Models/profile_model.dart';
 import 'package:xpressfly_git/Routes/app_routes.dart';
+import 'package:xpressfly_git/Screens/AuthScreens/help_and_support.dart';
 import 'package:xpressfly_git/Screens/Driver/order_history_screen.dart';
 
 class CommonDrawer extends StatefulWidget {
@@ -31,10 +32,10 @@ class _CommonDrawerState extends State<CommonDrawer> {
       iconPath: ImageConstant.imgHomeBottom,
       title: LocalizationKeys.home.tr,
     ),
-    DrawerItem(
-      iconPath: ImageConstant.imgParcelBottom,
-      title: LocalizationKeys.orderRequest.tr,
-    ),
+    // DrawerItem(
+    //   iconPath: ImageConstant.imgParcelBottom,
+    //   title: LocalizationKeys.orderRequest.tr,
+    // ),
     DrawerItem(
       iconPath: ImageConstant.imgHistoryBottom,
       title: LocalizationKeys.orderHistory.tr,
@@ -127,7 +128,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                 .user
                                 ?.profileImage;
 
-                        debugPrint('Drawer Profile Image: $profileImage');
+                        // debugPrint('Drawer Profile Image: $profileImage');
 
                         // Show default image if profileImage is null or empty
                         if (profileImage == null || profileImage.isEmpty) {
@@ -287,30 +288,34 @@ class _CommonDrawerState extends State<CommonDrawer> {
                       () => setState(() {
                         log(index.toString());
                         selectedIndex = index;
-                        if (index == 2) {
-                          Get.to(OrderHistoryScreen());
-                        } else if (index == 3) {
+                        if (index == 0) {
+                          Navigator.of(context).pop();
+                          // } else if (index == 1) {
+                          //   // Get.to(() => OrderRequestScreen());
+                        } else if (index == 1) {
+                          Get.to(() => OrderHistoryScreen());
+                        } else if (index == 2) {
                           Get.toNamed(AppRoutes.editProfileScreen);
-                        } else if (index == 4) {
+                        } else if (index == 3) {
                           showLanguageSelectionDialog(context);
-                        } else if (index == 5) {
+                        } else if (index == 4) {
                           Get.toNamed(
                             AppRoutes.metaDataScreen,
                             arguments: {
                               'tabIndex': 0,
                             }, // Pass Privacy Policy tab
                           );
-                        } else if (index == 6) {
+                        } else if (index == 5) {
                           Get.toNamed(
                             AppRoutes.metaDataScreen,
                             arguments: {
                               'tabIndex': 1,
                             }, // Pass Terms & Conditions tab
                           );
+                        } else if (index == 6) {
+                          // ContactSupportScreen
+                          Get.to(() => HelpSupportScreen());
                         } else if (index == 7) {
-                          // Logout action
-                          // showLogoutDialog(context);
-                        } else if (index == 8) {
                           // Logout action
                           showLogoutDialog(context);
                         }

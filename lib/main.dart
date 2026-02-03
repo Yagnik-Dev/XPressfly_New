@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,7 +20,17 @@ Future<void> main() async {
   // Initialize Firebase Messaging
   FirebaseMessagingService().initializeFirebaseMessaging();
 
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   runApp(const MyApp());
+}
+
+class AndroidNotificationChannel {
+  const AndroidNotificationChannel();
 }
 
 class MyApp extends StatelessWidget {

@@ -93,55 +93,55 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildImageField({
-    required String title,
-    required Rx<File?> imageFile,
-    required VoidCallback onTap,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
-        ),
-        SizedBox(height: 8.h),
-        GestureDetector(
-          onTap: onTap,
-          child: Obx(
-            () => Container(
-              height: 120.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(color: ColorConstant.clrBorder, width: 2),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child:
-                  imageFile.value == null
-                      ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.cloud_upload_outlined,
-                            size: 32.sp,
-                            color: ColorConstant.clrSecondary,
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            LocalizationKeys.tapToUpload.tr,
-                            style:
-                                TextStyleConstant()
-                                    .subTitleTextStyle14w400ClrSubText,
-                          ),
-                        ],
-                      )
-                      : Image.file(imageFile.value!, fit: BoxFit.cover),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildImageField({
+  //   required String title,
+  //   required Rx<File?> imageFile,
+  //   required VoidCallback onTap,
+  // }) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         title,
+  //         style: TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+  //       ),
+  //       SizedBox(height: 8.h),
+  //       GestureDetector(
+  //         onTap: onTap,
+  //         child: Obx(
+  //           () => Container(
+  //             height: 120.h,
+  //             width: double.infinity,
+  //             decoration: BoxDecoration(
+  //               border: Border.all(color: ColorConstant.clrBorder, width: 2),
+  //               borderRadius: BorderRadius.circular(12.r),
+  //             ),
+  //             child:
+  //                 imageFile.value == null
+  //                     ? Column(
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       children: [
+  //                         Icon(
+  //                           Icons.cloud_upload_outlined,
+  //                           size: 32.sp,
+  //                           color: ColorConstant.clrSecondary,
+  //                         ),
+  //                         SizedBox(height: 8.h),
+  //                         Text(
+  //                           LocalizationKeys.tapToUpload.tr,
+  //                           style:
+  //                               TextStyleConstant()
+  //                                   .subTitleTextStyle14w400ClrSubText,
+  //                         ),
+  //                       ],
+  //                     )
+  //                     : Image.file(imageFile.value!, fit: BoxFit.cover),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -102,10 +104,19 @@ class OrderRequestScreen extends StatelessWidget {
                   style: TextStyleConstant().subTitleTextStyle12w400Clr9D9D9D,
                 ),
                 SizedBox(height: 30),
-                ElevatedButton.icon(
-                  onPressed: controller.refreshOrderList,
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Refresh'),
+                // ElevatedButton.icon(
+                //   onPressed: controller.refreshOrderList,
+                //   icon: const Icon(Icons.refresh),
+                //   label: const Text('Refresh'),
+                // ),
+                SizedBox(
+                  width: 95.w,
+                  height: 38.h,
+                  child: CommonButton(
+                    radius: 50.r,
+                    btnText: LocalizationKeys.retry.tr,
+                    onPressed: controller.refreshOrderList,
+                  ),
                 ),
               ],
             ),
@@ -179,22 +190,29 @@ class OrderRequestScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            order.customer?.name ?? "N/A",
-                            style:
-                                TextStyleConstant()
-                                    .subTitleTextStyle18w600Clr242424,
-                          ),
-                          Text(
-                            order.customer?.phone ?? "N/A",
-                            style:
-                                TextStyleConstant()
-                                    .subTitleTextStyle14w400clr666666,
-                          ),
-                        ],
+                      child: InkWell(
+                        onTap: () {
+                          log(
+                            "============ Vehicle id ======= ${order.vehicleTypeId.toString()}",
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              order.customer?.name ?? "N/A",
+                              style:
+                                  TextStyleConstant()
+                                      .subTitleTextStyle18w600Clr242424,
+                            ),
+                            Text(
+                              order.customer?.phone ?? "N/A",
+                              style:
+                                  TextStyleConstant()
+                                      .subTitleTextStyle14w400clr666666,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // Distance Container

@@ -270,4 +270,10 @@ const Map<String, String> Hindi = {
   'pleaseUploadRCBookBackImage': "कृपया RC बुक पीछे की छवि अपलोड करें",
   'Retry': 'पुनः प्रयास करें',
   'noOrdersFound': 'कोई ऑर्डर नहीं मिला',
+  'pleaseEnterSubject': 'कृपया विषय दर्ज करें',
+  'pleaseEnterYourMessage': 'कृपया अपना संदेश दर्ज करें',
+  'subject': 'विषय',
+  'message': 'संदेश',
+  'enterSubject': 'विषय दर्ज करें',
+  'enterYourMessageHere': 'अपना संदेश यहाँ दर्ज करें',
 };

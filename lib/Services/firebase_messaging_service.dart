@@ -44,7 +44,6 @@ class FirebaseMessagingService {
       if (kDebugMode) {
         print('FCM Token refreshed: $newToken');
       }
-      // TODO: Send this token to your backend
     });
 
     // Handle background messages
@@ -77,7 +76,6 @@ class FirebaseMessagingService {
         print('A new onMessageOpenedApp event was published!');
         print('Message data: ${message.data}');
       }
-      // TODO: Navigate to specific screen based on message data
       _handleNotificationTap(message);
     });
 
@@ -116,7 +114,6 @@ class FirebaseMessagingService {
         if (kDebugMode) {
           print('Notification tapped: ${response.payload}');
         }
-        // TODO: Handle notification tap
       },
     );
 
@@ -169,7 +166,6 @@ class FirebaseMessagingService {
   }
 
   void _handleNotificationTap(RemoteMessage message) {
-    // TODO: Navigate to specific screen based on message.data
     if (kDebugMode) {
       print('Handling notification tap: ${message.data}');
     }

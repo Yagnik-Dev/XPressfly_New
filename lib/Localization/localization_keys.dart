@@ -301,4 +301,10 @@ class LocalizationKeys {
       'pleaseUploadRCBookBackImage';
   static const String retry = 'Retry';
   static const String noOrdersFound = 'noOrdersFound';
+  static const String pleaseEnterSubject = 'pleaseEnterSubject';
+  static const String pleaseEnterYourMessage = 'pleaseEnterYourMessage';
+  static const String subject = 'subject';
+  static const String message = 'message';
+  static const String enterSubject = 'enterSubject';
+  static const String enterYourMessageHere = 'enterYourMessageHere';
 }

@@ -28,6 +28,7 @@ class ApiConstant {
   static const String createOrder = "delivery/orders/create/";
   static const String commonErrorMessage = "Something went wrong";
   static const String orderProfile = "delivery/orders/";
+  static const String helpSupport = 'user/help-support/';
 
   // ================ Forgot Password ====================
   static const String forgotPwd = 'password/email';

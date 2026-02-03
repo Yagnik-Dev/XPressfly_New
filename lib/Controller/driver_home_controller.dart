@@ -1,42 +1,55 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:xpressfly_git/Constants/color_constant.dart';
 import 'package:xpressfly_git/Constants/storage_constant.dart';
-import 'package:xpressfly_git/Controller/profile_controller.dart';
-import 'package:xpressfly_git/Models/dutystatus_model.dart';
 import 'package:xpressfly_git/Models/get_user_wise_vehicle_model.dart';
 import 'package:xpressfly_git/Models/get_vehicle_type.dart';
 import 'package:xpressfly_git/Utility/api_error_handler.dart';
-import 'package:xpressfly_git/Utility/app_utility.dart';
 import '../Constants/api_constant.dart';
 import '../Services/rest_service.dart';
+import '../Utility/app_utility.dart';
 import '../Utility/common_imports.dart';
 
 class DriverHomeController extends GetxController {
   var isSwitched = true.obs;
   var isLoading = false.obs;
   var isVehicleLoading = false.obs;
+  var searchQuery = ''.obs;
+  var selectedVehicleType = RxnInt();
   Rx<GetUserWiseVehicleResponseModel> userWiseVehicleList =
       GetUserWiseVehicleResponseModel().obs;
   Rx<GetVehicleTypeResponseModel> vehicleTypeList =
       GetVehicleTypeResponseModel().obs;
+  Timer? _debounceTimer;
 
   @override
   void onInit() {
     super.onInit();
-    // if (Get.isRegistered<ProfileController>()) {
-    //   Get.find<ProfileController>();
-    // } else {
-    //   Get.put(ProfileController());
-    // }
     getData();
+    ever(searchQuery, (_) {
+      _debounceSearch();
+    });
   }
 
   Future<void> getData() async {
     await vehicleTypesAPICall();
     await userWiseVehicleListCall();
+  }
+
+  void _debounceSearch() {
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      userWiseVehicleListCall();
+    });
+  }
+
+  @override
+  void onClose() {
+    _debounceTimer?.cancel();
+    super.onClose();
   }
 
   Future<void> refreshVehicleList() async {
@@ -46,42 +59,52 @@ class DriverHomeController extends GetxController {
     isVehicleLoading.value = false;
   }
 
+  Future<void> searchVehicles(String query) async {
+    searchQuery.value = query;
+    // await userWiseVehicleListCall();
+  }
+
+  // Add method to filter by vehicle type
+  Future<void> filterByVehicleType(int? vehicleTypeId) async {
+    selectedVehicleType.value = vehicleTypeId;
+    await userWiseVehicleListCall();
+  }
+
+  // Add method to clear filters
+  Future<void> clearFilters() async {
+    searchQuery.value = '';
+    selectedVehicleType.value = null;
+    await userWiseVehicleListCall();
+  }
+
   Future<bool> toggleDutyApiCall({Map<String, dynamic>? details}) async {
-    Future.delayed(Duration.zero, () {
-      showLoading();
-    });
+    // Future.delayed(Duration.zero, () => showLoading());
     try {
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': GetStorage().read(accessToken),
       };
 
-      var response = await ServiceCall().post(
+      var response = await ServiceCall().patch(
         ApiConstant.baseUrl,
-        ApiConstant.toggleDuty,
+        ApiConstant.updateDriverProfile,
         details,
         headers,
       );
 
       if (response == null) {
-        hideLoading();
+        // hideLoading();
         showError('No response from server');
         return false;
       }
-
-      var objLogin = DutyStatusResponseModel.fromJson(jsonDecode(response));
-      hideLoading();
-
-      if (objLogin.success ?? false) {
-        showSuccess(objLogin.message ?? 'Duty status updated successfully');
-        return true;
-      } else {
-        showError(objLogin.message ?? 'Failed to update duty status');
-        return false;
-      }
+      // hideLoading();
+      Future.delayed(Duration(milliseconds: 300));
+      // Use approvedDialog instead of showSuccess
+      await approvedDialog('Success', 'Duty status updated successfully');
+      return true;
     } catch (error) {
-      hideLoading();
-      handleError(error);
+      debugPrint('Error toggling duty: $error');
+      showError('Failed to update duty status');
       return false;
     }
   }
@@ -134,10 +157,30 @@ class DriverHomeController extends GetxController {
         'Authorization': GetStorage().read(accessToken),
       };
 
+      // Build the API endpoint with query parameters
+      String endpoint = ApiConstant.vehicleList;
+      List<String> queryParams = [];
+
+      // Add vehicle_type filter if selected
+      if (selectedVehicleType.value != null) {
+        queryParams.add('vehicle_type=${selectedVehicleType.value}');
+      }
+
+      // Add search query if not empty
+      if (searchQuery.value.isNotEmpty) {
+        queryParams.add('search=${Uri.encodeComponent(searchQuery.value)}');
+      }
+
+      // Combine query parameters
+      if (queryParams.isNotEmpty) {
+        endpoint += '?${queryParams.join('&')}';
+      }
+
+      debugPrint('Fetching vehicles with endpoint: $endpoint');
+
       var response = await ServiceCall().get(
         ApiConstant.baseUrl,
-        // "${ApiConstant.userWiseVehicle}/1",
-        ApiConstant.vehicleList,
+        endpoint,
         headers,
       );
 
@@ -149,11 +192,7 @@ class DriverHomeController extends GetxController {
         jsonDecode(response),
       );
 
-      // if (parsedResponse[] ?? false) {
       userWiseVehicleList.value = parsedResponse;
-      // } else {
-      //   throw Exception(parsedResponse.message ?? 'Failed to load vehicles');
-      // }
     } catch (error) {
       hideLoading();
       String userMessage = 'An unknown error occurred';
@@ -174,7 +213,6 @@ class DriverHomeController extends GetxController {
         }
 
         if (parsedData != null) {
-          // prefer common keys returned by APIs
           if (parsedData['detail'] != null) {
             userMessage = parsedData['detail'].toString();
           } else if (parsedData['message'] != null) {
@@ -192,16 +230,10 @@ class DriverHomeController extends GetxController {
                 .join('\n');
           }
         } else {
-          // fallback to DioException message if available
           userMessage = error.message ?? userMessage;
         }
 
-        // show to user (use dialog or snackbar as you prefer)
-        declineDialog("Error", userMessage).then((_) {
-          // optional navigation or other handling
-        });
-        // or simply show snackbar:
-        // showError(userMessage);
+        declineDialog("Error", userMessage).then((_) {});
       } else {
         debugPrint('Error is not a DioException: $error');
         handleError(error);
@@ -217,16 +249,6 @@ class DriverHomeController extends GetxController {
       'Error',
       message,
       backgroundColor: ColorConstant.clrError,
-      colorText: Colors.white,
-    );
-  }
-
-  void showSuccess(String message) {
-    // You can use your preferred way to show success messages
-    Get.snackbar(
-      'Success',
-      message,
-      backgroundColor: ColorConstant.clr242424,
       colorText: Colors.white,
     );
   }

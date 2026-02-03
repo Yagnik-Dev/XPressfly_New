@@ -48,7 +48,7 @@ class DriverHomeScreen extends StatelessWidget {
                                       .user
                                       ?.isVerified ==
                                   false
-                              ? 30.h
+                              ? 25.h
                               : 0,
                     ), // Space for verification container
                     padding: EdgeInsets.symmetric(
@@ -111,7 +111,7 @@ class DriverHomeScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 11.h),
       decoration: BoxDecoration(
         color: ColorConstant.clr3B3B3B,
         borderRadius: BorderRadius.circular(18.r),
@@ -129,17 +129,17 @@ class DriverHomeScreen extends StatelessWidget {
         children: [
           Image.asset(
             ImageConstant.imgVerificationRequired,
-            height: 40.h,
-            width: 40.w,
+            height: 36.h,
+            width: 36.w,
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 10.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   LocalizationKeys.verificationRequired.tr,
-                  style: TextStyleConstant().subTitleTextStyle16w600clrWhite,
+                  style: TextStyleConstant().subTitleTextStyle14w600clrWhite,
                 ),
                 SizedBox(height: 4.h),
                 Text(
@@ -151,9 +151,9 @@ class DriverHomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 12.w),
+          // SizedBox(width: 10.w),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: ColorConstant.clr292929,
               shape: BoxShape.circle,
@@ -189,8 +189,7 @@ class DriverHomeScreen extends StatelessWidget {
                         .value
                         .user
                         ?.profileImage;
-                return profileImage 
-                != null && profileImage.isNotEmpty
+                return profileImage != null && profileImage.isNotEmpty
                     ? Image.network(
                       profileImage,
                       fit: BoxFit.cover,
@@ -329,7 +328,7 @@ class DriverHomeScreen extends StatelessWidget {
                       scale: 0.9,
                       child: Switch(
                         value: driverHomeController.isSwitched.value,
-                        activeColor: ColorConstant.clrSecondary,
+                        activeThumbColor: ColorConstant.clrSecondary,
                         activeTrackColor: ColorConstant.clrSecondary.withValues(
                           alpha: 0.3,
                         ),
@@ -338,14 +337,14 @@ class DriverHomeScreen extends StatelessWidget {
                         trackOutlineColor: WidgetStatePropertyAll(
                           ColorConstant.clrSecondary,
                         ),
-                        onChanged: (value) {
-                          driverHomeController.isSwitched.value = value;
-                          driverHomeController.toggleDutyApiCall(
-                            details: {
-                              "user_id": GetStorage().read(userId),
-                              "on_duty": value ? "1" : "0",
-                            },
-                          );
+                        onChanged: (value) async {
+                          final result = await driverHomeController
+                              .toggleDutyApiCall(
+                                details: {"is_duty_on": value},
+                              );
+                          if (result) {
+                            driverHomeController.isSwitched.value = value;
+                          }
                         },
                       ),
                     ),
@@ -397,6 +396,10 @@ class DriverHomeScreen extends StatelessWidget {
 
   Widget _buildSearchField() {
     return TextField(
+      onChanged: (value) {
+        // This will trigger API call via the controller's ever() listener
+        driverHomeController.searchQuery.value = value;
+      },
       decoration: InputDecoration(
         hintText: LocalizationKeys.searchVehicle.tr,
         hintStyle: TextStyleConstant().subTitleTextStyle14w500ClrCCCCCC,
@@ -446,34 +449,44 @@ class DriverHomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                LocalizationKeys.noVehiclesFound.tr,
+                driverHomeController.searchQuery.value.isNotEmpty ||
+                        driverHomeController.selectedVehicleType.value != null
+                    ? LocalizationKeys.noVehiclesFound.tr
+                    : LocalizationKeys.noVehiclesFound.tr,
                 style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
               ),
               SizedBox(height: 8.h),
               Text(
-                LocalizationKeys.addYourFirstVehicle.tr,
+                driverHomeController.searchQuery.value.isNotEmpty ||
+                        driverHomeController.selectedVehicleType.value != null
+                    ? 'Try searching with different keywords or filters'
+                    : LocalizationKeys.addYourFirstVehicle.tr,
                 style: TextStyleConstant().subTitleTextStyle14w500ClrCCCCCC,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 16.h),
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.addVehicleMainScreen)?.then((_) async {
-                    // Refresh vehicle list after returning from Add Vehicle screen
-                    await driverHomeController.getData();
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorConstant.clrSecondary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.r),
+              if (driverHomeController.searchQuery.value.isEmpty &&
+                  driverHomeController.selectedVehicleType.value == null) ...[
+                SizedBox(height: 16.h),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.addVehicleMainScreen)?.then((
+                      _,
+                    ) async {
+                      await driverHomeController.getData();
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorConstant.clrSecondary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                  ),
+                  child: Text(
+                    LocalizationKeys.addVehicle.tr,
+                    style: TextStyleConstant().subTitleTextStyle14w700clrWhite,
                   ),
                 ),
-                child: Text(
-                  LocalizationKeys.addVehicle.tr,
-                  style: TextStyleConstant().subTitleTextStyle14w700clrWhite,
-                ),
-              ),
+              ],
             ],
           ),
         );
@@ -492,6 +505,107 @@ class DriverHomeScreen extends StatelessWidget {
       );
     });
   }
+  // Widget _buildSearchField() {
+  //   return TextField(
+  //     onChanged: (value) {
+  //       // Local filtering instead of API call for better UX
+  //       driverHomeController.searchQuery.value = value;
+  //     },
+  //     decoration: InputDecoration(
+  //       hintText: LocalizationKeys.searchVehicle.tr,
+  //       hintStyle: TextStyleConstant().subTitleTextStyle14w500ClrCCCCCC,
+  //       suffixIcon: Padding(
+  //         padding: const EdgeInsets.only(right: 8.0),
+  //         child: Icon(Icons.search, color: ColorConstant.clrC8C8C8),
+  //       ),
+  //       border: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(30.r),
+  //         borderSide: BorderSide(color: ColorConstant.clrEEEEEE),
+  //       ),
+  //       enabledBorder: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(30.r),
+  //         borderSide: BorderSide(color: ColorConstant.clrEEEEEE),
+  //       ),
+  //       focusedBorder: OutlineInputBorder(
+  //         borderRadius: BorderRadius.circular(30.r),
+  //         borderSide: BorderSide(color: ColorConstant.clrEEEEEE),
+  //       ),
+  //       filled: true,
+  //       fillColor: Colors.white,
+  //       contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 19.w),
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildVehicleList() {
+  //   return Obx(() {
+  //     if (driverHomeController.isVehicleLoading.value) {
+  //       return Center(
+  //         child: CircularProgressIndicator(color: ColorConstant.clrSecondary),
+  //       );
+  //     }
+
+  //     final vehicles =
+  //         driverHomeController.userWiseVehicleList.value.data ?? [];
+
+  //     if (vehicles.isEmpty) {
+  //       return Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Icon(
+  //               Icons.directions_car_outlined,
+  //               size: 50.sp,
+  //               color: ColorConstant.clrCCCCCC,
+  //             ),
+  //             SizedBox(height: 16.h),
+  //             Text(
+  //               LocalizationKeys.noVehiclesFound.tr,
+  //               style: TextStyleConstant().subTitleTextStyle16w500Clr242424,
+  //             ),
+  //             SizedBox(height: 8.h),
+  //             Text(
+  //               LocalizationKeys.addYourFirstVehicle.tr,
+  //               style: TextStyleConstant().subTitleTextStyle14w500ClrCCCCCC,
+  //               textAlign: TextAlign.center,
+  //             ),
+  //             SizedBox(height: 16.h),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 Get.toNamed(AppRoutes.addVehicleMainScreen)?.then((_) async {
+  //                   // Refresh vehicle list after returning from Add Vehicle screen
+  //                   await driverHomeController.getData();
+  //                 });
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 backgroundColor: ColorConstant.clrSecondary,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(20.r),
+  //                 ),
+  //               ),
+  //               child: Text(
+  //                 LocalizationKeys.addVehicle.tr,
+  //                 style: TextStyleConstant().subTitleTextStyle14w700clrWhite,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     }
+
+  //     return SingleChildScrollView(
+  //       scrollDirection: Axis.horizontal,
+  //       child: Row(
+  //         children:
+  //             vehicles
+  //                 .asMap()
+  //                 .entries
+  //                 .map((entry) => _buildVehicleCard(entry.value, entry.key))
+  //                 .toList(),
+  //       ),
+  //     );
+  //   });
+  // }
 
   Widget _buildVehicleCard(GetUserVehicleData vehicle, int index) {
     // Determine background color and image based on vehicle type

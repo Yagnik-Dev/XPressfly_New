@@ -265,4 +265,10 @@ const Map<String, String> English = {
   'pleaseUploadRCBookBackImage': "Please upload RC book back image",
   'Retry': 'Retry',
   'noOrdersFound': 'No orders found',
+  'pleaseEnterSubject': 'Please enter subject',
+  'pleaseEnterYourMessage': 'Please enter your message',
+  'subject': 'Subject',
+  'message': 'Message',
+  'enterSubject': 'Enter subject',
+  'enterYourMessageHere': 'Enter your message here...',
 };

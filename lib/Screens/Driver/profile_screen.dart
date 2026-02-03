@@ -35,31 +35,31 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(
-        () => Column(
-          children: [
-            SizedBox(height: 20.h),
-            Column(
-              children: [
-                CircleAvatar(
-                  radius: 50.r,
-                  backgroundImage: NetworkImage(
-                    profileController.userDetails.value.user?.profileImage ??
-                        "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+      body: SingleChildScrollView(
+        child: Obx(
+          () => Column(
+            children: [
+              SizedBox(height: 20.h),
+              Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50.r,
+                    backgroundImage: NetworkImage(
+                      profileController.userDetails.value.user?.profileImage ??
+                          "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                    ),
                   ),
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                  profileController.userDetails.value.user?.name ??
-                      GetStorage().read(userName) ??
-                      "User",
-                  style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
-                ),
-              ],
-            ),
-            SizedBox(height: 18.h),
-            Expanded(
-              child: Container(
+                  SizedBox(height: 10.h),
+                  Text(
+                    profileController.userDetails.value.user?.name ??
+                        GetStorage().read(userName) ??
+                        "User",
+                    style: TextStyleConstant().subTitleTextStyle22w600Clr242424,
+                  ),
+                ],
+              ),
+              SizedBox(height: 18.h),
+              Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 20.h),
                 decoration: BoxDecoration(
@@ -69,152 +69,137 @@ class ProfileScreen extends StatelessWidget {
                     topRight: Radius.circular(30.r),
                   ),
                 ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            LocalizationKeys.yourDetails.tr,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          LocalizationKeys.yourDetails.tr,
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle20w500Clr242424,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.editProfileScreen)?.then((
+                              value,
+                            ) async {
+                              if (value == true) {
+                                await profileController.getUserDetails(
+                                  (isSuccess) {},
+                                );
+                              }
+                            });
+                          },
+                          child: Text(
+                            LocalizationKeys.editProfile.tr,
                             style:
                                 TextStyleConstant()
-                                    .subTitleTextStyle20w500Clr242424,
+                                    .subTitleTextStyle14w500ClrSubText,
                           ),
-                          InkWell(
-                            onTap: () {
-                              Get.toNamed(AppRoutes.editProfileScreen)?.then((
-                                value,
-                              ) async {
-                                if (value == true) {
-                                  await profileController.getUserDetails(
-                                    (isSuccess) {},
-                                  );
-                                }
-                              });
-                            },
-                            child: Text(
-                              LocalizationKeys.editProfile.tr,
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle14w500ClrSubText,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h),
-                      // Phone Field
-                      Text(
-                        LocalizationKeys.phoneNumber.tr,
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
-                      ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        hintText: "+91 98765 43210",
-                        keyboardType: TextInputType.phone,
-                        maxLength: 10,
-                        readOnly: true,
-                        controller: TextEditingController(
-                          text:
-                              profileController.userDetails.value.user?.phone ??
-                              GetStorage().read(userPhone) ??
-                              '',
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    // Phone Field
+                    Text(
+                      LocalizationKeys.phoneNumber.tr,
+                      style:
+                          TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                    ),
+                    SizedBox(height: 6.h),
+                    CommonTextFormFieldWithoutBorder(
+                      hintText: "+91 98765 43210",
+                      keyboardType: TextInputType.phone,
+                      maxLength: 10,
+                      readOnly: true,
+                      controller: TextEditingController(
+                        text:
+                            profileController.userDetails.value.user?.phone ??
+                            GetStorage().read(userPhone) ??
+                            '',
                       ),
-                      SizedBox(height: 16.h),
-                      // Email Field
-                      Text(
-                        LocalizationKeys.email.tr,
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
+                    ),
+                    SizedBox(height: 16.h),
+                    // Email Field
+                    Text(
+                      LocalizationKeys.email.tr,
+                      style:
+                          TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                    ),
+                    SizedBox(height: 6.h),
+                    CommonTextFormFieldWithoutBorder(
+                      controller: TextEditingController(
+                        text:
+                            profileController.userDetails.value.user?.email ??
+                            GetStorage().read(userEmail) ??
+                            '',
                       ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        controller: TextEditingController(
-                          text:
-                              profileController.userDetails.value.user?.email ??
-                              GetStorage().read(userEmail) ??
-                              '',
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        readOnly: true,
+                      keyboardType: TextInputType.emailAddress,
+                      readOnly: true,
+                    ),
+                    SizedBox(height: 16.h),
+                    // Pincode Field
+                    Text(
+                      LocalizationKeys.pincode.tr,
+                      style:
+                          TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                    ),
+                    SizedBox(height: 6.h),
+                    CommonTextFormFieldWithoutBorder(
+                      controller: TextEditingController(
+                        text:
+                            profileController.userDetails.value.user?.pincode ??
+                            GetStorage().read(userPincode) ??
+                            '',
                       ),
-                      SizedBox(height: 16.h),
-                      // Pincode Field
-                      Text(
-                        LocalizationKeys.pincode.tr,
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
+                      keyboardType: TextInputType.number,
+                      readOnly: true,
+                    ),
+                    SizedBox(height: 16.h),
+                    // City Field
+                    Text(
+                      LocalizationKeys.city.tr,
+                      style:
+                          TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                    ),
+                    SizedBox(height: 6.h),
+                    CommonTextFormFieldWithoutBorder(
+                      controller: TextEditingController(
+                        text:
+                            profileController.userDetails.value.user?.city ??
+                            GetStorage().read(userCity) ??
+                            '',
                       ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        controller: TextEditingController(
-                          text:
-                              profileController
-                                  .userDetails
-                                  .value
-                                  .user
-                                  ?.pincode ??
-                              GetStorage().read(userPincode) ??
-                              '',
-                        ),
-                        keyboardType: TextInputType.number,
-                        readOnly: true,
+                      readOnly: true,
+                    ),
+                    SizedBox(height: 16.h),
+                    // Address Field
+                    Text(
+                      LocalizationKeys.address.tr,
+                      style:
+                          TextStyleConstant().subTitleTextStyle16w500ClrSubText,
+                    ),
+                    SizedBox(height: 6.h),
+                    CommonTextFormFieldWithoutBorder(
+                      controller: TextEditingController(
+                        text:
+                            profileController.userDetails.value.user?.address ??
+                            GetStorage().read(userAddress) ??
+                            '',
                       ),
-                      SizedBox(height: 16.h),
-                      // City Field
-                      Text(
-                        LocalizationKeys.city.tr,
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
-                      ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        controller: TextEditingController(
-                          text:
-                              profileController.userDetails.value.user?.city ??
-                              GetStorage().read(userCity) ??
-                              '',
-                        ),
-                        readOnly: true,
-                      ),
-                      SizedBox(height: 16.h),
-                      // Address Field
-                      Text(
-                        LocalizationKeys.address.tr,
-                        style:
-                            TextStyleConstant()
-                                .subTitleTextStyle16w500ClrSubText,
-                      ),
-                      SizedBox(height: 6.h),
-                      CommonTextFormFieldWithoutBorder(
-                        controller: TextEditingController(
-                          text:
-                              profileController
-                                  .userDetails
-                                  .value
-                                  .user
-                                  ?.address ??
-                              GetStorage().read(userAddress) ??
-                              '',
-                        ),
-                        maxLines: 2,
-                        readOnly: true,
-                      ),
-                      SizedBox(height: 80.h),
-                    ],
-                  ),
+                      maxLines: 2,
+                      readOnly: true,
+                    ),
+                    SizedBox(height: 80.h),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

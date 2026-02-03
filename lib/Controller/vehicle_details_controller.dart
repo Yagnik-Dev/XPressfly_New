@@ -79,7 +79,7 @@ class VehicleDetailsController extends GetxController {
 
       var response = await ServiceCall().delete(
         ApiConstant.baseUrl,
-        "${ApiConstant.deleteVehicles}$vehicleId",
+        "${ApiConstant.deleteVehicles}$vehicleId/",
         headers,
       );
 
@@ -89,13 +89,13 @@ class VehicleDetailsController extends GetxController {
 
       var parsedResponse = jsonDecode(response);
 
-      if (parsedResponse['success'] == true) {
-        hideLoading();
+      hideLoading();
+      if (parsedResponse['message'] != null &&
+          parsedResponse['message'].toString().isNotEmpty) {
+        showMessage('Success', parsedResponse['message']);
         return true;
       } else {
-        throw Exception(
-          parsedResponse['message'] ?? 'Failed to delete vehicle',
-        );
+        throw Exception('Failed to delete vehicle');
       }
     } catch (error) {
       hideLoading();

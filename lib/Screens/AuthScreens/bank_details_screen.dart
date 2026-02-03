@@ -128,15 +128,15 @@ class BankDetailsScreen extends StatelessWidget {
                   // "driver_license_front": licenseFrontImg.path,
                   // "driver_license_back": licenseBackImg.path,
                 });
-                formData.files.add(
-                  MapEntry(
-                    "profile_image",
-                    multipart_file.MultipartFile.fromFileSync(
-                      aadharFrontImg.path,
-                      filename: aadharFrontImg.path.split('/').last,
-                    ),
-                  ),
-                );
+                // formData.files.add(
+                //   MapEntry(
+                //     "profile_image",
+                //     multipart_file.MultipartFile.fromFileSync(
+                //       aadharFrontImg.path,
+                //       filename: aadharFrontImg.path.split('/').last,
+                //     ),
+                //   ),
+                // );
                 formData.files.add(
                   MapEntry(
                     "adhar_card_front",
@@ -196,14 +196,11 @@ class BankDetailsScreen extends StatelessWidget {
             ),
           ),
         ],
-        body: Stack(
-          children: [
-            Positioned(
-              top: 150.h,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 150.h),
                 padding: EdgeInsets.symmetric(horizontal: 18.w),
                 decoration: BoxDecoration(
                   color: ColorConstant.clrWhite,
@@ -217,70 +214,61 @@ class BankDetailsScreen extends StatelessWidget {
                     /// SCROLLABLE CONTENT
                     ///
                     SizedBox(height: 70.h),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              LocalizationKeys.bankAccountNumber.tr,
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle16w500ClrSubText,
-                            ),
-                            SizedBox(height: 6.h),
-                            CommonTextFormFieldWithoutBorder(
-                              controller:
-                                  bankDetailController
-                                      .bankAccountNumberController,
-                            ),
-                            SizedBox(height: 16.h),
-
-                            Text(
-                              LocalizationKeys.bankAccountName.tr,
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle16w500ClrSubText,
-                            ),
-                            SizedBox(height: 6.h),
-                            CommonTextFormFieldWithoutBorder(
-                              controller:
-                                  bankDetailController
-                                      .bankAccountNameController,
-                            ),
-                            SizedBox(height: 16.h),
-
-                            Text(
-                              LocalizationKeys.ifscCode.tr,
-                              style:
-                                  TextStyleConstant()
-                                      .subTitleTextStyle16w500ClrSubText,
-                            ),
-                            SizedBox(height: 6.h),
-                            CommonTextFormFieldWithoutBorder(
-                              controller:
-                                  bankDetailController.bankIFSCController,
-                              maxLength: 11,
-                              validator: (p0) {
-                                if (p0 == null || p0.isEmpty) {
-                                  return LocalizationKeys
-                                      .pleaseEnterIfscCode
-                                      .tr;
-                                }
-                                if (p0.length != 11) {
-                                  return LocalizationKeys
-                                      .ifscCodeMustBe11Characters
-                                      .tr;
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.number,
-                            ),
-
-                            SizedBox(height: 20.h),
-                          ],
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          LocalizationKeys.bankAccountNumber.tr,
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500ClrSubText,
                         ),
-                      ),
+                        SizedBox(height: 6.h),
+                        CommonTextFormFieldWithoutBorder(
+                          controller:
+                              bankDetailController.bankAccountNumberController,
+                        ),
+                        SizedBox(height: 16.h),
+
+                        Text(
+                          LocalizationKeys.bankAccountName.tr,
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500ClrSubText,
+                        ),
+                        SizedBox(height: 6.h),
+                        CommonTextFormFieldWithoutBorder(
+                          controller:
+                              bankDetailController.bankAccountNameController,
+                        ),
+                        SizedBox(height: 16.h),
+
+                        Text(
+                          LocalizationKeys.ifscCode.tr,
+                          style:
+                              TextStyleConstant()
+                                  .subTitleTextStyle16w500ClrSubText,
+                        ),
+                        SizedBox(height: 6.h),
+                        CommonTextFormFieldWithoutBorder(
+                          controller: bankDetailController.bankIFSCController,
+                          maxLength: 11,
+                          validator: (p0) {
+                            if (p0 == null || p0.isEmpty) {
+                              return LocalizationKeys.pleaseEnterIfscCode.tr;
+                            }
+                            if (p0.length != 11) {
+                              return LocalizationKeys
+                                  .ifscCodeMustBe11Characters
+                                  .tr;
+                            }
+                            return null;
+                          },
+                          // keyboardType: TextInputType.number,
+                        ),
+
+                        SizedBox(height: 20.h),
+                      ],
                     ),
 
                     /// FIXED BOTTOM BUTTON
@@ -399,20 +387,20 @@ class BankDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              top: 20.h,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Image.asset(
-                  ImageConstant.imgBankDetails,
-                  height: 180.h,
-                  width: 220.w,
+              Positioned(
+                top: 20.h,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    ImageConstant.imgBankDetails,
+                    height: 180.h,
+                    width: 220.w,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
